@@ -1,15 +1,391 @@
-web application/stitch/projects/417421913971113172/screens/d3cae82637ac42acb8d73e32056c49d3
-{
-  "name": "Lumei | Light That Defines Your Space",
-  "short_name": "Lumei",
-  "description": "Premium ambient and design lighting for residential and architectural spaces.",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#111111",
-  "theme_color": "#111111",
-  "icons": [
-    {
-      "src": "/favicon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any m
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Our Collection | LUMEI Premium Lighting</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..500;1,9..40,300..500&amp;family=Playfair+Display:ital,wght@0,400..700;1,400..700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'lumei-bg': '#F8F5F1',
+            'lumei-text': '#111111',
+            'lumei-muted': '#666666',
+            'lumei-border': '#E5E1DB',
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['"DM Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+<style data-purpose="layout-styles">
+    body {
+      background-color: #F8F5F1;
+      color: #111111;
+      font-family: 'DM Sans', sans-serif;
+    }
+    
+    .product-card-img-container {
+      overflow: hidden;
+      background-color: #EFEBE7;
+    }
+
+    .product-card-img {
+      transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .product-card:hover .product-card-img {
+      transform: scale(1.05);
+    }
+
+    .quick-view-btn {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .product-card:hover .quick-view-btn {
+      opacity: 1;
+    }
+
+    /* Custom scrollbar for subtle aesthetic */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F8F5F1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D1CDC7;
+    }
+  </style>
+</head>
+<body class="antialiased">
+<!-- BEGIN: MainHeader -->
+<header class="w-full border-b border-lumei-border sticky top-0 bg-lumei-bg/95 backdrop-blur-sm z-50">
+<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+<!-- Logo -->
+<a class="text-3xl font-medium tracking-tight font-sans" href="#">LUMEI</a>
+<!-- Navigation -->
+<nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+<a class="hover:text-lumei-muted transition-colors" href="#">Products</a>
+<a class="hover:text-lumei-muted transition-colors border-b border-black pb-0.5" href="#">Collections</a>
+<a class="hover:text-lumei-muted transition-colors" href="#">Designers</a>
+<a class="hover:text-lumei-muted transition-colors" href="#">Projects</a>
+<a class="hover:text-lumei-muted transition-colors" href="#">About</a>
+<a class="hover:text-lumei-muted transition-colors" href="#">Contact</a>
+</nav>
+<!-- Icons -->
+<div class="flex items-center space-x-5">
+<button aria-label="Search" class="p-1 hover:opacity-70 transition-opacity">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+</button>
+<button aria-label="Favorites" class="p-1 hover:opacity-70 transition-opacity">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+</button>
+<button aria-label="Cart" class="p-1 hover:opacity-70 transition-opacity">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: HeroSection -->
+<section class="max-w-7xl mx-auto px-6 py-12">
+<nav aria-label="Breadcrumb" class="mb-8 text-xs uppercase tracking-widest text-lumei-muted">
+<ol class="flex space-x-2">
+<li><a class="hover:text-lumei-text" href="#">Home</a></li>
+<li>/</li>
+<li class="text-lumei-text">Collection</li>
+</ol>
+</nav>
+<h1 class="text-5xl md:text-7xl font-serif text-center mb-20">Our Collection</h1>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: MainContent -->
+<main class="max-w-7xl mx-auto px-6 pb-24">
+<div class="flex flex-col md:flex-row gap-12">
+<!-- BEGIN: Sidebar Filters -->
+<aside class="w-full md:w-64 flex-shrink-0" data-purpose="filter-sidebar">
+<h2 class="text-xs font-bold uppercase tracking-widest mb-6 pb-4 border-b border-lumei-border">Filter By</h2>
+<!-- Categories Section -->
+<div class="mb-8">
+<button class="flex justify-between items-center w-full text-sm font-medium mb-4 group" data-purpose="accordion-trigger">
+<span>Categories</span>
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="space-y-3">
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Pendants</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Table</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Floor</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Wall</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Outdoor</span>
+</label>
+</div>
+</div>
+<!-- Designers Section -->
+<div class="mb-8">
+<button class="flex justify-between items-center w-full text-sm font-medium mb-4" data-purpose="accordion-trigger">
+<span>Designers</span>
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="space-y-3">
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Neil Poulton</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Patricia Urquiola</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Neri&amp;Hu</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">David Chipperfield</span>
+</label>
+</div>
+</div>
+<!-- Finishes Section -->
+<div class="mb-8">
+<button class="flex justify-between items-center w-full text-sm font-medium mb-4" data-purpose="accordion-trigger">
+<span>Finishes</span>
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="space-y-3">
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Brass</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Matte Black</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">White</span>
+</label>
+<label class="flex items-center space-x-3 text-sm cursor-pointer group">
+<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
+<span class="group-hover:text-lumei-muted transition-colors">Chrome</span>
+</label>
+</div>
+</div>
+</aside>
+<!-- END: Sidebar Filters -->
+<!-- BEGIN: Product Grid Container -->
+<div class="flex-grow">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12" data-purpose="collection-grid">
+<!-- Product Card 1 -->
+<article class="product-card group cursor-pointer" data-purpose="product-item">
+<div class="product-card-img-container relative aspect-[3/4] mb-4">
+<!-- Using provided image placeholder with object-cover for design fidelity -->
+<img alt="Aura Table Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoVZGnEH2x5F4_buhpiVuuuxmuyfXwC6mH0Du0i6_HmGtaSk5RF5rEB9brzdCowi2KwOVXY54_zuBJnpHZFYR8Dhu_ONWfXefd9819OTXuQREZGXEFEw4U-ndRVYvq7JzrwG5FphGgjCFyzZHYedd3b9W6XPnRnj4mLwcxCxSfT0uqAjixav1IHnOIM_tTCAbhNnPpFaIb3dG_U1Z2IfYqzKUCdvKIxuq22tx2-ixZdd_Pp-F4kcnUZDJNdI9b2OS7R9GwTu-P1Lc"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="quick-view-btn bg-white/90 backdrop-blur-sm text-lumei-text px-6 py-4 rounded-full text-xs font-medium uppercase tracking-widest shadow-xl flex flex-col items-center">
+<svg class="h-4 w-4 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                  Quick View
+                </button>
+</div>
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-medium">Aura Table Lamp</h3>
+<p class="text-sm text-lumei-muted">by Neil Poulton</p>
+</div>
+</article>
+<!-- Product Card 2 -->
+<article class="product-card group cursor-pointer" data-purpose="product-item">
+<div class="product-card-img-container relative aspect-[3/4] mb-4">
+<img alt="Solis Pendant" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUyMAKyObrIe9aV3sbY2DU57LpYoaN7dp2Hj38OG-0URvXSzacrI8Rk7rPBHEjF_q-GJH5bjN0vsdu_Xfqgns7SGOW6vREeRP4ASw1eSd3w8L5MIfJs8TtW_fF_tjE4L_dtmLS99JxWP6S9JqzUr8zz_M6Ju1llRnzNBmw8EriNq3sSKJPvMTrJ6nC-LuQV8ZfQVhPGvjrg7SdaS52TQCS_BdbvQLN5L8rFbKhP2ER3-qjrY6uz90hNP1vaPuCLdRayCYTNnJQOMA"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="quick-view-btn bg-white/90 backdrop-blur-sm text-lumei-text px-6 py-4 rounded-full text-xs font-medium uppercase tracking-widest shadow-xl flex flex-col items-center">
+<svg class="h-4 w-4 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                  Quick View
+                </button>
+</div>
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-medium">Solis Pendant</h3>
+<p class="text-sm text-lumei-muted">by Patricia Urquiola</p>
+</div>
+</article>
+<!-- Product Card 3 -->
+<article class="product-card group cursor-pointer" data-purpose="product-item">
+<div class="product-card-img-container relative aspect-[3/4] mb-4">
+<img alt="Luna Floor Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm7Re-vRgx2LiZhCii_NLEEMYODd6UYy7ey4XsQkT5mPdxou0XROJBHCWonEXuJbL9X8Hl0B0Qi5puGwapZz_Y8OO7IREBLjWe6tC3AMBapa5uW1LURfU6tN1f0iKA_AtQKAOfkll5QlHBDXA76o68TaN5OQGixLslOG3yYf-TkuVk4lf81Gcz4ydrA_X8lUA9JCS5PHhccpdOMTepaIxbS1-E5355EDj9MirWo8xSZXWztnOH5RKteCrx1ktKBl3g3KtLM8p6zEE"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="quick-view-btn bg-white/90 backdrop-blur-sm text-lumei-text px-6 py-4 rounded-full text-xs font-medium uppercase tracking-widest shadow-xl flex flex-col items-center">
+<svg class="h-4 w-4 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                  Quick View
+                </button>
+</div>
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-medium">Luna Floor Lamp</h3>
+<p class="text-sm text-lumei-muted">by Neil Poulton</p>
+</div>
+</article>
+<!-- Repeat Grid Items for Layout -->
+<!-- Row 2 -->
+<article class="product-card group cursor-pointer">
+<div class="product-card-img-container relative aspect-[3/4] mb-4">
+<img alt="Aura Table Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX1FnI3lD8t4B4jD8aRTvAaynIxsozhC8Iue5Xtf2BX4Kj7VuWIq0GwXs0ZOqt8taWdtgz7ZpL-9y470dpk_bn1R0q9dHs3sXExBnUDPNAgXpRx-LhHkXpytyiVeCEiI7LfMHbtV2P4wMxdtwV92LJj0mRdF2EJY6MPZvHd1yTHRclEuFTtHYkFgWB3WSj7fHjQhdeRyc9TwTiOy1IHmZMiEGOqA3dfWK-RDa4QOZv5gD6zWw4BXtWNhVfE5Rnzeo6wDJapXmqNm4"/>
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-medium">Aura Table Lamp</h3>
+<p class="text-sm text-lumei-muted">by Neil Poulton</p>
+</div>
+</article>
+<article class="product-card group cursor-pointer">
+<div class="product-card-img-container relative aspect-[3/4] mb-4">
+<img alt="Solis Pendant" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN5JSqBRmAx7E3vclGkYzkx-Yiumru8ss8FEGkNYp0oZbAvg7437vOUqdkQswIxhlSgeztHK6C6hpQIzb6k1n6hALCTAYS2OK4AncfoTS-hH3xV49yLGaScU3O3JV9XS65kPjuYW2F8izf_vt2j2qQSfE8JzemVgyxiXgVfzEfC46lIekv8lY1wdmcSqpizMK2rmjHcPjguY0M_C0MRnypJlha6qh50VFttUpcVrs3vVUxqhwQBCKNyQnZij0z_nL1png6ZDx4AnA"/>
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-medium">Solis Pendant</h3>
+<p class="text-sm text-lumei-muted">by Patricia Urquiola</p>
+</div>
+</article>
+<article class="product-card group cursor-pointer">
+<div class="product-card-img-container relative aspect-[3/4] mb-4">
+<img alt="Luna Table Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9L0PN73QEC-J7N8RwbLel-W80FZUcxUqcOYzlJ7vVcuEyTPepx4AXEaaxdHagarostlAxzP27z6vAxdj8wCWPPYNvKV4DS5f9k7o_EKPUnlMAe7fU-6mLTeo8cpk6-5g5riKqEhXVKYA0DvLKVKAjqzYihgLTD0tAn6bkXY4VP9TTQXA8wsAaIPU45AlbSeWmLPq2nd9fA63o0BetZx70PpptmoZLQS_d29xOUkiIWmqzCLwnIDrfvTrmtdl93DqFjW1lI8Pe3b0"/>
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-medium">Luna Table Lamp</h3>
+<p class="text-sm text-lumei-muted">by Neil Poulton</p>
+</div>
+</article>
+<!-- Row 3 -->
+<article class="product-card group cursor-pointer">
+<div class="product-card-img-container relative aspect-[3/4] mb-4">
+<img alt="Luna Floor Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnJLKzx3LEj6490Vqjt3pro5xhzEbZcRG7M-Mon4_B36koq57UMxT7am7yxoljq3ghX1mIFJ-n6w3blDqyH0SUQEDhX-Ox9a4hewKHKoiYB8xWcAEPgHvyYBa_z8H2xpy8seJYdUmaI44q2-1ASLjkox1CwjzDd5_RrE9gueKZw60vBGyloL5DmRSDts2yiIux6UxpOWEbXB9e4ibUwC-R2_1gyaIMUiE9oych2YGdCumTrC1sA89RrWjoVEtKwfJAxC3g6gWMGt0"/>
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-medium">Luna Floor Lamp</h3>
+<p class="text-sm text-lumei-muted">by Neil Poulton</p>
+</div>
+</article>
+<article class="product-card group cursor-pointer">
+<div class="product-card-img-container relative aspect-[3/4] mb-4">
+<img alt="Solis Pendant" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWgXNM2e3OLYztg95pXvJ_FX43oF-hSpju60wvvkcZegWc7lO40lO2AuMVAjVwsCV6NqRCXV9eKXzVIKS7r_yvKNnu1csUMKyux96ewojSIJpN5K8RU-52BAyvk_FwlarTcvTxd8V8XDVlWYe0sB38gG8PfMBeaB4jR-jc8zvbtdZHolNyF-Ti3n24qxRxhpw3zDTBO4pRpn0k5_JCwbo2h6cjkGS0B-OY2ndk7JoNWQqbGCFxkHJGTOYAlOiXBORxrkPtqZS0tcg"/>
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-medium">Solis Pendant</h3>
+<p class="text-sm text-lumei-muted">by Patricia Urquiola</p>
+</div>
+</article>
+<article class="product-card group cursor-pointer">
+<div class="product-card-img-container relative aspect-[3/4] mb-4">
+<img alt="Luna Table Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKiXHxts-9GTlghIZIbK2Eadohn7yigvIYDY6QRtuh0yx4Zt1OIDJwaBdcAUWB0QRIB4xaAOST_glCdheWxJuMfF4_YkwWVKCjWXAvYekuZ9k-f9JiHRNl2ZeTirJRGHHdQ0xgZUfEKwULB__sXsAOjAtpIj23oS2yIw2j3WrMHgf1asrNKASp3mKRWolwg708r0YHiEYHWoRaT5TE9uYARGNGFAVHqBkLzK12heNXvRspgNu_EiztWyPFrAt61MulDDpIEzYnnbI"/>
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-medium">Luna Table Lamp</h3>
+<p class="text-sm text-lumei-muted">by Neil Poulton</p>
+</div>
+</article>
+</div>
+<!-- BEGIN: Pagination -->
+<nav aria-label="Page navigation" class="mt-20 flex justify-center" data-purpose="pagination">
+<ul class="inline-flex items-center space-x-2">
+<li>
+<a class="p-2 h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</a>
+</li>
+<li><a class="h-10 w-10 flex items-center justify-center border border-lumei-text bg-lumei-text text-white" href="#">1</a></li>
+<li><a class="h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">2</a></li>
+<li><a class="h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">3</a></li>
+<li><a class="h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">4</a></li>
+<li>
+<a class="p-2 h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</a>
+</li>
+</ul>
+</nav>
+<!-- END: Pagination -->
+</div>
+<!-- END: Product Grid Container -->
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: Footer -->
+<footer class="bg-lumei-bg border-t border-lumei-border pt-20 pb-12">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-20">
+<!-- Logo Column -->
+<div class="col-span-2 lg:col-span-1">
+<a class="text-2xl font-medium tracking-tight mb-6 block" href="#">LUMEI</a>
+</div>
+<!-- Products Column -->
+<div>
+<h4 class="text-sm font-bold uppercase tracking-wider mb-6">Products</h4>
+<ul class="space-y-4 text-sm text-lumei-muted">
+<li><a class="hover:text-lumei-text transition-colors" href="#">Store Locator</a></li>
+<li><a class="hover:text-lumei-text transition-colors" href="#">Catalogues</a></li>
+<li><a class="hover:text-lumei-text transition-colors" href="#">Lunnium lighting</a></li>
+<li><a class="hover:text-lumei-text transition-colors" href="#">Amachants</a></li>
+</ul>
+</div>
+<!-- Company Column -->
+<div>
+<h4 class="text-sm font-bold uppercase tracking-wider mb-6">Company</h4>
+<ul class="space-y-4 text-sm text-lumei-muted">
+<li><a class="hover:text-lumei-text transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-lumei-text transition-colors" href="#">FAQs</a></li>
+<li><a class="hover:text-lumei-text transition-colors" href="#">Lannum otiving</a></li>
+</ul>
+</div>
+<!-- Legal Column -->
+<div>
+<h4 class="text-sm font-bold uppercase tracking-wider mb-6">Legal</h4>
+<ul class="space-y-4 text-sm text-lumei-muted">
+<li><a class="hover:text-lumei-text transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-lumei-text transition-colors" href="#">Terms of Policy</a></li>
+</ul>
+</div>
+<!-- Social Column -->
+<div class="flex space-x-6 justify-end items-start md:col-span-1 lg:justify-end">
+<a class="text-lumei-text hover:opacity-70 transition-opacity" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+</a>
+<a class="text-lumei-text hover:opacity-70 transition-opacity" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+</a>
+<a class="text-lumei-text hover:opacity-70 transition-opacity" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path></svg>
+</a>
+</div>
+</div>
+<!-- Copyright -->
+<div class="border-t border-lumei-border pt-8 flex justify-center">
+<p class="text-xs text-lumei-muted tracking-widest uppercase">© 2024 Lumei Lighting. All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+<!-- END: Footer -->
+</body></html>
