@@ -176,40 +176,177 @@
     transform: translateY(-2px);
   }
 
-  /* ===== FEATURES (3-COL) ===== */
-  .section {
+  /* ===== BRAND NAME ===== */
+  .brand-section {
     max-width: 1889px;
     margin: 0 auto;
-    padding: 188.9px 94.45px;
+    padding: 118px 94.45px 0;
   }
-  .features {
-    display: grid;
-    grid-template-columns: repeat(3, 472.252px);
-    gap: 141.677px;
-    justify-content: start;
-  }
-  .feature-num {
-    font-size: 106.257px;
-    font-weight: 400;
-    letter-spacing: -4.25px;
-    line-height: 1;
-    color: #000;
-  }
-  .feature-title {
-    margin-top: 41.32px;
-    font-size: 35.42px;
+  .section-heading {
+    font-size: 44.274px;
     font-weight: 500;
-    text-transform: capitalize;
+    letter-spacing: -1.77px;
     color: #111;
+    text-align: center;
   }
-  .feature-desc {
-    margin-top: 23.6px;
-    font-size: 20.66px;
+  .brand-desc {
+    margin-top: 59px;
+    font-size: 23.613px;
+    font-weight: 300;
+    line-height: 1.6;
+    letter-spacing: -0.94px;
+    color: #111;
+    text-align: center;
+    max-width: 1252px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .brand-logo-wrap {
+    margin-top: 53px;
+    width: 100%;
+    position: relative;
+  }
+  .brand-logo-img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ===== CORE VALUE ===== */
+  .core-value-section {
+    max-width: 1889px;
+    margin: 0 auto;
+    padding: 118px 94.45px;
+  }
+  .core-value-sub {
+    margin-top: 47px;
+    font-size: 22.137px;
+    font-weight: 400;
+    letter-spacing: -0.94px;
+    color: #111;
+    text-align: center;
+  }
+  .core-value-body {
+    margin-top: 90px;
+    font-size: 22.137px;
+    font-weight: 300;
+    line-height: 35.972px;
+    letter-spacing: -0.94px;
+    color: #777;
+    text-align: center;
+    max-width: 992px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .core-value-grid {
+    margin-top: 118px;
+    display: grid;
+    grid-template-columns: repeat(3, 503px);
+    gap: 95px;
+  }
+  .core-value-item .cv-num {
+    font-size: 24.793px;
+    font-weight: 300;
+    letter-spacing: -0.94px;
+    color: rgba(119,119,119,0.4);
+  }
+  .core-value-item .cv-title {
+    margin-top: 17.7px;
+    font-size: 40.141px;
+    font-weight: 500;
+    letter-spacing: -1.606px;
+    color: #111;
+    line-height: 50.177px;
+  }
+  .core-value-item .cv-ko {
+    margin-top: 5.9px;
+    font-size: 17.709px;
+    font-weight: 400;
+    letter-spacing: -0.94px;
+    color: #777;
+  }
+  .core-value-item .cv-desc {
+    margin-top: 29.5px;
+    font-size: 20.661px;
     font-weight: 300;
     line-height: 33.574px;
     letter-spacing: -0.94px;
     color: #777;
   }
+
+  /* ===== COLOR SYSTEM ===== */
+  .color-section {
+    max-width: 1889px;
+    margin: 0 auto;
+    padding: 118px 94.45px;
+  }
+  .color-section-sub {
+    margin-top: 47px;
+    font-size: 22.137px;
+    font-weight: 400;
+    letter-spacing: -0.94px;
+    color: #111;
+    text-align: center;
+  }
+  .color-section-body {
+    margin-top: 90px;
+    font-size: 22.137px;
+    font-weight: 300;
+    line-height: 35.972px;
+    letter-spacing: -0.94px;
+    color: #777;
+    text-align: center;
+    max-width: 992px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .color-cards {
+    margin-top: 94px;
+    display: grid;
+    grid-template-columns: repeat(3, 550.469px);
+    gap: 24px;
+  }
+  .color-card {
+    border-radius: 11.806px;
+    overflow: hidden;
+    padding: 47.225px 41.322px 47.225px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 389.608px;
+  }
+  .color-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .color-card-name {
+    font-size: 37.78px;
+    font-weight: 400;
+    letter-spacing: -0.94px;
+    color: #111;
+    line-height: 47.225px;
+  }
+  .color-card-arrow {
+    font-size: 26.564px;
+    color: #111;
+    opacity: 0.5;
+    line-height: 1;
+  }
+  .color-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5.9px;
+  }
+  .color-card-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 17.709px;
+    font-weight: 400;
+    letter-spacing: -0.94px;
+    color: #111;
+    line-height: 23.613px;
+  }
+  .color-card-row .label { opacity: 0.5; }
 
   /* ===== PRODUCTS ===== */
   .products-section {
@@ -529,32 +666,89 @@
   </div>
 </section>
 
-<!-- FEATURES -->
-<section class="section" id="brand">
-  <div class="features">
-    <div class="feature reveal">
-      <div class="feature-num">01</div>
-      <h3 class="feature-title">Materials</h3>
-      <p class="feature-desc">
-        모든 제품은 좋은 소재에서 시작됩니다.<br/>
-        엄선된 공급처의 고품질 원료만을 사용하며, 오래도록 사용할 수 있는 소재를 신중하게 선택합니다.
-      </p>
+<!-- BRAND NAME -->
+<section class="brand-section" id="brand">
+  <h2 class="section-heading reveal">(Brand Name)</h2>
+  <p class="brand-desc reveal" style="transition-delay:0.1s">
+    Lumei(루메이)는 빛을 뜻하는 Lumen과 부드러움을 뜻하는 柔(유)를 결합한 이름으로, '부드럽게 번지는 빛'을 네이밍에 담았습니다.<br/>
+    로고는 흐르는 스크립트 필선으로 빛의 움직임과 브랜드의 유연한 감성을 동시에 표현합니다.
+  </p>
+  <div class="brand-logo-wrap reveal" style="transition-delay:0.2s">
+    <img class="brand-logo-img" src="https://www.figma.com/api/mcp/asset/494d6895-57fd-4075-80e8-ed3c247a17ef" alt="Lumei logo" />
+  </div>
+</section>
+
+<!-- CORE VALUE -->
+<section class="core-value-section">
+  <h2 class="section-heading reveal">(Core Value)</h2>
+  <p class="core-value-sub reveal" style="transition-delay:0.08s">Light Your Own Way</p>
+  <p class="core-value-body reveal" style="transition-delay:0.16s">
+    당신이 원하는 만큼의 공간을 빛으로 채웁니다.<br/>
+    Lumei는 조명을 켜는 것이 아니라 공간의 감각을 직접 설계하는 경험을 제공합니다.
+  </p>
+  <div class="core-value-grid">
+    <div class="core-value-item reveal">
+      <div class="cv-num">01)</div>
+      <div class="cv-title">Sense</div>
+      <div class="cv-ko">(감각)</div>
+      <p class="cv-desc">공간의 온도와 분위기를 결정하는 것은 조명의 밝기가 아닌 빛이 닿는 방식입니다. Lumei는 사용자가 그 감각을 직접 느끼고 선택할 수 있도록 설계합니다.</p>
     </div>
-    <div class="feature reveal" style="transition-delay: 0.12s">
-      <div class="feature-num">02</div>
-      <h3 class="feature-title">Process</h3>
-      <p class="feature-desc">
-        숙련된 장인과 함께 정교한 공정을 거쳐 제작됩니다.<br/>
-        모든 제품은 완성 전 여러 차례의 검수와 품질 테스트를 통해 높은 완성도를 유지합니다.
-      </p>
+    <div class="core-value-item reveal" style="transition-delay:0.1s">
+      <div class="cv-num">02)</div>
+      <div class="cv-title">Coordination</div>
+      <div class="cv-ko">(조율)</div>
+      <p class="cv-desc">Relax, Focus, Night 세 가지 모드와 각도 조절을 통해 같은 공간도 전혀 다른 분위기로 바꿀 수 있습니다. 조명이 공간을 조율하는 도구가 됩니다.</p>
     </div>
-    <div class="feature reveal" style="transition-delay: 0.24s">
-      <div class="feature-num">03</div>
-      <h3 class="feature-title">Longevity</h3>
-      <p class="feature-desc">
-        시간이 지나도 변하지 않는 가치를 담아 디자인합니다.<br/>
-        오랫동안 함께할 수 있는 제품이 가장 지속 가능한 디자인이라고 믿습니다.
-      </p>
+    <div class="core-value-item reveal" style="transition-delay:0.2s">
+      <div class="cv-num">03)</div>
+      <div class="cv-title">Self-determination</div>
+      <div class="cv-ko">(자율)</div>
+      <p class="cv-desc">정해진 설정이 아니라 사용자가 스스로 빛의 온도와 방향을 결정합니다. Lumei는 그 선택의 자유를 제품 경험 전체에 녹여냅니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COLOR SYSTEM -->
+<section class="color-section">
+  <h2 class="section-heading reveal">(Color System)</h2>
+  <p class="color-section-sub reveal" style="transition-delay:0.08s">Lumei의 컬러 시스템은 제품이 제공하는 세 가지 조명 모드를 색으로 직접 표현합니다.</p>
+  <p class="color-section-body reveal" style="transition-delay:0.16s">
+    사용자가 경험하는 빛의 온도를 브랜드 언어로 일관되게 연결하기 위해,<br/>
+    실제 광원의 색온도를 그대로 시각화하는 방식으로 설계했습니다.
+  </p>
+  <div class="color-cards">
+    <div class="color-card reveal" style="background:#EEF4FF">
+      <div class="color-card-top">
+        <span class="color-card-name">Focus Mode</span>
+        <span class="color-card-arrow">↗</span>
+      </div>
+      <div class="color-card-info">
+        <div class="color-card-row"><span class="label">HEX.</span><span>#EEF4FF</span></div>
+        <div class="color-card-row"><span class="label">RGB.</span><span>238 244 255</span></div>
+        <div class="color-card-row"><span class="label">CMYK.</span><span>7 4 0 0</span></div>
+      </div>
+    </div>
+    <div class="color-card reveal" style="background:#FFFEE7; transition-delay:0.1s">
+      <div class="color-card-top">
+        <span class="color-card-name">Relax Mode</span>
+        <span class="color-card-arrow">↗</span>
+      </div>
+      <div class="color-card-info">
+        <div class="color-card-row"><span class="label">HEX.</span><span>#FFFEE7</span></div>
+        <div class="color-card-row"><span class="label">RGB.</span><span>255 254 231</span></div>
+        <div class="color-card-row"><span class="label">CMYK.</span><span>0 0 9 0</span></div>
+      </div>
+    </div>
+    <div class="color-card reveal" style="background:#FFB780; transition-delay:0.2s">
+      <div class="color-card-top">
+        <span class="color-card-name">Night Mode</span>
+        <span class="color-card-arrow">↗</span>
+      </div>
+      <div class="color-card-info">
+        <div class="color-card-row"><span class="label">HEX.</span><span>#FFB780</span></div>
+        <div class="color-card-row"><span class="label">RGB.</span><span>255 183 128</span></div>
+        <div class="color-card-row"><span class="label">CMYK.</span><span>0 28 50 0</span></div>
+      </div>
     </div>
   </div>
 </section>
