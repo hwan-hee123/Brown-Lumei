@@ -667,6 +667,106 @@
   }
   .bp-cc-label { opacity: 0.5; }
 
+  /* ===== PRODUCTS PAGE ===== */
+  #products-page {
+    padding-top: 88.547px;
+  }
+  .pp-wrap {
+    max-width: 1889px;
+    margin: 0 auto;
+    padding: 118.063px 94.45px 188px;
+  }
+  .pp-header {
+    position: relative;
+    margin-bottom: 82.644px;
+  }
+  .pp-title {
+    font-size: 134.813px;
+    font-weight: 700;
+    letter-spacing: -5.39px;
+    line-height: 121.332px;
+    color: #111;
+  }
+  .pp-count {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 20.661px;
+    font-weight: 300;
+    letter-spacing: -0.94px;
+    color: #777;
+    line-height: 29.516px;
+  }
+  .pp-filters {
+    display: flex;
+    gap: 47.225px;
+    border-bottom: 1.476px solid rgba(0,0,0,0.08);
+    padding-bottom: 30.992px;
+    margin-bottom: 94.45px;
+  }
+  .pp-filter {
+    font-size: 14.758px;
+    font-weight: 500;
+    letter-spacing: -0.59px;
+    color: #777;
+    text-transform: capitalize;
+    padding-bottom: 7.379px;
+    border-bottom: 1.476px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .pp-filter.active {
+    color: #111;
+    border-bottom-color: #111;
+  }
+  .pp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 398.463px);
+    gap: 35.42px;
+  }
+  .pp-card {
+    cursor: pointer;
+    transition: transform 0.4s ease;
+  }
+  .pp-card:hover { transform: translateY(-6px); }
+  .pp-card[style*="display:none"] { display: none !important; }
+  .pp-img-wrap {
+    width: 100%;
+    height: 531.284px;
+    background: #f2f2f2;
+    border-radius: 11.806px;
+    overflow: hidden;
+  }
+  .pp-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .pp-card:hover .pp-img-wrap img { transform: scale(1.05); }
+  .pp-tag {
+    margin-top: 24px;
+    font-size: 14.758px;
+    font-weight: 500;
+    letter-spacing: -0.59px;
+    text-transform: uppercase;
+    color: #777;
+  }
+  .pp-name {
+    margin-top: 9px;
+    font-size: 20.661px;
+    font-weight: 500;
+    letter-spacing: -0.94px;
+    color: #111;
+  }
+  .pp-price {
+    margin-top: 6px;
+    font-size: 20.661px;
+    font-weight: 300;
+    letter-spacing: -0.94px;
+    color: #777;
+  }
+
   /* page transition */
   #main-content { transition: opacity 0.35s ease; }
   #brand-page { transition: opacity 0.35s ease; }
@@ -682,7 +782,7 @@
     <a href="#" class="nav-logo">Lumei</a>
     <div class="nav-menu">
       <a href="#" id="nav-brand">Brand</a>
-      <a href="#products">Products</a>
+      <a href="#" id="nav-products">Products</a>
       <a href="#designer">Designer</a>
       <a href="#contact">Contact</a>
     </div>
@@ -933,6 +1033,61 @@
 
 </div><!-- /brand-page -->
 
+<!-- PRODUCTS PAGE (hidden by default) -->
+<div id="products-page" style="display:none">
+  <div class="pp-wrap">
+    <!-- Title -->
+    <div class="pp-header reveal">
+      <h1 class="pp-title">Objects.</h1>
+      <span class="pp-count">4 pieces</span>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="pp-filters">
+      <button class="pp-filter active" data-filter="all">All</button>
+      <button class="pp-filter" data-filter="desk">Desk</button>
+      <button class="pp-filter" data-filter="vessel">Vessel</button>
+      <button class="pp-filter" data-filter="sculpture">Sculpture</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="pp-grid">
+      <div class="pp-card reveal" data-cat="desk">
+        <div class="pp-img-wrap">
+          <img src="https://www.figma.com/api/mcp/asset/05ce4916-6705-42b6-b830-373a198b2615" alt="Lumei Dusk" />
+        </div>
+        <div class="pp-tag">Desk Object</div>
+        <div class="pp-name">Lumei Dusk</div>
+        <div class="pp-price">₩385,000</div>
+      </div>
+      <div class="pp-card reveal" data-cat="desk" style="transition-delay:.08s">
+        <div class="pp-img-wrap">
+          <img src="https://www.figma.com/api/mcp/asset/1f787dcd-a113-4e32-a59a-0e52fb8b9699" alt="Lumei Ember" />
+        </div>
+        <div class="pp-tag">Desk Object</div>
+        <div class="pp-name">Lumei Ember</div>
+        <div class="pp-price">₩385,000</div>
+      </div>
+      <div class="pp-card reveal" data-cat="desk" style="transition-delay:.16s">
+        <div class="pp-img-wrap">
+          <img src="https://www.figma.com/api/mcp/asset/be489ca0-b12c-4089-8476-15a1cd1ae570" alt="Lumei Hush" />
+        </div>
+        <div class="pp-tag">Desk Object</div>
+        <div class="pp-name">Lumei Hush</div>
+        <div class="pp-price">₩385,000</div>
+      </div>
+      <div class="pp-card reveal" data-cat="desk" style="transition-delay:.24s">
+        <div class="pp-img-wrap">
+          <img src="https://www.figma.com/api/mcp/asset/b2f9f5d5-1d1f-498c-8058-6edad233ebf2" alt="Lumei Bare" />
+        </div>
+        <div class="pp-tag">Desk Object</div>
+        <div class="pp-name">Lumei Bare</div>
+        <div class="pp-price">₩385,000</div>
+      </div>
+    </div>
+  </div>
+</div><!-- /products-page -->
+
 <script>
   // Dynamic zoom: fit design (1920×1730) to viewport so the full hero is visible
   const DESIGN_WIDTH = 1920;
@@ -996,16 +1151,48 @@
     });
   }
 
+  // Products page
+  const productsPage = document.getElementById('products-page');
+  const navProductsBtn = document.getElementById('nav-products');
+
+  function showProducts(e) {
+    if (e) e.preventDefault();
+    mainContent.style.display = 'none';
+    brandPage.style.display = 'none';
+    productsPage.style.display = 'block';
+    window.scrollTo(0, 0);
+    navLinks.forEach(a => a.classList.remove('active'));
+    navProductsBtn.classList.add('active');
+    productsPage.querySelectorAll('.reveal').forEach(el => {
+      el.classList.remove('in');
+      io.observe(el);
+    });
+  }
+
   function showMain(e) {
     if (e) e.preventDefault();
     brandPage.style.display = 'none';
+    productsPage.style.display = 'none';
     mainContent.style.display = 'block';
     window.scrollTo(0, 0);
     navLinks.forEach(a => a.classList.remove('active'));
   }
 
   navBrand.addEventListener('click', showBrand);
+  navProductsBtn.addEventListener('click', showProducts);
   navLogo.addEventListener('click', showMain);
+
+  // Product filter tabs
+  document.querySelectorAll('.pp-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pp-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.pp-card').forEach(card => {
+        card.style.display = (filter === 'all' || card.dataset.cat === filter) ? '' : 'none';
+      });
+    });
+  });
 </script>
 
 </body>
