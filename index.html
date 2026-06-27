@@ -181,9 +181,8 @@
   }
   .features {
     display: grid;
-    grid-template-columns: repeat(3, 472.252px);
+    grid-template-columns: repeat(3, 1fr);
     gap: 141.677px;
-    justify-content: start;
   }
   .feature-num {
     font-size: 106.257px;
@@ -243,9 +242,8 @@
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(4, 398.463px);
+    grid-template-columns: repeat(4, 1fr);
     gap: 35.42px;
-    justify-content: space-between;
   }
   .product-card {
     cursor: pointer;
@@ -254,7 +252,7 @@
   .product-card:hover { transform: translateY(-6px); }
   .product-image {
     width: 100%;
-    height: 531.284px;
+    aspect-ratio: 398.463 / 531.284;
     background: #f2f2f2;
     border-radius: 11.806px;
     overflow: hidden;
@@ -382,7 +380,7 @@
   }
   .footer-grid {
     display: grid;
-    grid-template-columns: 371.899px 371.899px 371.899px 371.899px;
+    grid-template-columns: repeat(4, 1fr);
     gap: 70.84px;
     margin-bottom: 94.45px;
   }
