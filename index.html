@@ -24,7 +24,7 @@
   .nav {
     position: fixed;
     top: 0; left: 0; right: 0;
-    height: 60px;
+    height: 88.547px;
     z-index: 100;
     background: rgba(255,255,255,0);
     transition: background 0.4s ease, box-shadow 0.4s ease;
@@ -35,10 +35,10 @@
     box-shadow: 0 1px 0 rgba(0,0,0,0.05);
   }
   .nav-inner {
-    max-width: 1280px;
+    max-width: 1889px;
     margin: 0 auto;
     height: 100%;
-    padding: 0 64px;
+    padding: 0 94.45px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -46,9 +46,9 @@
   }
   .nav-logo {
     display: block;
-    width: 79.5px;
-    height: 32px;
-    background-image: url('https://www.figma.com/api/mcp/asset/e181299b-9bfd-4090-8c54-e420fbccbf9a');
+    width: 117.3px;
+    height: 47.2px;
+    background-image: url('https://www.figma.com/api/mcp/asset/7e68cad7-9580-41fd-a3c3-ca3eb4ab9ecf');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left center;
@@ -57,15 +57,16 @@
   }
   .nav-menu {
     display: flex;
-    gap: 36px;
+    gap: 53.128px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
   }
   .nav-menu a {
-    font-size: 10px;
+    font-size: 14.758px;
     font-weight: 300;
     text-transform: capitalize;
+    letter-spacing: -0.59px;
     position: relative;
     padding: 4px 0;
     transition: color 0.2s ease;
@@ -80,18 +81,18 @@
   }
   .nav-menu a:hover::after { width: 100%; }
   .nav-cart {
-    width: 25px; height: 25px;
+    width: 37px; height: 37px;
     display: flex; align-items: center; justify-content: center;
     transition: transform 0.3s ease;
   }
   .nav-cart:hover { transform: scale(1.15) rotate(-5deg); }
-  .nav-cart svg { width: 17px; height: 17px; }
+  .nav-cart svg { width: 25px; height: 25px; }
 
   /* ===== HERO ===== */
   .hero {
     position: relative;
-    min-height: 1172px;
-    padding: 96px 24px 64px;
+    min-height: 1730px;
+    padding: 141.676px 35.42px 94.45px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -104,7 +105,7 @@
     left: 0;
     right: 0;
     bottom: 40.12%;
-    background-image: url('https://www.figma.com/api/mcp/asset/5d04b743-9434-4a82-82d0-d3b806820f72');
+    background-image: url('https://www.figma.com/api/mcp/asset/bf5b9aa5-5134-42a2-b0bd-3db1b4960f31');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -121,24 +122,24 @@
   .hero-lamp {
     position: relative;
     z-index: 2;
-    width: 708px;
-    height: 777px;
-    background-image: url('https://www.figma.com/api/mcp/asset/32ff8d5e-1323-441e-a9f4-20d20d3bf32c');
+    width: 1045.5px;
+    height: 1146.9px;
+    background-image: url('https://www.figma.com/api/mcp/asset/7bcecf8f-ddd6-4d28-b737-066508113e5f');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     will-change: transform;
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
     animation: fadeLamp 1.2s ease 0.4s forwards;
   }
   @keyframes fadeLamp {
     to { opacity: 1; transform: translateY(0); }
   }
   .hero-buttons {
-    margin-top: 40px;
+    margin-top: 60px;
     display: flex;
-    gap: 12px;
+    gap: 17.7px;
     z-index: 3;
     opacity: 0;
     animation: fadeBtns 0.8s ease 1s forwards;
@@ -147,8 +148,8 @@
     to { opacity: 1; }
   }
   .btn {
-    padding: 14px 36px;
-    font-size: 10px;
+    padding: 20.66px 53.13px;
+    font-size: 14.758px;
     font-weight: 500;
     text-transform: capitalize;
     transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
@@ -162,7 +163,7 @@
     transform: translateY(-2px);
   }
   .btn-secondary {
-    border: 1px solid #111;
+    border: 1.476px solid #111;
     color: #111;
     background: transparent;
   }
@@ -172,63 +173,64 @@
     transform: translateY(-2px);
   }
 
-  /* ===== SECTION 3-COL ===== */
+  /* ===== FEATURES (3-COL) ===== */
   .section {
-    max-width: 1280px;
+    max-width: 1889px;
     margin: 0 auto;
-    padding: 128px 64px;
+    padding: 188.9px 94.45px;
   }
   .features {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 96px;
+    grid-template-columns: repeat(3, 472.252px);
+    gap: 141.677px;
+    justify-content: start;
   }
   .feature-num {
-    font-size: 72px;
+    font-size: 106.257px;
     font-weight: 400;
-    letter-spacing: -2.88px;
+    letter-spacing: -4.25px;
     line-height: 1;
     color: #000;
   }
   .feature-title {
-    margin-top: 28px;
-    font-size: 24px;
+    margin-top: 41.32px;
+    font-size: 35.42px;
     font-weight: 500;
     text-transform: capitalize;
     color: #111;
   }
   .feature-desc {
-    margin-top: 16px;
-    font-size: 14px;
+    margin-top: 23.6px;
+    font-size: 20.66px;
     font-weight: 300;
-    line-height: 22.75px;
-    letter-spacing: -0.64px;
+    line-height: 33.574px;
+    letter-spacing: -0.94px;
     color: #777;
   }
 
   /* ===== PRODUCTS ===== */
   .products-section {
-    max-width: 1280px;
+    max-width: 1889px;
     margin: 0 auto;
-    padding: 0 64px 128px;
+    padding: 0 94.45px 188.9px;
   }
   .products-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 48px;
+    margin-bottom: 70.8px;
   }
   .products-title {
-    font-size: 30px;
+    font-size: 44.274px;
     font-weight: 500;
-    letter-spacing: -1.2px;
+    letter-spacing: -1.77px;
     color: #111;
   }
   .view-all {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
+    gap: 11.8px;
+    font-size: 17.7px;
     font-weight: 500;
     text-transform: capitalize;
     color: #000;
@@ -241,19 +243,20 @@
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(4, 398.463px);
+    gap: 35.42px;
+    justify-content: space-between;
   }
   .product-card {
     cursor: pointer;
     transition: transform 0.4s ease;
   }
-  .product-card:hover { transform: translateY(-4px); }
+  .product-card:hover { transform: translateY(-6px); }
   .product-image {
     width: 100%;
-    aspect-ratio: 270/360;
+    height: 531.284px;
     background: #f2f2f2;
-    border-radius: 8px;
+    border-radius: 11.806px;
     overflow: hidden;
     position: relative;
   }
@@ -268,25 +271,25 @@
     filter: brightness(0.95);
   }
   .product-tag {
-    margin-top: 16px;
-    font-size: 10px;
+    margin-top: 24px;
+    font-size: 14.758px;
     font-weight: 500;
-    letter-spacing: -0.4px;
+    letter-spacing: -0.59px;
     text-transform: uppercase;
     color: #777;
   }
   .product-name {
-    margin-top: 6px;
-    font-size: 14px;
+    margin-top: 9px;
+    font-size: 20.661px;
     font-weight: 500;
-    letter-spacing: -0.64px;
+    letter-spacing: -0.94px;
     color: #111;
   }
   .product-price {
-    margin-top: 4px;
-    font-size: 14px;
+    margin-top: 6px;
+    font-size: 20.661px;
     font-weight: 300;
-    letter-spacing: -0.64px;
+    letter-spacing: -0.94px;
     color: #777;
   }
 
@@ -294,7 +297,7 @@
   .philosophy {
     position: relative;
     width: 100%;
-    height: 650px;
+    height: 959.6px;
     overflow: hidden;
     background: #1a1a1a;
   }
@@ -310,30 +313,31 @@
   .philosophy-inner {
     position: relative;
     z-index: 2;
-    max-width: 896px;
+    max-width: 1322.3px;
     margin: 0 auto;
-    padding: 237px 24px 0;
+    padding: 350.66px 24px 0;
     text-align: center;
   }
   .philosophy-eyebrow {
-    font-size: 12px;
+    font-size: 17.7px;
     font-weight: 400;
-    letter-spacing: -0.48px;
+    letter-spacing: -0.71px;
     color: #fff;
     text-transform: capitalize;
   }
   .philosophy-title {
-    margin-top: 40px;
-    font-size: 78px;
+    margin-top: 59px;
+    font-size: 115.554px;
     font-weight: 600;
-    letter-spacing: -3.13px;
-    line-height: 82px;
+    letter-spacing: -4.62px;
+    line-height: 121.332px;
     background: linear-gradient(90deg, #bfd5ff 0%, #ffffff 50%, #fff3c6 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     animation: shine 8s linear infinite;
+    white-space: nowrap;
   }
   @keyframes shine {
     0% { background-position: 0% 50%; }
@@ -341,25 +345,25 @@
     100% { background-position: 0% 50%; }
   }
   .philosophy-sub {
-    margin-top: 24px;
-    font-size: 30px;
+    margin-top: 22px;
+    font-size: 44.274px;
     font-weight: 400;
-    letter-spacing: -1.2px;
+    letter-spacing: -1.77px;
     color: #fff;
   }
   .philosophy-link {
     position: absolute;
-    bottom: 60px;
+    bottom: 90px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding-bottom: 6px;
-    border-bottom: 0.5px solid #000;
-    font-size: 12px;
-    letter-spacing: -0.48px;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 0.738px solid #000;
+    font-size: 17.7px;
+    letter-spacing: -0.71px;
     color: #000;
   }
   .philosophy-link .arrow {
@@ -369,109 +373,109 @@
 
   /* ===== FOOTER ===== */
   .footer {
-    border-top: 1px solid #000;
+    border-top: 1.476px solid #000;
   }
   .footer-inner {
-    max-width: 1280px;
+    max-width: 1889px;
     margin: 0 auto;
-    padding: 64px;
+    padding: 94.45px;
   }
   .footer-grid {
     display: grid;
-    grid-template-columns: 252px 252px 252px 252px;
-    gap: 48px;
-    margin-bottom: 64px;
+    grid-template-columns: 371.899px 371.899px 371.899px 371.899px;
+    gap: 70.84px;
+    margin-bottom: 94.45px;
   }
   .footer-logo {
     display: block;
-    width: 89.5px;
-    height: 36px;
-    background-image: url('https://www.figma.com/api/mcp/asset/7521b10c-e8cc-4337-ac6d-b23f3a28d4c6');
+    width: 131.96px;
+    height: 53.13px;
+    background-image: url('https://www.figma.com/api/mcp/asset/50ceb384-223b-4e7b-8d3e-e34a010be0ee');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left center;
   }
   .footer-tagline {
-    margin-top: 16px;
-    font-size: 12px;
+    margin-top: 23.6px;
+    font-size: 17.7px;
     font-weight: 300;
-    line-height: 19.5px;
-    letter-spacing: -0.64px;
+    line-height: 28.778px;
+    letter-spacing: -0.94px;
     color: #000;
   }
   .footer-col h4 {
-    font-size: 10px;
+    font-size: 14.758px;
     font-weight: 600;
-    letter-spacing: -0.4px;
+    letter-spacing: -0.59px;
     text-transform: uppercase;
   }
   .footer-col ul {
     list-style: none;
-    margin-top: 20px;
+    margin-top: 29.5px;
   }
-  .footer-col li + li { margin-top: 10px; }
+  .footer-col li + li { margin-top: 14.76px; }
   .footer-col a {
-    font-size: 14px;
+    font-size: 20.66px;
     font-weight: 300;
-    letter-spacing: -0.64px;
+    letter-spacing: -0.94px;
     position: relative;
     transition: color 0.2s ease;
   }
   .footer-col a:hover { color: #555; }
   .newsletter-text {
-    margin-top: 20px;
-    font-size: 12px;
+    margin-top: 29.5px;
+    font-size: 17.7px;
     font-weight: 300;
-    line-height: 19.5px;
-    letter-spacing: -0.64px;
+    line-height: 28.778px;
+    letter-spacing: -0.94px;
   }
   .newsletter-form {
-    margin-top: 20px;
+    margin-top: 29.5px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #000;
-    padding-bottom: 1px;
+    border-bottom: 1.476px solid #000;
+    padding-bottom: 1.476px;
   }
   .newsletter-form input {
     flex: 1;
     border: 0;
-    padding: 8px 0;
+    padding: 11.8px 0;
     font-family: inherit;
-    font-size: 12px;
+    font-size: 17.7px;
     font-weight: 500;
-    letter-spacing: -0.64px;
+    letter-spacing: -0.94px;
     background: transparent;
     outline: none;
   }
   .newsletter-form input::placeholder { color: #111; }
   .newsletter-form button {
-    padding: 8px 4px;
-    font-size: 12px;
+    padding: 11.8px 5.9px;
+    font-size: 17.7px;
     font-weight: 500;
-    letter-spacing: -0.64px;
+    letter-spacing: -0.94px;
     transition: transform 0.25s ease;
   }
   .newsletter-form button:hover { transform: translateX(4px); }
   .footer-bottom {
-    border-top: 1px solid #000;
-    padding-top: 29px;
+    border-top: 1.476px solid #000;
+    padding-top: 42.8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
   .copyright {
-    font-size: 12px;
+    font-size: 17.7px;
     font-weight: 300;
-    letter-spacing: -0.64px;
+    letter-spacing: -0.94px;
   }
   .footer-links {
     display: flex;
-    gap: 28px;
+    gap: 41.32px;
   }
   .footer-links a {
-    font-size: 12px;
+    font-size: 17.7px;
     font-weight: 400;
-    letter-spacing: -0.64px;
+    letter-spacing: -0.94px;
   }
   .footer-links a:hover { text-decoration: underline; }
 
@@ -487,23 +491,15 @@
     transform: translateY(0);
   }
 
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 960px) {
-    .nav-inner, .section, .products-section, .footer-inner { padding-left: 24px; padding-right: 24px; }
-    .nav-menu { display: none; }
-    .hero-watermark { font-size: 220px; }
-    .hero-lamp { width: 280px; height: 360px; }
-    .features { grid-template-columns: 1fr; gap: 64px; }
-    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-    .philosophy-title { font-size: 44px; line-height: 50px; letter-spacing: -1.5px; }
-    .philosophy-sub { font-size: 18px; }
-    .philosophy-inner { padding-top: 180px; }
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-    .footer-bottom { flex-direction: column; gap: 16px; align-items: flex-start; }
+  /* ===== RESPONSIVE (below 1280px scale down design proportionally) ===== */
+  @media (max-width: 1280px) {
+    body { zoom: 0.65; }
   }
-  @media (max-width: 520px) {
-    .products-grid { grid-template-columns: 1fr; }
-    .footer-grid { grid-template-columns: 1fr; }
+  @media (max-width: 960px) {
+    body { zoom: 0.5; }
+  }
+  @media (max-width: 640px) {
+    body { zoom: 0.33; }
   }
 </style>
 </head>
@@ -578,7 +574,7 @@
   <div class="products-grid">
     <div class="product-card reveal">
       <div class="product-image">
-        <img src="https://www.figma.com/api/mcp/asset/d891a3b8-9aa3-4bf3-bccb-c2b2dcaf60c0" alt="Lumei Dusk" />
+        <img src="https://www.figma.com/api/mcp/asset/21936184-0346-4c8d-8908-1b48dd681a71" alt="Lumei Dusk" />
       </div>
       <div class="product-tag">Desk Object</div>
       <div class="product-name">Lumei Dusk</div>
@@ -586,7 +582,7 @@
     </div>
     <div class="product-card reveal" style="transition-delay: 0.1s">
       <div class="product-image">
-        <img src="https://www.figma.com/api/mcp/asset/33c99e71-fa0f-4fd8-83ac-edd46d50d024" alt="Lumei Ember" />
+        <img src="https://www.figma.com/api/mcp/asset/abd5336a-6c00-4ab6-9a87-63dd0c21d973" alt="Lumei Ember" />
       </div>
       <div class="product-tag">Desk Object</div>
       <div class="product-name">Lumei Ember</div>
@@ -594,7 +590,7 @@
     </div>
     <div class="product-card reveal" style="transition-delay: 0.2s">
       <div class="product-image">
-        <img src="https://www.figma.com/api/mcp/asset/e5091177-28c4-4e2c-b9d0-d3bb8a8e099e" alt="Lumei Hush" />
+        <img src="https://www.figma.com/api/mcp/asset/5e49f3e3-e01c-4a36-8945-5e4e8f1ec95e" alt="Lumei Hush" />
       </div>
       <div class="product-tag">Desk Object</div>
       <div class="product-name">Lumei Hush</div>
@@ -602,7 +598,7 @@
     </div>
     <div class="product-card reveal" style="transition-delay: 0.3s">
       <div class="product-image">
-        <img src="https://www.figma.com/api/mcp/asset/4a020e7c-dfb1-4bab-aaf9-e7a59050c722" alt="Lumei Bare" />
+        <img src="https://www.figma.com/api/mcp/asset/734daa4b-926e-4504-a720-412f9012f5b5" alt="Lumei Bare" />
       </div>
       <div class="product-tag">Desk Object</div>
       <div class="product-name">Lumei Bare</div>
@@ -613,7 +609,7 @@
 
 <!-- PHILOSOPHY -->
 <section class="philosophy" id="designer">
-  <img class="philosophy-bg" src="https://www.figma.com/api/mcp/asset/7b5754c5-a992-41e4-8adf-3ff5e9104889" alt="" />
+  <img class="philosophy-bg" src="https://www.figma.com/api/mcp/asset/ff17172d-8091-4dca-8632-52f515e10225" alt="" />
   <div class="philosophy-inner">
     <p class="philosophy-eyebrow reveal">Our Philosophy</p>
     <h2 class="philosophy-title reveal" style="transition-delay: 0.15s">Light Your Own Way.</h2>
@@ -700,8 +696,6 @@
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-
-  // Smooth scroll handled by html { scroll-behavior: smooth }
 </script>
 
 </body>
