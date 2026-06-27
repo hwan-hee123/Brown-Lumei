@@ -15,7 +15,10 @@
     background: #fff;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    width: 1920px;
+    margin: 0 auto;
   }
+  html { overflow-x: hidden; }
   img { display: block; max-width: 100%; }
   a { color: inherit; text-decoration: none; }
   button { font-family: inherit; cursor: pointer; border: 0; background: none; }
@@ -181,8 +184,9 @@
   }
   .features {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 472.252px);
     gap: 141.677px;
+    justify-content: start;
   }
   .feature-num {
     font-size: 106.257px;
@@ -242,8 +246,9 @@
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 398.463px);
     gap: 35.42px;
+    justify-content: space-between;
   }
   .product-card {
     cursor: pointer;
@@ -252,7 +257,7 @@
   .product-card:hover { transform: translateY(-6px); }
   .product-image {
     width: 100%;
-    aspect-ratio: 398.463 / 531.284;
+    height: 531.284px;
     background: #f2f2f2;
     border-radius: 11.806px;
     overflow: hidden;
@@ -380,7 +385,7 @@
   }
   .footer-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 371.899px 371.899px 371.899px 371.899px;
     gap: 70.84px;
     margin-bottom: 94.45px;
   }
@@ -489,16 +494,7 @@
     transform: translateY(0);
   }
 
-  /* ===== RESPONSIVE (below 1280px scale down design proportionally) ===== */
-  @media (max-width: 1280px) {
-    body { zoom: 0.65; }
-  }
-  @media (max-width: 960px) {
-    body { zoom: 0.5; }
-  }
-  @media (max-width: 640px) {
-    body { zoom: 0.33; }
-  }
+  /* Design width is locked to 1920px; JS dynamic zoom handles scaling */
 </style>
 </head>
 <body>
@@ -665,6 +661,15 @@
 </footer>
 
 <script>
+  // Dynamic zoom: lock design at 1920px and scale to viewport
+  const DESIGN_WIDTH = 1920;
+  function adjustZoom() {
+    const vw = window.innerWidth;
+    document.body.style.zoom = Math.min(1, vw / DESIGN_WIDTH);
+  }
+  adjustZoom();
+  window.addEventListener('resize', adjustZoom);
+
   // Sticky nav background on scroll
   const nav = document.getElementById('nav');
   const watermark = document.querySelector('.hero-watermark');
