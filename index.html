@@ -661,11 +661,13 @@
 </footer>
 
 <script>
-  // Dynamic zoom: lock design at 1920px and scale to viewport
+  // Dynamic zoom: fit design (1920×1730) to viewport so the full hero is visible
   const DESIGN_WIDTH = 1920;
+  const DESIGN_HEIGHT = 1730;
   function adjustZoom() {
     const vw = window.innerWidth;
-    document.body.style.zoom = Math.min(1, vw / DESIGN_WIDTH);
+    const vh = window.innerHeight;
+    document.body.style.zoom = Math.min(1, vw / DESIGN_WIDTH, vh / DESIGN_HEIGHT);
   }
   adjustZoom();
   window.addEventListener('resize', adjustZoom);
