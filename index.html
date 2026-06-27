@@ -1,391 +1,702 @@
 <!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lumei — Light Your Own Way</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #111;
+    background: #fff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Our Collection | LUMEI Premium Lighting</title>
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..500;1,9..40,300..500&amp;family=Playfair+Display:ital,wght@0,400..700;1,400..700&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS v3 -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'lumei-bg': '#F8F5F1',
-            'lumei-text': '#111111',
-            'lumei-muted': '#666666',
-            'lumei-border': '#E5E1DB',
-          },
-          fontFamily: {
-            serif: ['"Playfair Display"', 'serif'],
-            sans: ['"DM Sans"', 'sans-serif'],
-          },
-        }
-      }
-    }
-  </script>
-<style data-purpose="layout-styles">
-    body {
-      background-color: #F8F5F1;
-      color: #111111;
-      font-family: 'DM Sans', sans-serif;
-    }
-    
-    .product-card-img-container {
-      overflow: hidden;
-      background-color: #EFEBE7;
-    }
+  /* ===== NAVIGATION ===== */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    z-index: 100;
+    background: rgba(255,255,255,0);
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  .nav.scrolled {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+  }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .nav-logo {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    font-style: italic;
+  }
+  .nav-menu {
+    display: flex;
+    gap: 36px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .nav-menu a {
+    font-size: 10px;
+    font-weight: 300;
+    text-transform: capitalize;
+    position: relative;
+    padding: 4px 0;
+    transition: color 0.2s ease;
+  }
+  .nav-menu a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0; height: 1px;
+    background: #111;
+    transition: width 0.35s ease;
+  }
+  .nav-menu a:hover::after { width: 100%; }
+  .nav-cart {
+    width: 25px; height: 25px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  .nav-cart:hover { transform: scale(1.15) rotate(-5deg); }
+  .nav-cart svg { width: 17px; height: 17px; }
 
-    .product-card-img {
-      transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding: 96px 24px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+    font-size: 420px;
+    color: rgba(180, 195, 230, 0.35);
+    letter-spacing: -8px;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeWatermark 1.4s ease 0.2s forwards;
+    will-change: transform;
+  }
+  @keyframes fadeWatermark {
+    to { opacity: 1; }
+  }
+  .hero-lamp {
+    position: relative;
+    z-index: 2;
+    width: 480px;
+    height: 600px;
+    background-image: url('https://www.figma.com/api/mcp/asset/32ff8d5e-1323-441e-a9f4-20d20d3bf32c');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    will-change: transform;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeLamp 1.2s ease 0.4s forwards;
+  }
+  @keyframes fadeLamp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-buttons {
+    margin-top: 40px;
+    display: flex;
+    gap: 12px;
+    z-index: 3;
+    opacity: 0;
+    animation: fadeBtns 0.8s ease 1s forwards;
+  }
+  @keyframes fadeBtns {
+    to { opacity: 1; }
+  }
+  .btn {
+    padding: 14px 36px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: capitalize;
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+  .btn-primary {
+    background: #111;
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: #333;
+    transform: translateY(-2px);
+  }
+  .btn-secondary {
+    border: 1px solid #111;
+    color: #111;
+    background: transparent;
+  }
+  .btn-secondary:hover {
+    background: #111;
+    color: #fff;
+    transform: translateY(-2px);
+  }
 
-    .product-card:hover .product-card-img {
-      transform: scale(1.05);
-    }
+  /* ===== SECTION 3-COL ===== */
+  .section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 128px 64px;
+  }
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 96px;
+  }
+  .feature-num {
+    font-size: 72px;
+    font-weight: 400;
+    letter-spacing: -2.88px;
+    line-height: 1;
+    color: #000;
+  }
+  .feature-title {
+    margin-top: 28px;
+    font-size: 24px;
+    font-weight: 500;
+    text-transform: capitalize;
+    color: #111;
+  }
+  .feature-desc {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 22.75px;
+    letter-spacing: -0.64px;
+    color: #777;
+  }
 
-    .quick-view-btn {
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
+  /* ===== PRODUCTS ===== */
+  .products-section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 64px 128px;
+  }
+  .products-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+  .products-title {
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -1.2px;
+    color: #111;
+  }
+  .view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+    color: #000;
+  }
+  .view-all .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+  .view-all:hover .arrow { transform: translateX(4px); }
 
-    .product-card:hover .quick-view-btn {
-      opacity: 1;
-    }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .product-card {
+    cursor: pointer;
+    transition: transform 0.4s ease;
+  }
+  .product-card:hover { transform: translateY(-4px); }
+  .product-image {
+    width: 100%;
+    aspect-ratio: 270/360;
+    background: #f2f2f2;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease, filter 0.4s ease;
+  }
+  .product-card:hover .product-image img {
+    transform: scale(1.05);
+    filter: brightness(0.95);
+  }
+  .product-tag {
+    margin-top: 16px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: -0.4px;
+    text-transform: uppercase;
+    color: #777;
+  }
+  .product-name {
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.64px;
+    color: #111;
+  }
+  .product-price {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: -0.64px;
+    color: #777;
+  }
 
-    /* Custom scrollbar for subtle aesthetic */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #F8F5F1;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #D1CDC7;
-    }
-  </style>
+  /* ===== PHILOSOPHY ===== */
+  .philosophy {
+    position: relative;
+    width: 100%;
+    height: 650px;
+    overflow: hidden;
+    background: #1a1a1a;
+  }
+  .philosophy-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    z-index: 1;
+  }
+  .philosophy-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 896px;
+    margin: 0 auto;
+    padding: 237px 24px 0;
+    text-align: center;
+  }
+  .philosophy-eyebrow {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.48px;
+    color: #fff;
+    text-transform: capitalize;
+  }
+  .philosophy-title {
+    margin-top: 40px;
+    font-size: 78px;
+    font-weight: 600;
+    letter-spacing: -3.13px;
+    line-height: 82px;
+    background: linear-gradient(90deg, #bfd5ff 0%, #ffffff 50%, #fff3c6 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 8s linear infinite;
+  }
+  @keyframes shine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .philosophy-sub {
+    margin-top: 24px;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: -1.2px;
+    color: #fff;
+  }
+  .philosophy-link {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid #000;
+    font-size: 12px;
+    letter-spacing: -0.48px;
+    color: #000;
+  }
+  .philosophy-link .arrow {
+    transition: transform 0.3s ease;
+  }
+  .philosophy-link:hover .arrow { transform: translateX(4px); }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    border-top: 1px solid #000;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 64px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 252px 252px 252px 252px;
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+  .footer-logo {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: -0.5px;
+  }
+  .footer-tagline {
+    margin-top: 16px;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 19.5px;
+    letter-spacing: -0.64px;
+    color: #000;
+  }
+  .footer-col h4 {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    text-transform: uppercase;
+  }
+  .footer-col ul {
+    list-style: none;
+    margin-top: 20px;
+  }
+  .footer-col li + li { margin-top: 10px; }
+  .footer-col a {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: -0.64px;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+  .footer-col a:hover { color: #555; }
+  .newsletter-text {
+    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 19.5px;
+    letter-spacing: -0.64px;
+  }
+  .newsletter-form {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #000;
+    padding-bottom: 1px;
+  }
+  .newsletter-form input {
+    flex: 1;
+    border: 0;
+    padding: 8px 0;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -0.64px;
+    background: transparent;
+    outline: none;
+  }
+  .newsletter-form input::placeholder { color: #111; }
+  .newsletter-form button {
+    padding: 8px 4px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -0.64px;
+    transition: transform 0.25s ease;
+  }
+  .newsletter-form button:hover { transform: translateX(4px); }
+  .footer-bottom {
+    border-top: 1px solid #000;
+    padding-top: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .copyright {
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: -0.64px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 28px;
+  }
+  .footer-links a {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.64px;
+  }
+  .footer-links a:hover { text-decoration: underline; }
+
+  /* ===== REVEAL ANIMATION ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    will-change: opacity, transform;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 960px) {
+    .nav-inner, .section, .products-section, .footer-inner { padding-left: 24px; padding-right: 24px; }
+    .nav-menu { display: none; }
+    .hero-watermark { font-size: 220px; }
+    .hero-lamp { width: 280px; height: 360px; }
+    .features { grid-template-columns: 1fr; gap: 64px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .philosophy-title { font-size: 44px; line-height: 50px; letter-spacing: -1.5px; }
+    .philosophy-sub { font-size: 18px; }
+    .philosophy-inner { padding-top: 180px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 16px; align-items: flex-start; }
+  }
+  @media (max-width: 520px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
-<body class="antialiased">
-<!-- BEGIN: MainHeader -->
-<header class="w-full border-b border-lumei-border sticky top-0 bg-lumei-bg/95 backdrop-blur-sm z-50">
-<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-<!-- Logo -->
-<a class="text-3xl font-medium tracking-tight font-sans" href="#">LUMEI</a>
-<!-- Navigation -->
-<nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
-<a class="hover:text-lumei-muted transition-colors" href="#">Products</a>
-<a class="hover:text-lumei-muted transition-colors border-b border-black pb-0.5" href="#">Collections</a>
-<a class="hover:text-lumei-muted transition-colors" href="#">Designers</a>
-<a class="hover:text-lumei-muted transition-colors" href="#">Projects</a>
-<a class="hover:text-lumei-muted transition-colors" href="#">About</a>
-<a class="hover:text-lumei-muted transition-colors" href="#">Contact</a>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Lumei</a>
+    <div class="nav-menu">
+      <a href="#brand">Brand</a>
+      <a href="#products">Products</a>
+      <a href="#designer">Designer</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="nav-cart" aria-label="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+    </button>
+  </div>
 </nav>
-<!-- Icons -->
-<div class="flex items-center space-x-5">
-<button aria-label="Search" class="p-1 hover:opacity-70 transition-opacity">
-<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
-</button>
-<button aria-label="Favorites" class="p-1 hover:opacity-70 transition-opacity">
-<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-</button>
-<button aria-label="Cart" class="p-1 hover:opacity-70 transition-opacity">
-<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
-</button>
-</div>
-</div>
-</header>
-<!-- END: MainHeader -->
-<!-- BEGIN: HeroSection -->
-<section class="max-w-7xl mx-auto px-6 py-12">
-<nav aria-label="Breadcrumb" class="mb-8 text-xs uppercase tracking-widest text-lumei-muted">
-<ol class="flex space-x-2">
-<li><a class="hover:text-lumei-text" href="#">Home</a></li>
-<li>/</li>
-<li class="text-lumei-text">Collection</li>
-</ol>
-</nav>
-<h1 class="text-5xl md:text-7xl font-serif text-center mb-20">Our Collection</h1>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-watermark" data-parallax="0.3">Lumei</div>
+  <div class="hero-lamp" data-parallax="0.6"></div>
+  <div class="hero-buttons">
+    <button class="btn btn-primary">Shop Now</button>
+    <button class="btn btn-secondary">Learn More</button>
+  </div>
 </section>
-<!-- END: HeroSection -->
-<!-- BEGIN: MainContent -->
-<main class="max-w-7xl mx-auto px-6 pb-24">
-<div class="flex flex-col md:flex-row gap-12">
-<!-- BEGIN: Sidebar Filters -->
-<aside class="w-full md:w-64 flex-shrink-0" data-purpose="filter-sidebar">
-<h2 class="text-xs font-bold uppercase tracking-widest mb-6 pb-4 border-b border-lumei-border">Filter By</h2>
-<!-- Categories Section -->
-<div class="mb-8">
-<button class="flex justify-between items-center w-full text-sm font-medium mb-4 group" data-purpose="accordion-trigger">
-<span>Categories</span>
-<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</button>
-<div class="space-y-3">
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Pendants</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Table</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Floor</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Wall</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Outdoor</span>
-</label>
-</div>
-</div>
-<!-- Designers Section -->
-<div class="mb-8">
-<button class="flex justify-between items-center w-full text-sm font-medium mb-4" data-purpose="accordion-trigger">
-<span>Designers</span>
-<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</button>
-<div class="space-y-3">
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Neil Poulton</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Patricia Urquiola</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Neri&amp;Hu</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">David Chipperfield</span>
-</label>
-</div>
-</div>
-<!-- Finishes Section -->
-<div class="mb-8">
-<button class="flex justify-between items-center w-full text-sm font-medium mb-4" data-purpose="accordion-trigger">
-<span>Finishes</span>
-<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</button>
-<div class="space-y-3">
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Brass</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Matte Black</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">White</span>
-</label>
-<label class="flex items-center space-x-3 text-sm cursor-pointer group">
-<input class="h-4 w-4 rounded border-lumei-border text-lumei-text focus:ring-0" type="checkbox"/>
-<span class="group-hover:text-lumei-muted transition-colors">Chrome</span>
-</label>
-</div>
-</div>
-</aside>
-<!-- END: Sidebar Filters -->
-<!-- BEGIN: Product Grid Container -->
-<div class="flex-grow">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12" data-purpose="collection-grid">
-<!-- Product Card 1 -->
-<article class="product-card group cursor-pointer" data-purpose="product-item">
-<div class="product-card-img-container relative aspect-[3/4] mb-4">
-<!-- Using provided image placeholder with object-cover for design fidelity -->
-<img alt="Aura Table Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoVZGnEH2x5F4_buhpiVuuuxmuyfXwC6mH0Du0i6_HmGtaSk5RF5rEB9brzdCowi2KwOVXY54_zuBJnpHZFYR8Dhu_ONWfXefd9819OTXuQREZGXEFEw4U-ndRVYvq7JzrwG5FphGgjCFyzZHYedd3b9W6XPnRnj4mLwcxCxSfT0uqAjixav1IHnOIM_tTCAbhNnPpFaIb3dG_U1Z2IfYqzKUCdvKIxuq22tx2-ixZdd_Pp-F4kcnUZDJNdI9b2OS7R9GwTu-P1Lc"/>
-<div class="absolute inset-0 flex items-center justify-center">
-<button class="quick-view-btn bg-white/90 backdrop-blur-sm text-lumei-text px-6 py-4 rounded-full text-xs font-medium uppercase tracking-widest shadow-xl flex flex-col items-center">
-<svg class="h-4 w-4 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                  Quick View
-                </button>
-</div>
-</div>
-<div class="space-y-1">
-<h3 class="text-base font-medium">Aura Table Lamp</h3>
-<p class="text-sm text-lumei-muted">by Neil Poulton</p>
-</div>
-</article>
-<!-- Product Card 2 -->
-<article class="product-card group cursor-pointer" data-purpose="product-item">
-<div class="product-card-img-container relative aspect-[3/4] mb-4">
-<img alt="Solis Pendant" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUyMAKyObrIe9aV3sbY2DU57LpYoaN7dp2Hj38OG-0URvXSzacrI8Rk7rPBHEjF_q-GJH5bjN0vsdu_Xfqgns7SGOW6vREeRP4ASw1eSd3w8L5MIfJs8TtW_fF_tjE4L_dtmLS99JxWP6S9JqzUr8zz_M6Ju1llRnzNBmw8EriNq3sSKJPvMTrJ6nC-LuQV8ZfQVhPGvjrg7SdaS52TQCS_BdbvQLN5L8rFbKhP2ER3-qjrY6uz90hNP1vaPuCLdRayCYTNnJQOMA"/>
-<div class="absolute inset-0 flex items-center justify-center">
-<button class="quick-view-btn bg-white/90 backdrop-blur-sm text-lumei-text px-6 py-4 rounded-full text-xs font-medium uppercase tracking-widest shadow-xl flex flex-col items-center">
-<svg class="h-4 w-4 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                  Quick View
-                </button>
-</div>
-</div>
-<div class="space-y-1">
-<h3 class="text-base font-medium">Solis Pendant</h3>
-<p class="text-sm text-lumei-muted">by Patricia Urquiola</p>
-</div>
-</article>
-<!-- Product Card 3 -->
-<article class="product-card group cursor-pointer" data-purpose="product-item">
-<div class="product-card-img-container relative aspect-[3/4] mb-4">
-<img alt="Luna Floor Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm7Re-vRgx2LiZhCii_NLEEMYODd6UYy7ey4XsQkT5mPdxou0XROJBHCWonEXuJbL9X8Hl0B0Qi5puGwapZz_Y8OO7IREBLjWe6tC3AMBapa5uW1LURfU6tN1f0iKA_AtQKAOfkll5QlHBDXA76o68TaN5OQGixLslOG3yYf-TkuVk4lf81Gcz4ydrA_X8lUA9JCS5PHhccpdOMTepaIxbS1-E5355EDj9MirWo8xSZXWztnOH5RKteCrx1ktKBl3g3KtLM8p6zEE"/>
-<div class="absolute inset-0 flex items-center justify-center">
-<button class="quick-view-btn bg-white/90 backdrop-blur-sm text-lumei-text px-6 py-4 rounded-full text-xs font-medium uppercase tracking-widest shadow-xl flex flex-col items-center">
-<svg class="h-4 w-4 mb-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                  Quick View
-                </button>
-</div>
-</div>
-<div class="space-y-1">
-<h3 class="text-base font-medium">Luna Floor Lamp</h3>
-<p class="text-sm text-lumei-muted">by Neil Poulton</p>
-</div>
-</article>
-<!-- Repeat Grid Items for Layout -->
-<!-- Row 2 -->
-<article class="product-card group cursor-pointer">
-<div class="product-card-img-container relative aspect-[3/4] mb-4">
-<img alt="Aura Table Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX1FnI3lD8t4B4jD8aRTvAaynIxsozhC8Iue5Xtf2BX4Kj7VuWIq0GwXs0ZOqt8taWdtgz7ZpL-9y470dpk_bn1R0q9dHs3sXExBnUDPNAgXpRx-LhHkXpytyiVeCEiI7LfMHbtV2P4wMxdtwV92LJj0mRdF2EJY6MPZvHd1yTHRclEuFTtHYkFgWB3WSj7fHjQhdeRyc9TwTiOy1IHmZMiEGOqA3dfWK-RDa4QOZv5gD6zWw4BXtWNhVfE5Rnzeo6wDJapXmqNm4"/>
-</div>
-<div class="space-y-1">
-<h3 class="text-base font-medium">Aura Table Lamp</h3>
-<p class="text-sm text-lumei-muted">by Neil Poulton</p>
-</div>
-</article>
-<article class="product-card group cursor-pointer">
-<div class="product-card-img-container relative aspect-[3/4] mb-4">
-<img alt="Solis Pendant" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN5JSqBRmAx7E3vclGkYzkx-Yiumru8ss8FEGkNYp0oZbAvg7437vOUqdkQswIxhlSgeztHK6C6hpQIzb6k1n6hALCTAYS2OK4AncfoTS-hH3xV49yLGaScU3O3JV9XS65kPjuYW2F8izf_vt2j2qQSfE8JzemVgyxiXgVfzEfC46lIekv8lY1wdmcSqpizMK2rmjHcPjguY0M_C0MRnypJlha6qh50VFttUpcVrs3vVUxqhwQBCKNyQnZij0z_nL1png6ZDx4AnA"/>
-</div>
-<div class="space-y-1">
-<h3 class="text-base font-medium">Solis Pendant</h3>
-<p class="text-sm text-lumei-muted">by Patricia Urquiola</p>
-</div>
-</article>
-<article class="product-card group cursor-pointer">
-<div class="product-card-img-container relative aspect-[3/4] mb-4">
-<img alt="Luna Table Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9L0PN73QEC-J7N8RwbLel-W80FZUcxUqcOYzlJ7vVcuEyTPepx4AXEaaxdHagarostlAxzP27z6vAxdj8wCWPPYNvKV4DS5f9k7o_EKPUnlMAe7fU-6mLTeo8cpk6-5g5riKqEhXVKYA0DvLKVKAjqzYihgLTD0tAn6bkXY4VP9TTQXA8wsAaIPU45AlbSeWmLPq2nd9fA63o0BetZx70PpptmoZLQS_d29xOUkiIWmqzCLwnIDrfvTrmtdl93DqFjW1lI8Pe3b0"/>
-</div>
-<div class="space-y-1">
-<h3 class="text-base font-medium">Luna Table Lamp</h3>
-<p class="text-sm text-lumei-muted">by Neil Poulton</p>
-</div>
-</article>
-<!-- Row 3 -->
-<article class="product-card group cursor-pointer">
-<div class="product-card-img-container relative aspect-[3/4] mb-4">
-<img alt="Luna Floor Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnJLKzx3LEj6490Vqjt3pro5xhzEbZcRG7M-Mon4_B36koq57UMxT7am7yxoljq3ghX1mIFJ-n6w3blDqyH0SUQEDhX-Ox9a4hewKHKoiYB8xWcAEPgHvyYBa_z8H2xpy8seJYdUmaI44q2-1ASLjkox1CwjzDd5_RrE9gueKZw60vBGyloL5DmRSDts2yiIux6UxpOWEbXB9e4ibUwC-R2_1gyaIMUiE9oych2YGdCumTrC1sA89RrWjoVEtKwfJAxC3g6gWMGt0"/>
-</div>
-<div class="space-y-1">
-<h3 class="text-base font-medium">Luna Floor Lamp</h3>
-<p class="text-sm text-lumei-muted">by Neil Poulton</p>
-</div>
-</article>
-<article class="product-card group cursor-pointer">
-<div class="product-card-img-container relative aspect-[3/4] mb-4">
-<img alt="Solis Pendant" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWgXNM2e3OLYztg95pXvJ_FX43oF-hSpju60wvvkcZegWc7lO40lO2AuMVAjVwsCV6NqRCXV9eKXzVIKS7r_yvKNnu1csUMKyux96ewojSIJpN5K8RU-52BAyvk_FwlarTcvTxd8V8XDVlWYe0sB38gG8PfMBeaB4jR-jc8zvbtdZHolNyF-Ti3n24qxRxhpw3zDTBO4pRpn0k5_JCwbo2h6cjkGS0B-OY2ndk7JoNWQqbGCFxkHJGTOYAlOiXBORxrkPtqZS0tcg"/>
-</div>
-<div class="space-y-1">
-<h3 class="text-base font-medium">Solis Pendant</h3>
-<p class="text-sm text-lumei-muted">by Patricia Urquiola</p>
-</div>
-</article>
-<article class="product-card group cursor-pointer">
-<div class="product-card-img-container relative aspect-[3/4] mb-4">
-<img alt="Luna Table Lamp" class="product-card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKiXHxts-9GTlghIZIbK2Eadohn7yigvIYDY6QRtuh0yx4Zt1OIDJwaBdcAUWB0QRIB4xaAOST_glCdheWxJuMfF4_YkwWVKCjWXAvYekuZ9k-f9JiHRNl2ZeTirJRGHHdQ0xgZUfEKwULB__sXsAOjAtpIj23oS2yIw2j3WrMHgf1asrNKASp3mKRWolwg708r0YHiEYHWoRaT5TE9uYARGNGFAVHqBkLzK12heNXvRspgNu_EiztWyPFrAt61MulDDpIEzYnnbI"/>
-</div>
-<div class="space-y-1">
-<h3 class="text-base font-medium">Luna Table Lamp</h3>
-<p class="text-sm text-lumei-muted">by Neil Poulton</p>
-</div>
-</article>
-</div>
-<!-- BEGIN: Pagination -->
-<nav aria-label="Page navigation" class="mt-20 flex justify-center" data-purpose="pagination">
-<ul class="inline-flex items-center space-x-2">
-<li>
-<a class="p-2 h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">
-<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</a>
-</li>
-<li><a class="h-10 w-10 flex items-center justify-center border border-lumei-text bg-lumei-text text-white" href="#">1</a></li>
-<li><a class="h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">2</a></li>
-<li><a class="h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">3</a></li>
-<li><a class="h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">4</a></li>
-<li>
-<a class="p-2 h-10 w-10 flex items-center justify-center border border-lumei-border hover:bg-lumei-border transition-colors" href="#">
-<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</a>
-</li>
-</ul>
-</nav>
-<!-- END: Pagination -->
-</div>
-<!-- END: Product Grid Container -->
-</div>
-</main>
-<!-- END: MainContent -->
-<!-- BEGIN: Footer -->
-<footer class="bg-lumei-bg border-t border-lumei-border pt-20 pb-12">
-<div class="max-w-7xl mx-auto px-6">
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-20">
-<!-- Logo Column -->
-<div class="col-span-2 lg:col-span-1">
-<a class="text-2xl font-medium tracking-tight mb-6 block" href="#">LUMEI</a>
-</div>
-<!-- Products Column -->
-<div>
-<h4 class="text-sm font-bold uppercase tracking-wider mb-6">Products</h4>
-<ul class="space-y-4 text-sm text-lumei-muted">
-<li><a class="hover:text-lumei-text transition-colors" href="#">Store Locator</a></li>
-<li><a class="hover:text-lumei-text transition-colors" href="#">Catalogues</a></li>
-<li><a class="hover:text-lumei-text transition-colors" href="#">Lunnium lighting</a></li>
-<li><a class="hover:text-lumei-text transition-colors" href="#">Amachants</a></li>
-</ul>
-</div>
-<!-- Company Column -->
-<div>
-<h4 class="text-sm font-bold uppercase tracking-wider mb-6">Company</h4>
-<ul class="space-y-4 text-sm text-lumei-muted">
-<li><a class="hover:text-lumei-text transition-colors" href="#">Careers</a></li>
-<li><a class="hover:text-lumei-text transition-colors" href="#">FAQs</a></li>
-<li><a class="hover:text-lumei-text transition-colors" href="#">Lannum otiving</a></li>
-</ul>
-</div>
-<!-- Legal Column -->
-<div>
-<h4 class="text-sm font-bold uppercase tracking-wider mb-6">Legal</h4>
-<ul class="space-y-4 text-sm text-lumei-muted">
-<li><a class="hover:text-lumei-text transition-colors" href="#">Privacy Policy</a></li>
-<li><a class="hover:text-lumei-text transition-colors" href="#">Terms of Policy</a></li>
-</ul>
-</div>
-<!-- Social Column -->
-<div class="flex space-x-6 justify-end items-start md:col-span-1 lg:justify-end">
-<a class="text-lumei-text hover:opacity-70 transition-opacity" href="#">
-<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
-</a>
-<a class="text-lumei-text hover:opacity-70 transition-opacity" href="#">
-<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
-</a>
-<a class="text-lumei-text hover:opacity-70 transition-opacity" href="#">
-<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path></svg>
-</a>
-</div>
-</div>
-<!-- Copyright -->
-<div class="border-t border-lumei-border pt-8 flex justify-center">
-<p class="text-xs text-lumei-muted tracking-widest uppercase">© 2024 Lumei Lighting. All Rights Reserved.</p>
-</div>
-</div>
+
+<!-- FEATURES -->
+<section class="section" id="brand">
+  <div class="features">
+    <div class="feature reveal">
+      <div class="feature-num">01</div>
+      <h3 class="feature-title">Materials</h3>
+      <p class="feature-desc">
+        모든 제품은 좋은 소재에서 시작됩니다.<br/>
+        엄선된 공급처의 고품질 원료만을 사용하며, 오래도록 사용할 수 있는 소재를 신중하게 선택합니다.
+      </p>
+    </div>
+    <div class="feature reveal" style="transition-delay: 0.12s">
+      <div class="feature-num">02</div>
+      <h3 class="feature-title">Process</h3>
+      <p class="feature-desc">
+        숙련된 장인과 함께 정교한 공정을 거쳐 제작됩니다.<br/>
+        모든 제품은 완성 전 여러 차례의 검수와 품질 테스트를 통해 높은 완성도를 유지합니다.
+      </p>
+    </div>
+    <div class="feature reveal" style="transition-delay: 0.24s">
+      <div class="feature-num">03</div>
+      <h3 class="feature-title">Longevity</h3>
+      <p class="feature-desc">
+        시간이 지나도 변하지 않는 가치를 담아 디자인합니다.<br/>
+        오랫동안 함께할 수 있는 제품이 가장 지속 가능한 디자인이라고 믿습니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="products-head reveal">
+    <h2 class="products-title">Selected Objects</h2>
+    <a href="#" class="view-all">View All <span class="arrow">→</span></a>
+  </div>
+  <div class="products-grid">
+    <div class="product-card reveal">
+      <div class="product-image">
+        <img src="https://www.figma.com/api/mcp/asset/d891a3b8-9aa3-4bf3-bccb-c2b2dcaf60c0" alt="Lumei Dusk" />
+      </div>
+      <div class="product-tag">Desk Object</div>
+      <div class="product-name">Lumei Dusk</div>
+      <div class="product-price">₩385,000</div>
+    </div>
+    <div class="product-card reveal" style="transition-delay: 0.1s">
+      <div class="product-image">
+        <img src="https://www.figma.com/api/mcp/asset/33c99e71-fa0f-4fd8-83ac-edd46d50d024" alt="Lumei Ember" />
+      </div>
+      <div class="product-tag">Desk Object</div>
+      <div class="product-name">Lumei Ember</div>
+      <div class="product-price">₩385,000</div>
+    </div>
+    <div class="product-card reveal" style="transition-delay: 0.2s">
+      <div class="product-image">
+        <img src="https://www.figma.com/api/mcp/asset/e5091177-28c4-4e2c-b9d0-d3bb8a8e099e" alt="Lumei Hush" />
+      </div>
+      <div class="product-tag">Desk Object</div>
+      <div class="product-name">Lumei Hush</div>
+      <div class="product-price">₩385,000</div>
+    </div>
+    <div class="product-card reveal" style="transition-delay: 0.3s">
+      <div class="product-image">
+        <img src="https://www.figma.com/api/mcp/asset/4a020e7c-dfb1-4bab-aaf9-e7a59050c722" alt="Lumei Bare" />
+      </div>
+      <div class="product-tag">Desk Object</div>
+      <div class="product-name">Lumei Bare</div>
+      <div class="product-price">₩385,000</div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="designer">
+  <img class="philosophy-bg" src="https://www.figma.com/api/mcp/asset/7b5754c5-a992-41e4-8adf-3ff5e9104889" alt="" />
+  <div class="philosophy-inner">
+    <p class="philosophy-eyebrow reveal">Our Philosophy</p>
+    <h2 class="philosophy-title reveal" style="transition-delay: 0.15s">Light Your Own Way.</h2>
+    <p class="philosophy-sub reveal" style="transition-delay: 0.3s">Fill as much space as you want with light.</p>
+  </div>
+  <a href="#" class="philosophy-link">Read the Brand Story <span class="arrow">→</span></a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="contact">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">Lumei</div>
+        <p class="footer-tagline">
+          Objects designed with intention.<br/>
+          Made to last.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#brand">Brand</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#designer">Designer</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p class="newsletter-text">Occasional notes from the studio. No frequency promises.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Subscribed ✓';">
+          <input type="email" placeholder="Email address" />
+          <button type="submit">→</button>
+        </form>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Pinterest</a></li>
+          <li><a href="#">Are.na</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="copyright">© 2026 FORM Studio. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+      </div>
+    </div>
+  </div>
 </footer>
-<!-- END: Footer -->
-</body></html>
+
+<script>
+  // Sticky nav background on scroll
+  const nav = document.getElementById('nav');
+  const watermark = document.querySelector('.hero-watermark');
+  const lamp = document.querySelector('.hero-lamp');
+
+  function onScroll() {
+    const y = window.scrollY;
+    if (y > 20) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+
+    // Parallax for hero
+    if (y < window.innerHeight) {
+      if (watermark) watermark.style.transform = `translate(-50%, calc(-50% + ${y * 0.3}px))`;
+      if (lamp) lamp.style.transform = `translateY(${y * -0.15}px)`;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Reveal on intersect
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // Smooth scroll handled by html { scroll-behavior: smooth }
+</script>
+
+</body>
+</html>
