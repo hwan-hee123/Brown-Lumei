@@ -45,11 +45,15 @@
     position: relative;
   }
   .nav-logo {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 22px;
-    font-weight: 500;
-    letter-spacing: -0.5px;
-    font-style: italic;
+    display: block;
+    width: 79.5px;
+    height: 32px;
+    background-image: url('https://www.figma.com/api/mcp/asset/e181299b-9bfd-4090-8c54-e420fbccbf9a');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+    text-indent: -9999px;
+    overflow: hidden;
   }
   .nav-menu {
     display: flex;
@@ -86,7 +90,7 @@
   /* ===== HERO ===== */
   .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 1172px;
     padding: 96px 24px 64px;
     display: flex;
     flex-direction: column;
@@ -96,16 +100,16 @@
   }
   .hero-watermark {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
-    font-size: 420px;
-    color: rgba(180, 195, 230, 0.35);
-    letter-spacing: -8px;
+    top: 19.66%;
+    left: 0;
+    right: 0;
+    bottom: 40.12%;
+    background-image: url('https://www.figma.com/api/mcp/asset/5d04b743-9434-4a82-82d0-d3b806820f72');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
     user-select: none;
     pointer-events: none;
-    white-space: nowrap;
     z-index: 1;
     opacity: 0;
     animation: fadeWatermark 1.4s ease 0.2s forwards;
@@ -117,8 +121,8 @@
   .hero-lamp {
     position: relative;
     z-index: 2;
-    width: 480px;
-    height: 600px;
+    width: 708px;
+    height: 777px;
     background-image: url('https://www.figma.com/api/mcp/asset/32ff8d5e-1323-441e-a9f4-20d20d3bf32c');
     background-size: contain;
     background-repeat: no-repeat;
@@ -379,11 +383,13 @@
     margin-bottom: 64px;
   }
   .footer-logo {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 22px;
-    font-weight: 500;
-    font-style: italic;
-    letter-spacing: -0.5px;
+    display: block;
+    width: 89.5px;
+    height: 36px;
+    background-image: url('https://www.figma.com/api/mcp/asset/7521b10c-e8cc-4337-ac6d-b23f3a28d4c6');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
   }
   .footer-tagline {
     margin-top: 16px;
@@ -525,7 +531,7 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-watermark" data-parallax="0.3">Lumei</div>
+  <div class="hero-watermark" data-parallax="0.3" aria-hidden="true"></div>
   <div class="hero-lamp" data-parallax="0.6"></div>
   <div class="hero-buttons">
     <button class="btn btn-primary">Shop Now</button>
@@ -621,7 +627,7 @@
   <div class="footer-inner">
     <div class="footer-grid">
       <div class="footer-col">
-        <div class="footer-logo">Lumei</div>
+        <div class="footer-logo" aria-label="Lumei"></div>
         <p class="footer-tagline">
           Objects designed with intention.<br/>
           Made to last.
@@ -677,8 +683,8 @@
 
     // Parallax for hero
     if (y < window.innerHeight) {
-      if (watermark) watermark.style.transform = `translate(-50%, calc(-50% + ${y * 0.3}px))`;
-      if (lamp) lamp.style.transform = `translateY(${y * -0.15}px)`;
+      if (watermark) watermark.style.transform = `translateY(${y * 0.25}px)`;
+      if (lamp) lamp.style.transform = `translateY(${y * -0.12}px)`;
     }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
