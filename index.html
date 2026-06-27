@@ -494,6 +494,183 @@
     transform: translateY(0);
   }
 
+  /* ===== BRAND PAGE ===== */
+  #brand-page {
+    padding-top: 88.547px;
+  }
+  .bp-hero {
+    position: relative;
+    height: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .bp-hero-bg {
+    position: absolute;
+    inset: 0;
+  }
+  .bp-hero-bg img {
+    width: 194.97%;
+    height: 100%;
+    position: absolute;
+    left: -53.62%;
+    top: 0;
+    object-fit: cover;
+    opacity: 0.35;
+  }
+  .bp-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, #fff 3%, rgba(255,255,255,0.1) 45%, #fff 100%);
+  }
+  .bp-hero-copy {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+  .bp-hero-copy h1 {
+    font-size: 30.401px;
+    font-weight: 600;
+    line-height: 49.35px;
+    letter-spacing: -0.94px;
+    color: #111;
+  }
+  .bp-hero-copy p {
+    margin-top: 24px;
+    font-size: 25.974px;
+    font-weight: 400;
+    line-height: 49.35px;
+    letter-spacing: -0.94px;
+    color: #111;
+  }
+  .bp-section {
+    max-width: 1889px;
+    margin: 0 auto;
+    padding: 118px 94.45px 0;
+  }
+  .bp-heading {
+    font-size: 44.274px;
+    font-weight: 500;
+    letter-spacing: -1.77px;
+    color: #111;
+    text-align: center;
+  }
+  .bp-brand-desc {
+    margin: 59px auto 0;
+    font-size: 23.613px;
+    font-weight: 300;
+    line-height: 1.6;
+    letter-spacing: -0.94px;
+    color: #111;
+    text-align: center;
+    max-width: 1252px;
+  }
+  .bp-logo-wrap { margin-top: 53px; }
+  .bp-logo-wrap img { width: 100%; display: block; }
+  .bp-sub {
+    margin-top: 47px;
+    font-size: 22.137px;
+    font-weight: 400;
+    letter-spacing: -0.94px;
+    color: #111;
+    text-align: center;
+  }
+  .bp-body {
+    margin: 17.7px auto 0;
+    font-size: 22.137px;
+    font-weight: 300;
+    line-height: 35.972px;
+    letter-spacing: -0.94px;
+    color: #777;
+    text-align: center;
+    max-width: 992px;
+  }
+  .bp-cv-grid {
+    margin-top: 118px;
+    display: grid;
+    grid-template-columns: repeat(3, 503px);
+    gap: 95px;
+  }
+  .bp-cv-num {
+    font-size: 24.793px;
+    font-weight: 300;
+    letter-spacing: -0.94px;
+    color: rgba(119,119,119,0.4);
+    line-height: 37.19px;
+  }
+  .bp-cv-title {
+    margin-top: 17.7px;
+    font-size: 40.141px;
+    font-weight: 500;
+    letter-spacing: -1.606px;
+    color: #111;
+    line-height: 50.177px;
+  }
+  .bp-cv-ko {
+    margin-top: 5.9px;
+    font-size: 17.709px;
+    font-weight: 400;
+    letter-spacing: -0.94px;
+    color: #777;
+  }
+  .bp-cv-desc {
+    margin-top: 29.5px;
+    font-size: 20.661px;
+    font-weight: 300;
+    line-height: 33.574px;
+    letter-spacing: -0.94px;
+    color: #777;
+  }
+  .bp-color-cards {
+    margin-top: 94px;
+    display: grid;
+    grid-template-columns: repeat(3, 550.469px);
+    gap: 24px;
+  }
+  .bp-color-card {
+    border-radius: 11.806px;
+    padding: 47.225px 41.322px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 389.608px;
+  }
+  .bp-cc-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .bp-cc-name {
+    font-size: 37.78px;
+    font-weight: 400;
+    letter-spacing: -0.94px;
+    color: #111;
+    line-height: 47.225px;
+  }
+  .bp-cc-arrow {
+    font-size: 26.564px;
+    color: #111;
+    opacity: 0.5;
+    padding-top: 5.9px;
+  }
+  .bp-cc-info { display: flex; flex-direction: column; gap: 5.9px; }
+  .bp-cc-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 17.709px;
+    font-weight: 400;
+    letter-spacing: -0.94px;
+    color: #111;
+    line-height: 23.613px;
+  }
+  .bp-cc-label { opacity: 0.5; }
+
+  /* page transition */
+  #main-content { transition: opacity 0.35s ease; }
+  #brand-page { transition: opacity 0.35s ease; }
+
   /* Design width is locked to 1920px; JS dynamic zoom handles scaling */
 </style>
 </head>
@@ -504,7 +681,7 @@
   <div class="nav-inner">
     <a href="#" class="nav-logo">Lumei</a>
     <div class="nav-menu">
-      <a href="brand.html">Brand</a>
+      <a href="#" id="nav-brand">Brand</a>
       <a href="#products">Products</a>
       <a href="#designer">Designer</a>
       <a href="#contact">Contact</a>
@@ -519,6 +696,7 @@
   </div>
 </nav>
 
+<div id="main-content">
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-watermark" data-parallax="0.3" aria-hidden="true"></div>
@@ -659,6 +837,101 @@
     </div>
   </div>
 </footer>
+</div><!-- /main-content -->
+
+<!-- BRAND PAGE (hidden by default, shown on Brand click) -->
+<div id="brand-page" style="display:none">
+
+  <!-- HERO COPY -->
+  <div class="bp-hero">
+    <div class="bp-hero-bg" aria-hidden="true">
+      <img src="https://www.figma.com/api/mcp/asset/fb7fec1f-52fe-4206-815b-275242d9a7cf" alt="" />
+    </div>
+    <div class="bp-hero-copy">
+      <h1>하루가 끝나고 집에 돌아온 순간, 그날의 기분은 늘 다릅니다.<br/>집중하고 싶은 날, 조용히 쉬고 싶은 날, 따뜻하게 하루를 마무리하고 싶은 날.</h1>
+      <p>Lumei는 그 감각을 직접 손으로 조율할 수 있어야 한다고 생각했습니다.<br/>빛이 닿는 방식을 디자인해, 당신이 원하는 만큼의 공간을 빛으로 채웁니다.</p>
+    </div>
+  </div>
+
+  <!-- BRAND NAME -->
+  <section class="bp-section">
+    <h2 class="bp-heading reveal">(Brand Name)</h2>
+    <p class="bp-brand-desc reveal" style="transition-delay:.1s">
+      Lumei(루메이)는 빛을 뜻하는 Lumen과 부드러움을 뜻하는 柔(유)를 결합한 이름으로, '부드럽게 번지는 빛'을 네이밍에 담았습니다.<br/>
+      로고는 흐르는 스크립트 필선으로 빛의 움직임과 브랜드의 유연한 감성을 동시에 표현합니다.
+    </p>
+    <div class="bp-logo-wrap reveal" style="transition-delay:.2s">
+      <img src="https://www.figma.com/api/mcp/asset/494d6895-57fd-4075-80e8-ed3c247a17ef" alt="Lumei" />
+    </div>
+  </section>
+
+  <!-- CORE VALUE -->
+  <section class="bp-section">
+    <h2 class="bp-heading reveal">(Core Value)</h2>
+    <p class="bp-sub reveal" style="transition-delay:.08s">Light Your Own Way</p>
+    <p class="bp-body reveal" style="transition-delay:.16s">
+      당신이 원하는 만큼의 공간을 빛으로 채웁니다.<br/>
+      Lumei는 조명을 켜는 것이 아니라 공간의 감각을 직접 설계하는 경험을 제공합니다.
+    </p>
+    <div class="bp-cv-grid">
+      <div class="bp-cv-item reveal">
+        <div class="bp-cv-num">01)</div>
+        <div class="bp-cv-title">Sense</div>
+        <div class="bp-cv-ko">(감각)</div>
+        <p class="bp-cv-desc">공간의 온도와 분위기를 결정하는 것은 조명의 밝기가 아닌 빛이 닿는 방식입니다. Lumei는 사용자가 그 감각을 직접 느끼고 선택할 수 있도록 설계합니다.</p>
+      </div>
+      <div class="bp-cv-item reveal" style="transition-delay:.1s">
+        <div class="bp-cv-num">02)</div>
+        <div class="bp-cv-title">Coordination</div>
+        <div class="bp-cv-ko">(조율)</div>
+        <p class="bp-cv-desc">Relax, Focus, Night 세 가지 모드와 각도 조절을 통해 같은 공간도 전혀 다른 분위기로 바꿀 수 있습니다. 조명이 공간을 조율하는 도구가 됩니다.</p>
+      </div>
+      <div class="bp-cv-item reveal" style="transition-delay:.2s">
+        <div class="bp-cv-num">03)</div>
+        <div class="bp-cv-title">Self-determination</div>
+        <div class="bp-cv-ko">(자율)</div>
+        <p class="bp-cv-desc">정해진 설정이 아니라 사용자가 스스로 빛의 온도와 방향을 결정합니다. Lumei는 그 선택의 자유를 제품 경험 전체에 녹여냅니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLOR SYSTEM -->
+  <section class="bp-section" style="padding-bottom:188px">
+    <h2 class="bp-heading reveal">(Color System)</h2>
+    <p class="bp-sub reveal" style="transition-delay:.08s">Lumei의 컬러 시스템은 제품이 제공하는 세 가지 조명 모드를 색으로 직접 표현합니다.</p>
+    <p class="bp-body reveal" style="transition-delay:.16s">
+      사용자가 경험하는 빛의 온도를 브랜드 언어로 일관되게 연결하기 위해,<br/>
+      실제 광원의 색온도를 그대로 시각화하는 방식으로 설계했습니다.
+    </p>
+    <div class="bp-color-cards">
+      <div class="bp-color-card reveal" style="background:#EEF4FF">
+        <div class="bp-cc-top"><span class="bp-cc-name">Focus Mode</span><span class="bp-cc-arrow">↗</span></div>
+        <div class="bp-cc-info">
+          <div class="bp-cc-row"><span class="bp-cc-label">HEX.</span><span>#EEF4FF</span></div>
+          <div class="bp-cc-row"><span class="bp-cc-label">RGB.</span><span>238 244 255</span></div>
+          <div class="bp-cc-row"><span class="bp-cc-label">CMYK.</span><span>7 4 0 0</span></div>
+        </div>
+      </div>
+      <div class="bp-color-card reveal" style="background:#FFFEE7;transition-delay:.1s">
+        <div class="bp-cc-top"><span class="bp-cc-name">Relax Mode</span><span class="bp-cc-arrow">↗</span></div>
+        <div class="bp-cc-info">
+          <div class="bp-cc-row"><span class="bp-cc-label">HEX.</span><span>#FFFEE7</span></div>
+          <div class="bp-cc-row"><span class="bp-cc-label">RGB.</span><span>255 254 231</span></div>
+          <div class="bp-cc-row"><span class="bp-cc-label">CMYK.</span><span>0 0 9 0</span></div>
+        </div>
+      </div>
+      <div class="bp-color-card reveal" style="background:#FFB780;transition-delay:.2s">
+        <div class="bp-cc-top"><span class="bp-cc-name">Night Mode</span><span class="bp-cc-arrow">↗</span></div>
+        <div class="bp-cc-info">
+          <div class="bp-cc-row"><span class="bp-cc-label">HEX.</span><span>#FFB780</span></div>
+          <div class="bp-cc-row"><span class="bp-cc-label">RGB.</span><span>255 183 128</span></div>
+          <div class="bp-cc-row"><span class="bp-cc-label">CMYK.</span><span>0 28 50 0</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /brand-page -->
 
 <script>
   // Dynamic zoom: fit design (1920×1730) to viewport so the full hero is visible
@@ -701,6 +974,38 @@
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // Brand page toggle
+  const mainContent = document.getElementById('main-content');
+  const brandPage = document.getElementById('brand-page');
+  const navBrand = document.getElementById('nav-brand');
+  const navLogo = document.querySelector('.nav-logo');
+  const navLinks = document.querySelectorAll('.nav-menu a');
+
+  function showBrand(e) {
+    if (e) e.preventDefault();
+    mainContent.style.display = 'none';
+    brandPage.style.display = 'block';
+    window.scrollTo(0, 0);
+    navLinks.forEach(a => a.classList.remove('active'));
+    navBrand.classList.add('active');
+    // trigger reveal for brand page elements
+    brandPage.querySelectorAll('.reveal').forEach(el => {
+      el.classList.remove('in');
+      io.observe(el);
+    });
+  }
+
+  function showMain(e) {
+    if (e) e.preventDefault();
+    brandPage.style.display = 'none';
+    mainContent.style.display = 'block';
+    window.scrollTo(0, 0);
+    navLinks.forEach(a => a.classList.remove('active'));
+  }
+
+  navBrand.addEventListener('click', showBrand);
+  navLogo.addEventListener('click', showMain);
 </script>
 
 </body>
