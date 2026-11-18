@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>T E U M — Industrial Design Studio, Seoul</title>
+<meta name="description" content="TEUM is an industrial design studio in Seoul designing calm, considered products." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://images.unsplash.com" />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+<style>
+/* ==================================================================
+   TEUM — bkid.co 캡처 2장(2000×1097)만 보고 분석해 만든 새 사이트 (2026-11-19)
+   사이트는 열지 않음. 수치는 캡처 픽셀 기준(≈DPR 1) 추정값.
+
+   TYPE
+   · 메뉴   네오 그로테스크(Helvetica/Arial 계열) 400, 소문자, ≈15–16px, 자간 ≈1px, 항목 간격 ≈38px, #111
+   · 로고   기하학 산세리프(Futura 계열) 대문자 4자, ≈36px, 자간 매우 넓음(≈.26em)
+            → 여기서는 Jost 400 사용 (Futura 대체 오픈 폰트)
+   · 메뉴와 로고는 '베이스라인'이 같은 선 (메뉴 중심 y66, 로고 중심 y58, 하단은 둘 다 ≈y72)
+   · 슬라이드 제목  같은 패밀리 700, ≈44px(2.2vw), 검정, 자간 살짝 좁게
+   · 슬라이드 부제  400, ≈24px(1.2vw), #aaa 연회색, 2줄, 행간 ≈1.3
+
+   SLIDER
+   · 100vh 풀블리드, 연회색 스튜디오 배경 제품 이미지, 헤더가 투명하게 위에 겹침
+   · 캡션 좌하단: 그리드 시작선보다 ≈70px 바깥(x 17%), 하단에서 ≈13.5vh
+   · 좌우 화살표: 1px 얇은 셰브론 56×121, 아주 연한 회색, 화면 끝에서 ≈64px, 세로 중앙
+   · 하단 중앙 6px 점 불릿, 11px 간격, 활성만 진하게, 바닥에서 ≈50px
+   · 우상단 고정 파란 점(12px) — 스크롤해도 같은 자리
+   · 전환 방식은 정지 캡처로 알 수 없음 → 추정해서 설계:
+     들어오는 슬라이드 100%→0 + 내부 이미지 역방향 패럴랙스(-40%→0, scale 1.08→1),
+     나가는 슬라이드 0→-30%, 1.3s cubic-bezier(.77,0,.175,1).
+     캡션은 전환 시작에 사라지고 60% 지점에 줄 단위로 올라오며 등장(stagger 90ms)
+
+   GRID
+   · 3열, 컨테이너 ≈1170px 중앙 정렬, 타일 정확히 2:1 (383×191)
+   · 가로 거터 ≈7–8px, 세로 거터 ≈12px, 밝은 타일과 어두운 타일이 섞인 리듬
+   · 스크롤 시 헤더는 고정, 흰 반투명 배경으로 전환
+
+   HOVER (정지 캡처라 직접 보이지 않음 → 톤에 맞춰 설계)
+   · 타일: 이미지 1.6s 느린 줌(1→1.06), 흰 프로스트 오버레이 페이드 .45s,
+     제목 14px 아래→제자리 (expo-out .7s), 가는 선이 0→28px로 그려지고 카테고리 뒤따름
+   · 나머지 타일은 opacity .55로 물러나 포커스 강조
+   · 화살표: 넓은 히트존(18%) 호버 시 진해지고 바깥으로 12px 이동
+   · 메뉴: #111 → #999 색 페이드 .35s
+
+   이미지: images.unsplash.com 임의 사진 (P 배열의 img id만 바꾸면 교체, 실패 시 picsum 대체)
+   ================================================================== */
+:root {
+  --ink: #111;
+  --text: #444;
+  --mute: #9a9a9a;
+  --faint: #cfcfcf;
+  --line: #ececec;
+  --ph: #f2f2f2;
+  --accent: #1f5fd6;
+  --sans: "Helvetica Neue", Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --logo: "Jost", "Futura", "Avenir Next", "Century Gothic", sans-serif;
+  --wrap: 1170px;
+  --side: 24px;
+  --gx: 8px;
+  --gy: 12px;
+  --head: 110px;
+  --expo: cubic-bezier(.19, 1, .22, 1);
+  --quart: cubic-bezier(.77, 0, .175, 1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+html.lock { overflow: hidden; }
+body {
+  font: 400 15px/1.65 var(--sans);
+  color: var(--text);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: inherit; }
+ul, ol { list-style: none; }
+:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; }
+.wrap { width: min(var(--wrap), 100% - var(--side) * 2); margin-inline: auto; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- header ---------- */
+.hd {
+  position: fixed; inset: 0 0 auto; z-index: 50;
+  height: var(--head);
+  color: var(--ink);
+  transition: color .6s ease;
+}
+.hd::before {
+  content: ""; position: absolute; inset: 0;
+  background: rgba(255, 255, 255, .86);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  opacity: 0; transition: opacity .5s ease;
+}
+.hd.solid::before { opacity: 1; }
+.hero-dark .hd:not(.solid) { color: #fff; }
+.menu-open .hd { color: var(--ink); }
+.menu-open .hd::before { opacity: 0; }
+.hd-in {
+  position: relative; height: 100%;
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 40px 10px 0 14px;
+}
+.nav ul { display: flex; gap: 38px; }
+.nav a {
+  font-size: 15px; letter-spacing: .07em;
+  transition: color .35s ease;
+}
+.nav a:hover { color: var(--mute); }
+.logo {
+  font: 400 34px/1 var(--logo);
+  letter-spacing: .26em; margin-right: -.26em;   /* 마지막 글자 뒤 자간 상쇄 */
+  transition: opacity .4s ease;
+}
+.logo:hover { opacity: .55; }
+.burger { display: none; position: relative; width: 44px; height: 44px; margin-right: -10px; }
+.burger i {
+  position: absolute; left: 9px; width: 26px; height: 1.5px; background: currentColor;
+  transition: transform .8s var(--quart), top .8s var(--quart);
+}
+.burger i:nth-child(1) { top: 17px; }
+.burger i:nth-child(2) { top: 25px; }
+.menu-open .burger i:nth-child(1) { top: 21px; transform: rotate(45deg); }
+.menu-open .burger i:nth-child(2) { top: 21px; transform: rotate(-45deg); }
+
+/* mobile menu */
+.mnav {
+  position: fixed; inset: 0; z-index: 45;
+  display: flex; align-items: center;
+  padding: 0 var(--side);
+  background: rgba(255, 255, 255, .96);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+}
+.mnav a {
+  display: block; font: 300 34px/1.4 var(--sans); color: var(--mute);
+  letter-spacing: .01em; transition: color .4s ease;
+}
+.mnav a:hover, .mnav a:focus-visible { color: var(--ink); }
+
+/* ---------- status dot (우상단 고정 파란 점) ---------- */
+.status {
+  position: fixed; top: 112px; right: 16px; z-index: 60;
+  display: flex; align-items: center; gap: 10px;
+  height: 32px; padding: 0 10px 0 14px; border-radius: 16px;
+  background: rgba(255, 255, 255, 0);
+  transition: background-color .4s ease, box-shadow .4s ease;
+}
+.status-label {
+  font-size: 12px; letter-spacing: .05em; color: var(--ink); white-space: nowrap;
+  opacity: 0; transform: translateX(10px);
+  transition: opacity .35s ease, transform .6s var(--expo);
+}
+.status-dot { position: relative; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); flex: none; }
+.status-dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--accent);
+  animation: ping 3s var(--expo) infinite;
+}
+@keyframes ping { 0% { transform: scale(1); opacity: .45; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
+.status:hover, .status:focus-visible { background: rgba(255, 255, 255, .92); box-shadow: 0 2px 18px rgba(0, 0, 0, .06); }
+.status:hover .status-label, .status:focus-visible .status-label { opacity: 1; transform: none; }
+
+/* ---------- hero slider ---------- */
+.hero {
+  position: relative; height: 100vh; height: 100svh; min-height: 560px;
+  overflow: hidden; background: #f3f3f3;
+  user-select: none; -webkit-user-select: none; touch-action: pan-y;
+}
+.slide { position: absolute; inset: 0; overflow: hidden; visibility: hidden; will-change: transform; }
+.slide.is-on { visibility: visible; }
+.slide img { width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; }
+.cap {
+  position: absolute; z-index: 5;
+  left: max(28px, calc(50vw - 655px));
+  bottom: max(96px, 13.5vh);
+  max-width: min(560px, 80vw);
+  color: var(--ink); transition: color .6s ease;
+}
+.cap-title { font: 700 clamp(28px, 2.25vw, 46px)/1.12 var(--sans); letter-spacing: -.012em; }
+.cap-title button { display: inline-block; transition: opacity .35s ease; }
+.cap-title button::after {
+  content: "\2192"; display: inline-block; margin-left: .3em; font-weight: 300;
+  opacity: 0; transform: translateX(-.35em);
+  transition: opacity .35s ease, transform .6s var(--expo);
+}
+.cap-title button:hover::after, .cap-title button:focus-visible::after { opacity: 1; transform: none; }
+.cap-sub { margin-top: .7em; font: 400 clamp(16px, 1.2vw, 24px)/1.3 var(--sans); color: #a9a9a9; transition: color .6s ease; }
+.cap .l { display: block; }
+.cap-title .l { display: inline-block; }   /* ::after 화살표가 같은 줄에 붙도록 */
+.hero-dark .cap { color: #fff; }
+.hero-dark .cap-sub { color: rgba(255, 255, 255, .6); }
+
+.arrow {
+  position: absolute; top: 0; bottom: 0; z-index: 4; width: 18%;
+  display: flex; align-items: center;
+  color: #8a8a8a; opacity: .4;
+  transition: opacity .4s ease, color .4s ease;
+}
+.arrow.prev { left: 0; justify-content: flex-start; padding-left: 64px; }
+.arrow.next { right: 0; justify-content: flex-end; padding-right: 64px; }
+.arrow svg {
+  width: 56px; height: 121px; fill: none; stroke: currentColor; stroke-width: 1.2;
+  transition: transform .7s var(--expo);
+}
+.arrow svg polyline { vector-effect: non-scaling-stroke; }
+.arrow:hover, .arrow:focus-visible { opacity: 1; color: #555; }
+.arrow.prev:hover svg { transform: translateX(-12px); }
+.arrow.next:hover svg { transform: translateX(12px); }
+.hero-dark .arrow { color: #fff; opacity: .5; }
+.hero-dark .arrow:hover { opacity: 1; }
+
+.dots {
+  position: absolute; left: 50%; bottom: 46px; z-index: 5;
+  display: flex; transform: translateX(-50%);
+}
+.dots button { width: 11px; height: 22px; display: grid; place-items: center; }
+.dots button::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--faint);
+  transition: background-color .4s ease, transform .5s var(--expo);
+}
+.dots button:hover::before { transform: scale(1.6); background: #999; }
+.dots button[aria-current="true"]::before { background: #6f6f6f; }
+.hero-dark .dots button::before { background: rgba(255, 255, 255, .4); }
+.hero-dark .dots button[aria-current="true"]::before { background: #fff; }
+
+/* ---------- work grid ---------- */
+section[id] { scroll-margin-top: 0; }
+.work { padding: 112px 0 140px; }
+.filters {
+  display: flex; flex-wrap: wrap; gap: 6px 26px;
+  padding: 0 14px; margin-bottom: 26px;
+  font-size: 13px; letter-spacing: .07em; color: var(--mute);
+}
+.filters button { transition: color .35s ease; }
+.filters button:hover, .filters button[aria-pressed="true"] { color: var(--ink); }
+.filters sup { font-size: 9px; letter-spacing: 0; margin-left: 3px; color: var(--faint); }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gy) var(--gx); }
+.js .cell:not(.seen), .js [data-reveal]:not(.seen) { opacity: 0; }
+.tile { display: block; width: 100%; transition: opacity .5s ease; }
+.media { position: relative; display: block; aspect-ratio: 2 / 1; overflow: hidden; background: var(--ph); }
+.media img {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(1.001);
+  transition: transform 1.6s var(--expo);
+}
+.info {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 0 16px;
+  background: rgba(255, 255, 255, .82);
+  -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0);
+  opacity: 0;
+  transition: opacity .45s ease, -webkit-backdrop-filter .6s ease, backdrop-filter .6s ease;
+}
+.info .t {
+  font: 700 19px/1.15 var(--sans); color: var(--ink); letter-spacing: -.005em;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .5s ease, transform .7s var(--expo);
+}
+.info .rule {
+  width: 28px; height: 1px; margin: 12px 0 10px; background: var(--ink);
+  transform: scaleX(0); transition: transform .7s var(--expo) .08s;
+}
+.info .c {
+  font-size: 12px; letter-spacing: .08em; color: var(--mute);
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .5s ease .1s, transform .7s var(--expo) .1s;
+}
+.meta { display: none; }
+@media (hover: hover) {
+  .tile:hover .media img, .tile:focus-visible .media img { transform: scale(1.06); }
+  .tile:hover .info, .tile:focus-visible .info { opacity: 1; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .tile:hover .t, .tile:hover .c,
+  .tile:focus-visible .t, .tile:focus-visible .c { opacity: 1; transform: none; }
+  .tile:hover .rule, .tile:focus-visible .rule { transform: scaleX(1); }
+  .grid:has(.tile:hover) .tile:not(:hover) { opacity: .55; }
+}
+.tile:focus-visible { outline-offset: 3px; }
+
+/* ---------- about / process ---------- */
+.label { font-size: 12px; letter-spacing: .12em; color: var(--mute); padding: 0 14px; margin-bottom: 36px; }
+.about { padding: 40px 0 120px; border-top: 1px solid var(--line); }
+.about .label { margin-top: 70px; }
+.about-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 64px; padding: 0 14px; }
+.statement { font: 300 clamp(24px, 2.3vw, 36px)/1.32 var(--sans); color: var(--ink); letter-spacing: -.01em; }
+.statement em { font-style: normal; color: var(--mute); }
+.about-side p { max-width: 46ch; }
+.about-side p + p { margin-top: 1em; }
+.about-side .ko { color: var(--mute); font-size: 14px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 0 14px; margin-top: 88px; }
+.stats b { display: block; font: 300 clamp(30px, 3vw, 46px)/1 var(--sans); color: var(--ink); letter-spacing: -.02em; }
+.stats span { display: block; margin-top: 12px; font-size: 13px; color: var(--mute); }
+
+.process { padding: 0 0 130px; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gx); }
+.step { position: relative; padding: 28px 14px 0; }
+.step::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--line);
+}
+.step::after {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--ink);
+  transform: scaleX(0); transform-origin: left; transition: transform .9s var(--expo);
+}
+.step:hover::after { transform: scaleX(1); }
+.step .n { font-size: 12px; letter-spacing: .1em; color: var(--mute); transition: color .4s ease; }
+.step:hover .n { color: var(--accent); }
+.step h3 { font: 700 19px/1.2 var(--sans); color: var(--ink); margin: 14px 0 10px; }
+.step p { font-size: 14px; max-width: 30ch; }
+
+/* ---------- news ---------- */
+.news { padding: 0 0 130px; }
+.rows { border-top: 1px solid var(--line); }
+.row {
+  position: relative; display: grid; grid-template-columns: 140px 1fr auto; gap: 24px; align-items: baseline;
+  padding: 24px 14px; border-bottom: 1px solid var(--line);
+  transition: background-color .4s ease;
+}
+.row time { font-size: 13px; color: var(--mute); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.row h3 { font: 400 18px/1.4 var(--sans); color: var(--ink); transition: transform .6s var(--expo); }
+.row .tag { font-size: 12px; letter-spacing: .08em; color: var(--mute); display: flex; gap: 14px; align-items: baseline; }
+.row .tag i { font-style: normal; opacity: 0; transform: translateX(-8px); transition: opacity .35s ease, transform .6s var(--expo); color: var(--ink); }
+.row:hover { background: #fafafa; }
+.row:hover h3 { transform: translateX(8px); }
+.row:hover .tag i { opacity: 1; transform: none; }
+
+/* ---------- contact / footer ---------- */
+.contact { padding: 110px 0 48px; background: #f6f6f6; }
+.contact .big { font: 300 clamp(32px, 4.4vw, 68px)/1.08 var(--sans); color: var(--ink); letter-spacing: -.025em; padding: 0 14px; }
+.mail {
+  display: inline-block; margin: 34px 14px 0; font-size: clamp(17px, 1.4vw, 22px); color: var(--ink);
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 4px; transition: background-size .7s var(--expo), color .35s ease;
+}
+.mail:hover { background-size: 0 1px; background-position: 100% 100%; }
+.foot { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 24px; padding: 110px 14px 0; font-size: 13px; color: var(--mute); }
+.foot .logo { display: inline-block; font-size: 22px; color: var(--ink); }
+.foot a { transition: color .35s ease; }
+.foot a:hover { color: var(--ink); }
+.foot li + li { margin-top: 4px; }
+.copy { padding: 56px 14px 0; font-size: 12px; color: var(--faint); letter-spacing: .04em; }
+
+/* ---------- project detail ---------- */
+.detail { position: fixed; inset: 0; z-index: 100; overflow-y: auto; overscroll-behavior: contain; }
+.d-bg { position: fixed; inset: 0; background: #fff; }
+.d-close {
+  position: fixed; top: 30px; right: 30px; z-index: 3;
+  width: 48px; height: 48px; display: grid; place-items: center; color: var(--ink);
+}
+.d-close svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.2; fill: none; transition: transform .7s var(--expo); }
+.d-close:hover svg { transform: rotate(90deg); }
+.d-in { position: relative; padding: 110px 0 90px; }
+.d-fig { aspect-ratio: 2 / 1; overflow: hidden; background: var(--ph); transform-origin: 0 0; }
+.d-fig img { width: 100%; height: 100%; object-fit: cover; }
+.d-body { display: grid; grid-template-columns: 1fr 1.25fr; gap: 64px; padding: 0 14px; margin-top: 52px; }
+.d-cat { font-size: 12px; letter-spacing: .12em; color: var(--mute); }
+.d-title { font: 700 clamp(28px, 3vw, 46px)/1.1 var(--sans); color: var(--ink); letter-spacing: -.015em; margin-top: 12px; }
+.d-sub { font: 400 clamp(16px, 1.3vw, 22px)/1.3 var(--sans); color: #aaa; margin-top: 12px; }
+.d-sub .l { display: block; }
+.d-dl { display: grid; grid-template-columns: 84px 1fr; gap: 8px 16px; margin-top: 34px; font-size: 13px; }
+.d-dl dt { color: var(--mute); }
+.d-dl dd { color: var(--ink); }
+.d-text p { max-width: 58ch; font-size: 15px; line-height: 1.8; }
+.d-text p + p { margin-top: 1.1em; }
+.d-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 84px; padding: 24px 14px 0; border-top: 1px solid var(--line);
+  font-size: 13px; letter-spacing: .06em; color: var(--ink);
+}
+.d-nav button { display: flex; align-items: center; gap: 10px; transition: color .35s ease; }
+.d-nav button:hover { color: var(--mute); }
+.d-nav .ar { display: inline-block; transition: transform .6s var(--expo); }
+.d-prev:hover .ar { transform: translateX(-6px); }
+.d-next:hover .ar { transform: translateX(6px); }
+.d-count { color: var(--mute); font-variant-numeric: tabular-nums; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+  .nav ul { gap: 26px; }
+}
+@media (max-width: 900px) {
+  :root { --head: 76px; --side: 20px; }
+  .hd-in { align-items: center; padding: 0 0 0 4px; }
+  .nav { display: none; }
+  .logo { font-size: 26px; }
+  .burger { display: block; }
+  .status { top: 84px; right: 10px; }
+  .arrow { width: 16%; }
+  .arrow.prev { padding-left: 18px; }
+  .arrow.next { padding-right: 18px; }
+  .arrow svg { width: 26px; height: 58px; }
+  .cap { left: var(--side); bottom: 88px; }
+  .dots { bottom: 30px; }
+  .work { padding-top: 92px; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .about-grid, .d-body { grid-template-columns: 1fr; gap: 32px; }
+  .stats, .steps { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
+  .foot { grid-template-columns: 1fr 1fr; }
+  .foot > :first-child { grid-column: 1 / -1; }
+  .row { grid-template-columns: 1fr auto; gap: 6px 16px; }
+  .row time { grid-column: 1 / -1; }
+  .d-close { top: 14px; right: 10px; }
+  .d-in { padding-top: 76px; }
+}
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; row-gap: 22px; }
+  .filters { gap: 6px 18px; }
+  .stats, .steps { grid-template-columns: 1fr 1fr; }
+}
+@media (hover: none) {
+  .info { display: none; }
+  .meta { display: flex; justify-content: space-between; gap: 12px; padding: 10px 2px 2px; font-size: 13px; }
+  .meta b { color: var(--ink); font-weight: 700; }
+  .meta em { font-style: normal; color: var(--mute); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="hd" id="hd">
+  <div class="hd-in wrap">
+    <nav class="nav" aria-label="주요 메뉴">
+      <ul>
+        <li><a href="#about">about</a></li>
+        <li><a href="#work">work</a></li>
+        <li><a href="#process">process</a></li>
+        <li><a href="#news">news</a></li>
+        <li><a href="#contact">contact</a></li>
+      </ul>
+    </nav>
+    <a class="logo" href="#top" aria-label="TEUM 처음으로">TEUM</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="mnav" aria-label="메뉴 열기"><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="mnav" id="mnav" hidden>
+  <ul>
+    <li><a href="#about">about</a></li>
+    <li><a href="#work">work</a></li>
+    <li><a href="#process">process</a></li>
+    <li><a href="#news">news</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</div>
+
+<a class="status" href="#contact" aria-label="새 프로젝트 문의 가능 — 연락처로 이동">
+  <span class="status-label">Open for new projects · 2027</span>
+  <span class="status-dot"></span>
+</a>
+
+<section class="hero" id="top" aria-roledescription="carousel" aria-label="Featured work">
+  <div id="slides"></div>
+  <div class="cap" id="cap" aria-live="polite">
+    <h2 class="cap-title"><button type="button" id="capTitle"></button></h2>
+    <p class="cap-sub" id="capSub"></p>
+  </div>
+  <button class="arrow prev" id="prev" type="button" aria-label="이전 슬라이드">
+    <svg viewBox="0 0 56 121" aria-hidden="true"><polyline points="55,1 1,60.5 55,120" /></svg>
+  </button>
+  <button class="arrow next" id="next" type="button" aria-label="다음 슬라이드">
+    <svg viewBox="0 0 56 121" aria-hidden="true"><polyline points="1,1 55,60.5 1,120" /></svg>
+  </button>
+  <div class="dots" id="dots" aria-label="슬라이드 선택"></div>
+</section>
+
+<main>
+  <section class="work" id="work" aria-labelledby="work-h">
+    <h2 class="sr" id="work-h">Work</h2>
+    <div class="wrap">
+      <div class="filters" id="filters" role="group" aria-label="카테고리 필터"></div>
+      <ul class="grid" id="grid"></ul>
+    </div>
+  </section>
+
+  <section class="about" id="about" aria-labelledby="about-h">
+    <div class="wrap">
+      <h2 class="label" id="about-h">about</h2>
+      <div class="about-grid">
+        <p class="statement" data-reveal>We design objects that sit quietly in everyday life — <em>and work hard the moment you reach for them.</em></p>
+        <div class="about-side" data-reveal>
+          <p>TEUM is an industrial design studio in Seongsu, Seoul. We work with manufacturers and start-ups on mobility, robotics, wearables and the objects of the home — from the first field visit to the first production run.</p>
+          <p>Our process is physical. Foam, paper and printed parts sit on every desk, and nothing is approved until it has been held, carried and lived with for a week.</p>
+          <p class="ko">틈(TEUM)은 사물과 사람 사이의 간격을 설계하는 서울의 인더스트리얼 디자인 스튜디오입니다.</p>
+        </div>
+      </div>
+      <ul class="stats" data-reveal>
+        <li><b>2014</b><span>founded in Seoul</span></li>
+        <li><b>140+</b><span>products in production</span></li>
+        <li><b>12</b><span>designers &amp; engineers</span></li>
+        <li><b>31</b><span>design awards</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="process" id="process" aria-labelledby="process-h">
+    <div class="wrap">
+      <h2 class="label" id="process-h">process</h2>
+      <ol class="steps" data-reveal>
+        <li class="step"><span class="n">01</span><h3>Observe</h3><p>Field research in homes, clinics and factories before a single line is drawn.</p></li>
+        <li class="step"><span class="n">02</span><h3>Form</h3><p>Sketch, foam and CAD in parallel — every option judged at full scale.</p></li>
+        <li class="step"><span class="n">03</span><h3>Material</h3><p>Colour, material and finish developed with suppliers, sampled under real light.</p></li>
+        <li class="step"><span class="n">04</span><h3>Make</h3><p>Engineering hand-off through tooling, sample approval and the first run.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="news" id="news" aria-labelledby="news-h">
+    <div class="wrap">
+      <h2 class="label" id="news-h">news</h2>
+      <ul class="rows" data-reveal>
+        <li><a class="row" href="#news"><time datetime="2026-11">2026.11</time><h3>Halo XR receives a gold award for product design</h3><span class="tag">award <i>&rarr;</i></span></a></li>
+        <li><a class="row" href="#news"><time datetime="2026-09">2026.09</time><h3>Studio talk — Designing for stillness, Seongsu</h3><span class="tag">talk <i>&rarr;</i></span></a></li>
+        <li><a class="row" href="#news"><time datetime="2026-06">2026.06</time><h3>Grasp robotic hand enters pilot production</h3><span class="tag">project <i>&rarr;</i></span></a></li>
+        <li><a class="row" href="#news"><time datetime="2026-03">2026.03</time><h3>We are hiring: senior CMF designer</h3><span class="tag">studio <i>&rarr;</i></span></a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <p class="big" data-reveal>Have something<br />in mind?</p>
+    <a class="mail" href="mailto:hello@teum.example">hello@teum.example</a>
+    <div class="foot">
+      <div><a class="logo" href="#top" aria-label="TEUM 처음으로">TEUM</a></div>
+      <ul>
+        <li>12, Seongsu-ro 7-gil</li>
+        <li>Seongdong-gu, Seoul</li>
+        <li>+82 2 000 0000</li>
+      </ul>
+      <ul>
+        <li><a href="#contact">instagram</a></li>
+        <li><a href="#contact">linkedin</a></li>
+        <li><a href="#contact">behance</a></li>
+      </ul>
+    </div>
+    <p class="copy">&copy; 2026 TEUM Studio. Images are placeholders.</p>
+  </div>
+</footer>
+
+<div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="dTitle" hidden>
+  <div class="d-bg"></div>
+  <button class="d-close" id="dClose" type="button" aria-label="닫기">
+    <svg viewBox="0 0 22 22" aria-hidden="true"><path d="M1 1l20 20M21 1L1 21" /></svg>
+  </button>
+  <div class="d-in wrap">
+    <figure class="d-fig" id="dFig"><img id="dImg" alt="" /></figure>
+    <div class="d-body">
+      <div class="d-head">
+        <p class="d-cat" id="dCat"></p>
+        <h2 class="d-title" id="dTitle"></h2>
+        <p class="d-sub" id="dSub"></p>
+        <dl class="d-dl" id="dDl"></dl>
+      </div>
+      <div class="d-text" id="dText"></div>
+    </div>
+    <nav class="d-nav" aria-label="프로젝트 이동">
+      <button class="d-prev" id="dPrev" type="button"><span class="ar">&larr;</span> prev</button>
+      <span class="d-count" id="dCount"></span>
+      <button class="d-next" id="dNext" type="button">next <span class="ar">&rarr;</span></button>
+    </nav>
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  document.documentElement.classList.add('js');
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EXPO = 'cubic-bezier(.19,1,.22,1)';
+  const QUART = 'cubic-bezier(.77,0,.175,1)';
+  const DUR = 1300;   // 슬라이드 전환
+  const AUTO = 5600;  // 자동 넘김 간격
+
+  /* ---------- data (이미지는 임의 — img 값만 바꾸면 교체) ---------- */
+  const CAT = {
+    mobility: 'mobility', robotics: 'robotics', wearable: 'wearable',
+    sound: 'sound', lighting: 'lighting', living: 'living', tech: 'tech'
+  };
+  const NOTE = {
+    mobility: 'We started from the silhouette at rest — a vehicle is parked far longer than it moves — and worked outward to the riding position, service access and the colour of the dust it will collect.',
+    robotics: 'A machine that shares a room with people has to read as calm before it reads as capable. Joints, seams and the indicator light were tuned so that every motion looks intentional.',
+    wearable: 'Weight, heat and the gap between skin and shell decide whether a wearable is actually worn. We built more than forty fit models before a single surface was resolved.',
+    sound: 'Acoustic volume came first and the form was drawn around it. Fabric, grille density and the touch surface were judged together in a listening room, not on a screen.',
+    lighting: 'We designed the light before the lamp — the falloff on a table, the glow on a wall — and let the object shrink to whatever was left.',
+    living: 'Objects at home are touched hundreds of times a day. Every radius, hinge and texture was judged by hand, eyes closed, before it was judged by eye.',
+    tech: 'Hardware that carries software should step back. Proportion, material breaks and a single status light give the interface room to lead.'
+  };
+  // hero: 슬라이더 순서, tone: 'dark' 이면 헤더·캡션·화살표가 흰색으로 전환
+  const P = [
+    { slug: 'trail-frame',   title: 'Trail Frame',        sub: 'Gravel bicycle / for long, unpaved weekends',       cat: 'mobility', year: 2026, img: '1485965120184-e220f721d03e' },
+    { slug: 'vault-rack',    title: 'Vault Rack',         sub: 'Modular energy storage / for edge data rooms',      cat: 'tech',     year: 2025, img: '1558494949-ef010cbdcc31' },
+    { slug: 'plate-kiosk',   title: 'Plate Kiosk',        sub: 'Counter-top ordering / for small kitchens',         cat: 'tech',     year: 2025, img: '1544244015-0df4b3ffc6b0' },
+    { slug: 'mono-cup',      title: 'Mono Cup',           sub: 'Ceramic-lined travel cup / with a one-touch lid',   cat: 'living',   year: 2026, img: '1514228742587-6b1558fcca3d', hero: 2 },
+    { slug: 'halo-xr',       title: 'Halo XR Headset',    sub: 'Lightweight mixed reality / for daily work',        cat: 'wearable', year: 2026, img: '1593508512255-86ab42a8e620' },
+    { slug: 'orbit-watch',   title: 'Orbit Watch',        sub: 'A quiet companion / for the wrist',                 cat: 'wearable', year: 2024, img: '1523275335684-37898b6baf30', hero: 4 },
+    { slug: 'pip',           title: 'Pip Companion',      sub: 'A home robot / that knows when to be still',        cat: 'robotics', year: 2025, img: '1546776310-eef45dd6d63c' },
+    { slug: 'bow-lamp',      title: 'Bow Task Lamp',      sub: 'Weighted desk light / with a single hinge',         cat: 'lighting', year: 2024, img: '1507473885765-e6ed057f782c' },
+    { slug: 'static-tower',  title: 'Static Tower',       sub: 'Floor-standing speaker / in acoustic felt',         cat: 'sound',    year: 2025, img: '1545454675-3531b543be5d' },
+    { slug: 'grasp',         title: 'Grasp Robotic Hand', sub: 'Twelve-axis dexterity / for shared workspaces',     cat: 'robotics', year: 2026, img: '1531746790731-6c087fecd65a', hero: 3 },
+    { slug: 'arc',           title: 'Arc Headphones',     sub: 'Studio listening, / folded into one gesture',       cat: 'sound',    year: 2025, img: '1583394838336-acd977736f90', hero: 6 },
+    { slug: 'dome-pendant',  title: 'Dome Pendant',       sub: 'Single-shade lighting / for long dining tables',    cat: 'lighting', year: 2024, img: '1513506003901-1e6a229e2d15', hero: 5, tone: 'dark' },
+    { slug: 'lounge-one',    title: 'Lounge One Chair',   sub: 'A softer type of / waiting room seating',           cat: 'living',   year: 2026, img: '1567538096630-e0c55bd6374c', hero: 1 },
+    { slug: 'twin-lens',     title: 'Twin Lens Camera',   sub: 'An analog ritual / for a digital decade',           cat: 'tech',     year: 2023, img: '1495121553079-4c61bcce1894', hero: 7 },
+    { slug: 'kite-drone',    title: 'Kite Drone',         sub: 'Folding survey drone / for coastal mapping',        cat: 'mobility', year: 2025, img: '1473968512647-3e447244af8f' },
+    { slug: 'shell-seat',    title: 'Shell Seat',         sub: 'One-piece upholstered / shell chair',               cat: 'living',   year: 2024, img: '1580480055273-228ff5388ef8', hero: 8 },
+    { slug: 'key-one',       title: 'Key One',            sub: 'Low-profile keyboard / for quiet offices',          cat: 'tech',     year: 2023, img: '1587829741301-dc798b83add3' },
+    { slug: 'bud',           title: 'Bud Earphones',      sub: 'Open-fit earphones / with a pebble case',           cat: 'sound',    year: 2026, img: '1590658268037-6bf12165a8df' }
+  ];
+
+  const U = (id, w, h) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}${h ? `&h=${h}` : ''}&q=78`;
+  const FB = (slug, w, h) => `https://picsum.photos/seed/teum-${slug}/${w}/${h || Math.round(w * .5625)}`;
+  const onErr = (p, w, h) => `onerror="this.onerror=null;this.removeAttribute('srcset');this.src='${FB(p.slug, w, h)}'"`;
+  const lines = s => s.split(' / ').map(t => `<span class="l">${t}</span>`).join('');
+
+  /* ---------- header ---------- */
+  const hd = $('#hd'), hero = $('#top'), detail = $('#detail');
+  const onScroll = () => hd.classList.toggle('solid', scrollY > hero.offsetHeight - hd.offsetHeight * .6);
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+  onScroll();
+
+  /* ---------- mobile menu ---------- */
+  const burger = $('#burger'), mnav = $('#mnav');
+  let menuOpen = false;
+  function setMenu(open) {
+    if (open === menuOpen) return;
+    menuOpen = open;
+    document.body.classList.toggle('menu-open', open);
+    document.documentElement.classList.toggle('lock', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+    if (open) {
+      mnav.hidden = false;
+      if (!reduce) {
+        mnav.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 600, easing: 'ease' });
+        $$('li', mnav).forEach((li, k) => li.animate(
+          [{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 900, delay: 120 + k * 60, easing: EXPO, fill: 'backwards' }));
+      }
+    } else if (reduce) {
+      mnav.hidden = true;
+    } else {
+      const hide = () => { if (!menuOpen) mnav.hidden = true; };
+      mnav.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 350, easing: 'ease' }).finished.then(hide, hide);
+    }
+  }
+  burger.addEventListener('click', () => setMenu(!menuOpen));
+  mnav.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+  matchMedia('(min-width: 901px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+
+  /* ---------- hero slider ---------- */
+  const H = P.filter(p => p.hero).sort((a, b) => a.hero - b.hero);
+  const slidesEl = $('#slides'), dotsEl = $('#dots');
+  const cap = $('#cap'), capTitle = $('#capTitle'), capSub = $('#capSub');
+
+  slidesEl.innerHTML = H.map((p, k) => `
+    <figure class="slide${k === 0 ? ' is-on' : ''}" aria-roledescription="slide" aria-label="${k + 1} / ${H.length}">
+      <img src="${U(p.img, 1600)}"
+           srcset="${U(p.img, 900)} 900w, ${U(p.img, 1600)} 1600w, ${U(p.img, 2400)} 2400w"
+           sizes="100vw" alt="${p.title}" draggable="false" decoding="async"
+           fetchpriority="${k === 0 ? 'high' : 'low'}" ${onErr(p, 1600, 900)}>
+    </figure>`).join('');
+  dotsEl.innerHTML = H.map((p, k) =>
+    `<button type="button" aria-label="${k + 1}번 슬라이드: ${p.title}"${k === 0 ? ' aria-current="true"' : ''}></button>`).join('');
+
+  const slides = $$('.slide', slidesEl), dots = $$('button', dotsEl);
+  let cur = 0, busy = false, timer = 0, hoverPause = false, inView = true;
+
+  const setTone = t => document.body.classList.toggle('hero-dark', t === 'dark');
+
+  function capIn(p, delay = 0) {
+    capTitle.innerHTML = `<span class="l">${p.title}</span>`;
+    capSub.innerHTML = lines(p.sub);
+    cap.getAnimations().forEach(a => a.cancel());
+    if (reduce) return;
+    $$('.l', cap).forEach((l, k) => l.animate(
+      [{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'none' }],
+      { duration: 1000, delay: delay + k * 90, easing: EXPO, fill: 'backwards' }));
+  }
+  function capOut() {
+    if (reduce) return;
+    cap.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-8px)' }],
+      { duration: 380, easing: 'ease-in', fill: 'forwards' });
+  }
+
+  async function go(to, dir) {
+    const n = slides.length;
+    to = (to + n) % n;
+    if (busy || to === cur) return;
+    busy = true;
+    clearTimeout(timer);
+    dir = dir || (to > cur ? 1 : -1);
+    const a = slides[cur], b = slides[to];
+    dots.forEach((d, k) => d.toggleAttribute('aria-current', k === to));
+    dots[to].setAttribute('aria-current', 'true');
+    capOut();
+    b.classList.add('is-on');
+    a.style.zIndex = 1; b.style.zIndex = 2;
+    setTimeout(() => setTone(H[to].tone), reduce ? 0 : DUR * .45);
+    setTimeout(() => capIn(H[to]), reduce ? 0 : DUR * .6);
+
+    const anims = reduce
+      ? [b.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 })]
+      : [
+          b.animate([{ transform: `translate3d(${dir * 100}%,0,0)` }, { transform: 'translate3d(0,0,0)' }],
+            { duration: DUR, easing: QUART }),
+          b.querySelector('img').animate(
+            [{ transform: `translate3d(${-dir * 40}%,0,0) scale(1.08)` }, { transform: 'translate3d(0,0,0) scale(1)' }],
+            { duration: DUR + 200, easing: QUART }),
+          a.animate([{ transform: 'translate3d(0,0,0)' }, { transform: `translate3d(${-dir * 30}%,0,0)` }],
+            { duration: DUR, easing: QUART })
+        ];
+    await Promise.all(anims.map(x => x.finished.catch(() => {})));
+    a.classList.remove('is-on');
+    a.style.zIndex = b.style.zIndex = '';
+    cur = to;
+    busy = false;
+    schedule();
+  }
+
+  function schedule() {
+    clearTimeout(timer);
+    if (reduce || hoverPause || !inView || document.hidden || menuOpen || !detail.hidden) return;
+    timer = setTimeout(() => go(cur + 1, 1), AUTO);
+  }
+
+  $('#prev').addEventListener('click', () => go(cur - 1, -1));
+  $('#next').addEventListener('click', () => go(cur + 1, 1));
+  dotsEl.addEventListener('click', e => {
+    const i = dots.indexOf(e.target.closest('button'));
+    if (i > -1) go(i);
+  });
+  capTitle.addEventListener('click', () => openDetail(P.indexOf(H[cur])));
+
+  // 캡션·화살표·불릿 위에 마우스가 있을 땐 자동 넘김 일시정지
+  $$('#cap, .arrow, #dots').forEach(el => {
+    el.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { hoverPause = true; clearTimeout(timer); } });
+    el.addEventListener('pointerleave', () => { hoverPause = false; schedule(); });
+  });
+  document.addEventListener('visibilitychange', schedule);
+  new IntersectionObserver(([e]) => { inView = e.isIntersecting; schedule(); }, { threshold: .25 }).observe(hero);
+
+  // 스와이프 / 드래그
+  let sx = null, sy = 0, swiped = false;
+  hero.addEventListener('pointerdown', e => { if (e.button === 0) { sx = e.clientX; sy = e.clientY; swiped = false; } });
+  hero.addEventListener('pointerup', e => {
+    if (sx === null) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    sx = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+      swiped = true;
+      dx < 0 ? go(cur + 1, 1) : go(cur - 1, -1);
+    }
+  });
+  hero.addEventListener('pointercancel', () => { sx = null; });
+  hero.addEventListener('click', e => { if (swiped) { e.stopPropagation(); e.preventDefault(); swiped = false; } }, true);
+
+  /* ---------- work grid ---------- */
+  const grid = $('#grid'), filters = $('#filters');
+  grid.innerHTML = P.map((p, i) => `
+    <li class="cell" data-cat="${p.cat}">
+      <button class="tile" type="button" data-i="${i}" aria-label="${p.title} — ${CAT[p.cat]}, ${p.year}">
+        <span class="media">
+          <img src="${U(p.img, 900, 450)}"
+               srcset="${U(p.img, 600, 300)} 600w, ${U(p.img, 900, 450)} 900w, ${U(p.img, 1200, 600)} 1200w"
+               sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 390px"
+               alt="" loading="lazy" decoding="async" draggable="false" ${onErr(p, 900, 450)}>
+          <span class="info" aria-hidden="true">
+            <span class="t">${p.title}</span>
+            <span class="rule"></span>
+            <span class="c">${CAT[p.cat]} — ${p.year}</span>
+          </span>
+        </span>
+        <span class="meta" aria-hidden="true"><b>${p.title}</b><em>${CAT[p.cat]}</em></span>
+      </button>
+    </li>`).join('');
+  const cells = $$('.cell', grid);
+
+  const counts = P.reduce((m, p) => (m[p.cat] = (m[p.cat] || 0) + 1, m), {});
+  filters.innerHTML = [['all', P.length], ...Object.keys(CAT).map(k => [k, counts[k] || 0])]
+    .map(([k, n], j) => `<button type="button" data-cat="${k}" aria-pressed="${j === 0}">${k}<sup>${String(n).padStart(2, '0')}</sup></button>`)
+    .join('');
+
+  // 스크롤 등장
+  const reveal = (el, delay = 0) => {
+    el.classList.add('seen');
+    if (!reduce) el.animate([{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'none' }],
+      { duration: 1100, delay, easing: EXPO, fill: 'backwards' });
+  };
+  const io = new IntersectionObserver(entries => {
+    entries.filter(e => e.isIntersecting).forEach((e, k) => {
+      io.unobserve(e.target);
+      reveal(e.target, k * 90);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  cells.forEach(c => io.observe(c));
+  $$('[data-reveal]').forEach(el => io.observe(el));
+
+  let filtering = false;
+  filters.addEventListener('click', async e => {
+    const b = e.target.closest('button');
+    if (!b || filtering || b.getAttribute('aria-pressed') === 'true') return;
+    filtering = true;
+    $$('button', filters).forEach(x => x.setAttribute('aria-pressed', x === b));
+    const cat = b.dataset.cat;
+    let out;
+    if (!reduce) {
+      out = grid.animate([{ opacity: 1 }, { opacity: 0, transform: 'translateY(6px)' }],
+        { duration: 260, easing: 'ease-in', fill: 'forwards' });
+      await out.finished;
+    }
+    cells.forEach(c => { c.hidden = !(cat === 'all' || c.dataset.cat === cat); });
+    if (out) out.cancel();
+    cells.filter(c => !c.hidden).forEach((c, k) => {
+      io.unobserve(c);
+      reveal(c, Math.min(k, 8) * 55);
+    });
+    filtering = false;
+  });
+
+  grid.addEventListener('click', e => {
+    const t = e.target.closest('.tile');
+    if (t) openDetail(+t.dataset.i, t.querySelector('.media'));
+  });
+
+  /* ---------- project detail ---------- */
+  const dFig = $('#dFig'), dImg = $('#dImg');
+  let dCur = -1, lastFocus = null;
+  const order = () => cells.filter(c => !c.hidden).map(c => +c.querySelector('.tile').dataset.i);
+
+  function fill(i) {
+    const p = P[i];
+    dCur = i;
+    dImg.onerror = () => { dImg.onerror = null; dImg.removeAttribute('srcset'); dImg.src = FB(p.slug, 2000, 1000); };
+    dImg.srcset = `${U(p.img, 1200, 600)} 1200w, ${U(p.img, 2000, 1000)} 2000w`;
+    dImg.sizes = 'min(1170px, 100vw)';
+    dImg.src = U(p.img, 1200, 600);
+    dImg.alt = p.title;
+    $('#dCat').textContent = `${CAT[p.cat]} — ${p.year}`;
+    $('#dTitle').textContent = p.title;
+    $('#dSub').innerHTML = lines(p.sub);
+    $('#dDl').innerHTML = `
+      <dt>year</dt><dd>${p.year}</dd>
+      <dt>category</dt><dd>${CAT[p.cat]}</dd>
+      <dt>scope</dt><dd>Industrial design · CMF · Prototyping</dd>
+      <dt>studio</dt><dd>Seoul</dd>`;
+    $('#dText').innerHTML = `
+      <p>${NOTE[p.cat]}</p>
+      <p>${p.title} was developed with the client's engineering team from first sketch to tooling release, including CMF direction, mechanical layout review and pre-production sample approval.</p>`;
+    const o = order();
+    const pos = o.indexOf(i);
+    $('#dCount').textContent = `${String((pos > -1 ? pos : i) + 1).padStart(2, '0')} / ${String(pos > -1 ? o.length : P.length).padStart(2, '0')}`;
+  }
+
+  function metaIn(base = 0) {
+    if (reduce) return;
+    $$('.d-head > *, .d-text p, .d-nav', detail).forEach((el, k) => el.animate(
+      [{ opacity: 0, transform: 'translateY(22px)' }, { opacity: 1, transform: 'none' }],
+      { duration: 1000, delay: base + k * 70, easing: EXPO, fill: 'backwards' }));
+  }
+
+  function openDetail(i, fromEl) {
+    if (i < 0) return;
+    lastFocus = document.activeElement;
+    clearTimeout(timer);
+    fill(i);
+    detail.hidden = false;
+    detail.scrollTop = 0;
+    document.documentElement.classList.add('lock');
+    if (!reduce) {
+      $('.d-bg', detail).animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, easing: 'ease' });
+      $('#dClose').animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, delay: 300, easing: 'ease', fill: 'backwards' });
+      if (fromEl) {
+        // FLIP: 클릭한 타일 자리에서 상세 이미지 자리로 확대
+        const a = fromEl.getBoundingClientRect(), b = dFig.getBoundingClientRect();
+        dFig.animate([
+          { transform: `translate(${a.left - b.left}px, ${a.top - b.top}px) scale(${a.width / b.width})` },
+          { transform: 'none' }
+        ], { duration: 950, easing: EXPO });
+      } else {
+        dFig.animate([{ clipPath: 'inset(10% 10% 10% 10%)', opacity: 0 }, { clipPath: 'inset(0 0 0 0)', opacity: 1 }],
+          { duration: 1100, easing: EXPO });
+        dImg.animate([{ transform: 'scale(1.1)' }, { transform: 'none' }], { duration: 1400, easing: EXPO });
+      }
+      metaIn(250);
+    }
+    $('#dClose').focus({ preventScroll: true });
+  }
+
+  let closing = false;
+  function closeDetail() {
+    if (detail.hidden || closing) return;
+    closing = true;
+    const done = () => {
+      closing = false;
+      detail.hidden = true;
+      if (!menuOpen) document.documentElement.classList.remove('lock');
+      if (lastFocus) lastFocus.focus({ preventScroll: true });
+      schedule();
+    };
+    if (reduce) return done();
+    detail.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 380, easing: 'ease' }).finished.then(done, done);
+  }
+
+  let stepping = false;
+  async function step(d) {
+    if (stepping) return;
+    stepping = true;
+    const o = order();
+    const pos = o.indexOf(dCur);
+    const next = o[((pos > -1 ? pos : 0) + d + o.length) % o.length];
+    const inner = $('.d-in', detail);
+    if (!reduce) {
+      await inner.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-d * 30}px)` }],
+        { duration: 300, easing: 'ease-in' }).finished;
+    }
+    fill(next);
+    detail.scrollTo({ top: 0 });
+    if (!reduce) {
+      inner.animate([{ opacity: 0, transform: `translateX(${d * 30}px)` }, { opacity: 1, transform: 'none' }],
+        { duration: 800, easing: EXPO });
+      dImg.animate([{ transform: 'scale(1.06)' }, { transform: 'none' }], { duration: 1300, easing: EXPO });
+    }
+    stepping = false;
+  }
+
+  $('#dClose').addEventListener('click', closeDetail);
+  $('#dPrev').addEventListener('click', () => step(-1));
+  $('#dNext').addEventListener('click', () => step(1));
+
+  /* ---------- keyboard ---------- */
+  document.addEventListener('keydown', e => {
+    if (!detail.hidden) {
+      if (e.key === 'Escape') closeDetail();
+      else if (e.key === 'ArrowRight') step(1);
+      else if (e.key === 'ArrowLeft') step(-1);
+      else if (e.key === 'Tab') {   // 포커스 가두기
+        const f = $$('button', detail);
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+      return;
+    }
+    if (menuOpen) { if (e.key === 'Escape') { setMenu(false); burger.focus(); } return; }
+    if (!inView || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === 'ArrowRight') go(cur + 1, 1);
+    if (e.key === 'ArrowLeft') go(cur - 1, -1);
+  });
+
+  /* ---------- intro ---------- */
+  setTone(H[0].tone);
+  capIn(H[0], reduce ? 0 : 650);
+  if (!reduce) {
+    slides[0].querySelector('img').animate([{ transform: 'scale(1.06)' }, { transform: 'none' }], { duration: 2800, easing: EXPO });
+    $$('.nav li, .hd .logo, .burger').forEach((el, k) => el.animate(
+      [{ opacity: 0, transform: 'translateY(-10px)' }, { opacity: 1, transform: 'none' }],
+      { duration: 1000, delay: 250 + k * 60, easing: EXPO, fill: 'backwards' }));
+    $$('.arrow, #dots, .status').forEach(el => el.animate([{ opacity: 0 }, { opacity: getComputedStyle(el).opacity }],
+      { duration: 1200, delay: 900, easing: 'ease', fill: 'backwards' }));
+  }
+  schedule();
+})();
+</script>
+</body>
+</html>
