@@ -254,7 +254,6 @@
     cursor: pointer;
     transition: transform 0.4s ease;
   }
-  .product-card:hover { transform: translateY(-6px); }
   .product-image {
     width: 100%;
     height: 531.284px;
@@ -728,7 +727,6 @@
     cursor: pointer;
     transition: transform 0.4s ease;
   }
-  .pp-card:hover { transform: translateY(-6px); }
   .pp-card[style*="display:none"] { display: none !important; }
   .pp-img-wrap {
     width: 100%;
@@ -765,6 +763,150 @@
     font-weight: 300;
     letter-spacing: -0.94px;
     color: #777;
+  }
+
+  /* ===== SHOWCASE SLIDER (bkid-style: slow slide, fading caption, side hover zones) ===== */
+  .showcase {
+    position: relative;
+    width: 100%;
+    height: 960px;
+    overflow: hidden;
+    background: #f2f2f2;
+    user-select: none;
+    touch-action: pan-y;
+  }
+  .sc-track {
+    display: flex;
+    height: 100%;
+    will-change: transform;
+    transition: transform 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .sc-track.dragging, .sc-track.no-anim { transition: none; }
+  .sc-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    position: relative;
+    background: var(--tone, #eee);
+  }
+  .sc-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  .sc-caption {
+    position: absolute;
+    left: 94.45px;
+    bottom: 11%;
+    z-index: 5;
+    min-height: 150px;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  .sc-caption.hide { opacity: 0; }
+  .sc-caption h3 {
+    font-size: 44.274px;
+    font-weight: 600;
+    letter-spacing: -1.77px;
+    color: #111;
+  }
+  .sc-caption p {
+    margin-top: 12px;
+    font-size: 22.137px;
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.94px;
+    color: #777;
+  }
+  .sc-navi {
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    width: 20%;
+    height: 100%;
+    opacity: 0.2;
+    transition: opacity 0.3s ease-in;
+  }
+  .sc-navi:hover, .sc-navi:focus-visible { opacity: 1; outline: none; }
+  .sc-prev { left: 0; }
+  .sc-next { right: 0; }
+  .sc-navi svg {
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 105px;
+    margin-top: -52px;
+    stroke: #111;
+    stroke-width: 1.2;
+    fill: none;
+    transition: transform 0.6s cubic-bezier(0.39, 0.58, 0.57, 1);
+  }
+  .sc-prev svg { left: 50px; }
+  .sc-next svg { right: 50px; }
+  .sc-prev:hover svg { transform: translate3d(-20px, 0, 0); }
+  .sc-next:hover svg { transform: translate3d(20px, 0, 0); }
+  .sc-dots {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 35px;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+  }
+  .sc-dot {
+    width: 11px; height: 11px;
+    padding: 0;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .sc-dot:hover { transform: scale(1.2); }
+  .sc-dot.active { border-color: #777; }
+
+  /* ===== GRID HOVER OVERLAY (bkid-style: tint fade + title drops into center) ===== */
+  .product-image, .pp-img-wrap { position: relative; }
+  .hover-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .hover-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--tint, #111);
+    opacity: 0.6;
+  }
+  .hover-overlay h3 {
+    position: absolute;
+    top: 50%; left: 50%;
+    z-index: 1;
+    margin: 0;
+    width: 90%;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: -0.94px;
+    color: #fff;
+    opacity: 0;
+    transform: translate3d(-50%, -80%, 0);
+    transition: opacity 0.25s ease, transform 0.35s ease;
+  }
+  .product-card:hover .hover-overlay,
+  .pp-card:hover .hover-overlay { opacity: 1; }
+  .product-card:hover .hover-overlay h3,
+  .pp-card:hover .hover-overlay h3 {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sc-track, .sc-caption, .sc-navi svg, .hover-overlay, .hover-overlay h3 { transition-duration: 0.01s !important; }
   }
 
   /* page transition */
@@ -877,6 +1019,32 @@
       <div class="product-price">₩385,000</div>
     </div>
   </div>
+</section>
+
+<!-- SHOWCASE SLIDER -->
+<section class="showcase" id="showcase" aria-roledescription="carousel" aria-label="Lumei collection">
+  <div class="sc-track">
+    <div class="sc-slide" style="--tone:#dfe6f2" data-title="Lumei Dusk" data-caption="deep twilight blue<br/>for the hour before night">
+      <img src="https://www.figma.com/api/mcp/asset/c0effe60-ae8a-4b1b-a1dc-f95fdf7c6284" alt="Lumei Dusk" />
+    </div>
+    <div class="sc-slide" style="--tone:#f6e1cf" data-title="Lumei Ember" data-caption="a warm glow<br/>that settles the room">
+      <img src="https://www.figma.com/api/mcp/asset/44f70fd1-b64b-4d1e-a6ff-f0542c9cada8" alt="Lumei Ember" />
+    </div>
+    <div class="sc-slide" style="--tone:#eeeeea" data-title="Lumei Hush" data-caption="quiet light<br/>for slow evenings">
+      <img src="https://www.figma.com/api/mcp/asset/9a13b580-8ffa-4d64-9dcb-4c55e8a64aaa" alt="Lumei Hush" />
+    </div>
+    <div class="sc-slide" style="--tone:#fbf8e6" data-title="Lumei Bare" data-caption="nothing more<br/>than light itself">
+      <img src="https://www.figma.com/api/mcp/asset/b2f9f5d5-1d1f-498c-8058-6edad233ebf2" alt="Lumei Bare" />
+    </div>
+  </div>
+  <div class="sc-caption" aria-live="polite"></div>
+  <button class="sc-navi sc-prev" aria-label="Previous slide">
+    <svg viewBox="0 0 50 105"><polyline points="38,8 10,52.5 38,97" /></svg>
+  </button>
+  <button class="sc-navi sc-next" aria-label="Next slide">
+    <svg viewBox="0 0 50 105"><polyline points="12,8 40,52.5 12,97" /></svg>
+  </button>
+  <div class="sc-dots"></div>
 </section>
 
 <!-- PHILOSOPHY -->
@@ -1181,6 +1349,110 @@
   navBrand.addEventListener('click', showBrand);
   navProductsBtn.addEventListener('click', showProducts);
   navLogo.addEventListener('click', showMain);
+
+  // ===== Showcase slider (loop, 1.5s slide, caption fades out on start / in on end) =====
+  (function () {
+    const root = document.getElementById('showcase');
+    if (!root) return;
+    const track = root.querySelector('.sc-track');
+    const caption = root.querySelector('.sc-caption');
+    const dotsWrap = root.querySelector('.sc-dots');
+    const originals = [...track.children];
+    const N = originals.length;
+
+    track.prepend(originals[N - 1].cloneNode(true));
+    track.append(originals[0].cloneNode(true));
+
+    // broken/expired images fall back to the slide's tone background
+    track.querySelectorAll('img').forEach(img => {
+      if (img.complete && !img.naturalWidth) img.remove();
+      else img.addEventListener('error', () => img.remove());
+    });
+
+    let index = 1, busy = false;
+    const realIndex = () => (index - 1 + N) % N;
+
+    const dots = originals.map((_, i) => {
+      const b = document.createElement('button');
+      b.className = 'sc-dot';
+      b.setAttribute('aria-label', `Slide ${i + 1}`);
+      b.addEventListener('click', () => go(i + 1));
+      dotsWrap.appendChild(b);
+      return b;
+    });
+
+    function setPos(animate, offsetPct = 0) {
+      track.classList.toggle('no-anim', !animate);
+      track.style.transform = `translate3d(${-index * 100 + offsetPct}%,0,0)`;
+    }
+    function setCaption() {
+      const s = originals[realIndex()];
+      caption.innerHTML = `<h3>${s.dataset.title}</h3><p>${s.dataset.caption}</p>`;
+      caption.classList.remove('hide');
+      dots.forEach((d, i) => d.classList.toggle('active', i === realIndex()));
+    }
+    function go(i) {
+      if (busy || i === index) return;
+      busy = true;
+      index = i;
+      caption.classList.add('hide');
+      setPos(true);
+    }
+    track.addEventListener('transitionend', e => {
+      if (e.target !== track) return;
+      if (index === 0) index = N;
+      if (index === N + 1) index = 1;
+      setPos(false);
+      busy = false;
+      setCaption();
+    });
+
+    root.querySelector('.sc-prev').addEventListener('click', () => go(index - 1));
+    root.querySelector('.sc-next').addEventListener('click', () => go(index + 1));
+    root.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') go(index - 1);
+      if (e.key === 'ArrowRight') go(index + 1);
+    });
+
+    // drag / swipe
+    let startX = null, width = 1;
+    root.addEventListener('pointerdown', e => {
+      if (busy || e.target.closest('button')) return;
+      startX = e.clientX;
+      width = root.getBoundingClientRect().width;
+      track.classList.add('dragging');
+      root.setPointerCapture(e.pointerId);
+    });
+    root.addEventListener('pointermove', e => {
+      if (startX === null) return;
+      setPos(false, (e.clientX - startX) / width * 100);
+    });
+    const endDrag = e => {
+      if (startX === null) return;
+      const pct = (e.clientX - startX) / width;
+      startX = null;
+      track.classList.remove('dragging');
+      if (Math.abs(pct) > 0.12) go(index + (pct < 0 ? 1 : -1));
+      else setPos(true);
+    };
+    root.addEventListener('pointerup', endDrag);
+    root.addEventListener('pointercancel', endDrag);
+
+    setPos(false);
+    setCaption();
+  })();
+
+  // ===== Grid hover overlay: tint + product name drops into center =====
+  document.querySelectorAll('.product-card, .pp-card').forEach(card => {
+    const wrap = card.querySelector('.product-image, .pp-img-wrap');
+    const name = card.querySelector('.product-name, .pp-name');
+    if (!wrap || !name) return;
+    const ov = document.createElement('div');
+    ov.className = 'hover-overlay';
+    ov.setAttribute('aria-hidden', 'true');
+    ov.innerHTML = `<h3>${name.textContent}</h3>`;
+    wrap.appendChild(ov);
+  });
 
   // Product filter tabs
   document.querySelectorAll('.pp-filter').forEach(btn => {
