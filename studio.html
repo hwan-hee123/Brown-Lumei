@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>O R V A — Industrial Design Studio</title>
+<style>
+  /* ============================================================
+     Design notes (bkid.co 분석 반영)
+     - Type   : Helvetica Neue 단일 패밀리. 14px/22px 소문자 내비,
+                25px bold 타이틀, 100(Thin) 대형 메뉴, 자간 넓힌 로고
+     - Slider : 풀폭 1장, loop, 1.5s 슬라이드 전환, 3s autoplay,
+                5px 블루 닷 페이지네이션, 얇은 셰브론 화살표
+     - Hover  : 카테고리 컬러 오버레이 0.75 / 0.3s 페이드,
+                타이틀이 살짝 내려오며 등장 (opacity .25s, transform .35s)
+     - Menu   : 1.2s cubic-bezier(.75,0,.29,1.01) 햄버거 → X
+     ============================================================ */
+  :root {
+    --ink: #444;
+    --mute: #999;
+    --line: #e6e6e6;
+    --accent: #007aff;
+    --ease-menu: cubic-bezier(.75, 0, .29, 1.01);
+    --ease-slide: cubic-bezier(.65, 0, .35, 1);
+    --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --gutter: 6px;
+    --pad: clamp(20px, 2vw, 32px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font: 400 14px/22px var(--font);
+    color: var(--ink);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* ===== HEADER ===== */
+  .header {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 76px; padding: 0 var(--pad);
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(8px);
+  }
+  .nav { display: flex; gap: 28px; }
+  .nav a {
+    text-transform: lowercase; letter-spacing: 1px; color: var(--ink);
+    transition: color .5s ease;
+  }
+  .nav a:hover, .nav a.is-active { color: var(--accent); }
+  .logo {
+    font-size: 22px; font-weight: 400; letter-spacing: .5em;
+    margin-right: -.5em; color: #111;
+  }
+  .burger { display: none; width: 44px; height: 44px; position: relative; }
+  .burger i {
+    position: absolute; left: 11px; width: 22px; height: 1px; background: #111;
+    transition: all 1.2s var(--ease-menu);
+  }
+  .burger i:nth-child(1) { top: 15px; }
+  .burger i:nth-child(2) { top: 22px; }
+  .burger i:nth-child(3) { top: 29px; }
+  .menu-open .burger i:nth-child(1) { top: 22px; transform: rotate(135deg); }
+  .menu-open .burger i:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+  .menu-open .burger i:nth-child(3) { top: 22px; transform: rotate(-135deg); }
+
+  .mobilenav {
+    position: fixed; inset: 0; z-index: 40; background: #fff;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 var(--pad); gap: 6px;
+    transform: translateY(-100%);
+    transition: transform 1.2s cubic-bezier(.785,.135,.15,.86);
+  }
+  .menu-open .mobilenav { transform: none; }
+  .mobilenav a {
+    font: 100 28px/39px helvetica, var(--font); color: var(--mute);
+    transition: color .2s ease;
+  }
+  .mobilenav a:hover { color: #111; }
+
+  /* ===== HERO SLIDER ===== */
+  .hero { position: relative; margin-top: 76px; height: calc(100vh - 76px); min-height: 520px; overflow: hidden; }
+  .track { display: flex; height: 100%; will-change: transform; }
+  .slide { position: relative; flex: 0 0 100%; height: 100%; overflow: hidden; }
+  .slide .art { position: absolute; inset: 0; }
+  .slide-caption {
+    position: absolute; left: 16.5%; bottom: 16%;
+    opacity: 0; transition: opacity .6s ease;
+  }
+  .slide.is-current .slide-caption { opacity: 1; transition-delay: .9s; }
+  .slide-caption h2 { font: 700 35px/36px helvetica, var(--font); color: #222; margin-bottom: 14px; }
+  .slide-caption p  { font-size: 18px; line-height: 26px; color: var(--mute); }
+  .slide.dark .slide-caption h2 { color: #fff; }
+  .slide.dark .slide-caption p  { color: rgba(255,255,255,.6); }
+
+  .arrow {
+    position: absolute; top: 50%; z-index: 5; width: 64px; height: 96px;
+    margin-top: -48px; opacity: .55; transition: opacity .3s ease-in;
+  }
+  .arrow:hover { opacity: 1; }
+  .arrow svg { width: 100%; height: 100%; stroke: #fff; stroke-width: 1; fill: none; }
+  .arrow.prev { left: 3.5%; }
+  .arrow.next { right: 3.5%; }
+  .hero:has(.slide.is-current:not(.dark)) .arrow svg { stroke: #bbb; }
+
+  .dots {
+    position: absolute; left: 50%; bottom: 22px; z-index: 5; transform: translateX(-50%);
+    display: flex; gap: 0; transition: opacity .3s ease;
+  }
+  .dots button { width: 18px; height: 22px; display: grid; place-items: center; }
+  .dots button::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent); opacity: .25; transition: opacity .3s, transform .3s;
+  }
+  .dots button[aria-current="true"]::before { opacity: 1; transform: scale(1.3); }
+
+  /* ===== WORK GRID ===== */
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    padding: 96px var(--pad) 28px;
+  }
+  .section-head h1 { font: 100 28px/39px helvetica, var(--font); color: #111; }
+  .filters { display: flex; flex-wrap: wrap; gap: 4px 22px; }
+  .filters button { text-transform: lowercase; letter-spacing: 1px; color: var(--mute); transition: color .2s ease; padding: 4px 0; }
+  .filters button:hover { color: var(--ink); }
+  .filters button[aria-pressed="true"] { color: var(--accent); }
+
+  .grid {
+    list-style: none;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px var(--gutter); padding: 0 var(--gutter) 120px;
+  }
+  .grid li { transition: opacity .45s ease, transform .45s ease; }
+  .grid li.is-hidden { display: none; }
+  .grid li.is-entering { opacity: 0; transform: translateY(14px); }
+  .card { position: relative; display: block; aspect-ratio: 2 / 1; overflow: hidden; }
+  .card .art { position: absolute; inset: 0; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .card:hover .art { transform: scale(1.04); }
+
+  .overlay {
+    position: absolute; inset: 0; z-index: 2;
+    opacity: 0; transition: opacity .3s;
+  }
+  .overlay::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .75; background: var(--c, #999); }
+  .overlay h3 {
+    position: absolute; top: 50%; left: 50%; margin: 0;
+    font: 700 25px/30px var(--font); color: #fff; text-align: center; white-space: nowrap;
+    opacity: 0; transform: translate3d(-50%, -80%, 0);
+    transition: opacity .25s, transform .35s;
+  }
+  .overlay span {
+    position: absolute; left: 50%; top: calc(50% + 24px); transform: translate(-50%, 6px);
+    color: rgba(255,255,255,.85); text-transform: lowercase; letter-spacing: 1px;
+    opacity: 0; transition: opacity .25s .08s, transform .35s .08s;
+  }
+  .card:hover .overlay, .card:focus-visible .overlay { opacity: 1; }
+  .card:hover .overlay h3, .card:focus-visible .overlay h3 { opacity: 1; transform: translate3d(-50%, -50%, 0); }
+  .card:hover .overlay span, .card:focus-visible .overlay span { opacity: 1; transform: translate(-50%, 0); }
+
+  [data-cat="wearable"]    { --c: #6b3fa0; }
+  [data-cat="furniture"]   { --c: #d23b2a; }
+  [data-cat="electronics"] { --c: #1f8a4c; }
+  [data-cat="robotics"]    { --c: #1f4fd1; }
+  [data-cat="lifestyle"]   { --c: #c48a12; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    padding: 28px var(--pad); border-top: 1px solid var(--line); color: var(--mute);
+  }
+  .footer nav { display: flex; gap: 20px; }
+  .footer a { transition: color .5s ease; }
+  .footer a:hover { color: var(--accent); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .nav { display: none; }
+    .burger { display: block; }
+    .header { flex-direction: row-reverse; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .slide-caption { left: 8%; bottom: 14%; }
+    .arrow { width: 40px; height: 64px; margin-top: -32px; }
+  }
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr; }
+    .slide-caption h2 { font-size: 28px; line-height: 32px; }
+  }
+  @media (hover: none) {
+    /* 터치 기기: 타이틀을 항상 은은하게 노출 */
+    .overlay { opacity: 1; background: linear-gradient(transparent 55%, rgba(0,0,0,.35)); }
+    .overlay::after { display: none; }
+    .overlay h3 { top: auto; bottom: 14px; left: 16px; transform: none; opacity: 1; font-size: 18px; line-height: 22px; }
+    .overlay span { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; }
+  }
+
+  /* ===== GENERATIVE "PRODUCT" ART (이미지 없이 CSS로 렌더) ===== */
+  .art.a1 { background: radial-gradient(60% 70% at 62% 48%, #f4efe8 0 38%, transparent 39%), radial-gradient(circle at 62% 48%, #d9cfc2, #b9ab98 70%); }
+  .art.a1::after { content:""; position:absolute; left:42%; top:30%; width:36%; height:28%; border-radius:999px; background: linear-gradient(160deg,#e9e2d8,#bfb3a3); box-shadow: 0 40px 80px rgba(60,40,20,.25); }
+  .art.a2 { background: linear-gradient(180deg, #1b1d22, #2b2f36); }
+  .art.a2::after { content:""; position:absolute; left:50%; top:50%; width:min(46vw,520px); aspect-ratio:1; transform:translate(-50%,-50%); border-radius:50%; background: conic-gradient(from 210deg, #3a3f48, #8a93a3, #3a3f48 60%, #20232a); box-shadow: inset 0 0 0 18px #111, 0 60px 120px rgba(0,0,0,.6); }
+  .art.a3 { background: linear-gradient(120deg, #eef2f5, #d7dee5); }
+  .art.a3::before { content:""; position:absolute; left:30%; top:22%; width:40%; height:56%; border-radius:28px; background: linear-gradient(180deg,#fff,#e1e6ec); box-shadow: 0 50px 90px rgba(40,60,80,.22); }
+  .art.a3::after { content:""; position:absolute; left:46%; top:34%; width:8%; aspect-ratio:1; border-radius:50%; background: var(--accent); box-shadow: 0 0 40px var(--accent); }
+  .art.a4 { background: radial-gradient(circle at 30% 30%, #ffb38a, #e85d3a 55%, #9e2b16); }
+  .art.a4::after { content:""; position:absolute; right:14%; bottom:-10%; width:42%; height:80%; border-radius:200px 200px 0 0; background: linear-gradient(#fff3ea,#f2d2bd); box-shadow: -30px 0 80px rgba(80,20,0,.3); }
+  .art.a5 { background: linear-gradient(160deg, #0f2a1d, #1f5b3d); }
+  .art.a5::after { content:""; position:absolute; left:20%; top:40%; width:60%; height:12%; border-radius:999px; background: linear-gradient(90deg,#9be3b8,#e8fff1); filter: blur(.5px); box-shadow: 0 30px 70px rgba(0,0,0,.45); }
+  .art.a6 { background: linear-gradient(200deg, #f7f3ee, #e4dccf); }
+  .art.a6::before { content:""; position:absolute; left:18%; bottom:18%; width:64%; height:10%; background:#2a2622; border-radius:4px; }
+  .art.a6::after { content:""; position:absolute; left:24%; bottom:28%; width:52%; height:40%; background: linear-gradient(90deg, #2a2622 0 4%, transparent 4% 96%, #2a2622 96%); }
+  .art.a7 { background: radial-gradient(circle at 50% 120%, #4b7bff, #13286b 60%, #070d24); }
+  .art.a7::after { content:""; position:absolute; left:50%; top:52%; width:22%; aspect-ratio:1; transform:translate(-50%,-50%); border-radius:30%; background: linear-gradient(140deg,#e7ecff,#9aa9d6); box-shadow: 0 0 0 1px rgba(255,255,255,.4), 0 40px 90px rgba(0,0,0,.5); }
+  .art.a8 { background: linear-gradient(135deg, #f6d27a, #e6a92b); }
+  .art.a8::after { content:""; position:absolute; left:50%; top:50%; width:30%; aspect-ratio:1; transform:translate(-50%,-50%) rotate(45deg); border-radius:18%; background: linear-gradient(135deg,#fffaf0,#f1dfb6); box-shadow: 30px 30px 80px rgba(120,70,0,.35); }
+  .art.a9 { background: linear-gradient(180deg, #e9e4f3, #cfc4e6); }
+  .art.a9::after { content:""; position:absolute; left:50%; top:50%; width:44%; height:34%; transform:translate(-50%,-50%); border-radius:999px 999px 40px 40px; background: linear-gradient(180deg,#fff,#ddd3ef); box-shadow: 0 40px 80px rgba(70,40,120,.25); }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <nav class="nav" aria-label="주요 메뉴">
+    <a href="#work" class="is-active">work</a>
+    <a href="#about">about</a>
+    <a href="#think">think</a>
+    <a href="#news">news</a>
+    <a href="#contact">contact</a>
+  </nav>
+  <a class="logo" href="#top" aria-label="ORVA 홈">ORVA</a>
+  <button class="burger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobilenav"><i></i><i></i><i></i></button>
+</header>
+
+<nav class="mobilenav" id="mobilenav" aria-label="모바일 메뉴">
+  <a href="#work">work</a>
+  <a href="#about">about</a>
+  <a href="#think">think</a>
+  <a href="#news">news</a>
+  <a href="#contact">contact</a>
+</nav>
+
+<main id="top">
+  <section class="hero" aria-roledescription="carousel" aria-label="대표 프로젝트">
+    <div class="track">
+      <article class="slide"><div class="art a1"></div>
+        <div class="slide-caption"><h2>Halo Rest</h2><p>Light-blocking eye mask<br>with warm-touch fabric</p></div></article>
+      <article class="slide dark"><div class="art a2"></div>
+        <div class="slide-caption"><h2>Dial One</h2><p>A single knob<br>for the whole home</p></div></article>
+      <article class="slide"><div class="art a3"></div>
+        <div class="slide-caption"><h2>Pebble Hub</h2><p>Quiet presence,<br>always connected</p></div></article>
+      <article class="slide dark"><div class="art a7"></div>
+        <div class="slide-caption"><h2>Unit 07</h2><p>Companion robotics<br>for small spaces</p></div></article>
+      <article class="slide"><div class="art a6"></div>
+        <div class="slide-caption"><h2>Bench Series</h2><p>Solid oak, steel joints,<br>nothing extra</p></div></article>
+    </div>
+    <button class="arrow prev" aria-label="이전 슬라이드"><svg viewBox="0 0 64 96"><path d="M48 4 L12 48 L48 92"/></svg></button>
+    <button class="arrow next" aria-label="다음 슬라이드"><svg viewBox="0 0 64 96"><path d="M16 4 L52 48 L16 92"/></svg></button>
+    <div class="dots" role="tablist" aria-label="슬라이드 선택"></div>
+  </section>
+
+  <section id="work">
+    <div class="section-head">
+      <h1>Selected work</h1>
+      <div class="filters" role="group" aria-label="카테고리 필터">
+        <button aria-pressed="true" data-filter="all">all</button>
+        <button aria-pressed="false" data-filter="wearable">wearable</button>
+        <button aria-pressed="false" data-filter="electronics">electronics</button>
+        <button aria-pressed="false" data-filter="furniture">furniture</button>
+        <button aria-pressed="false" data-filter="robotics">robotics</button>
+        <button aria-pressed="false" data-filter="lifestyle">lifestyle</button>
+      </div>
+    </div>
+
+    <ul class="grid">
+      <li data-cat="wearable"><a class="card" href="#"><div class="art a1"></div><div class="overlay"><h3>Halo Rest</h3><span>wearable</span></div></a></li>
+      <li data-cat="electronics"><a class="card" href="#"><div class="art a2"></div><div class="overlay"><h3>Dial One</h3><span>electronics</span></div></a></li>
+      <li data-cat="electronics"><a class="card" href="#"><div class="art a3"></div><div class="overlay"><h3>Pebble Hub</h3><span>electronics</span></div></a></li>
+      <li data-cat="lifestyle"><a class="card" href="#"><div class="art a4"></div><div class="overlay"><h3>Ember Lamp</h3><span>lifestyle</span></div></a></li>
+      <li data-cat="wearable"><a class="card" href="#"><div class="art a5"></div><div class="overlay"><h3>Pulse Band</h3><span>wearable</span></div></a></li>
+      <li data-cat="furniture"><a class="card" href="#"><div class="art a6"></div><div class="overlay"><h3>Bench Series</h3><span>furniture</span></div></a></li>
+      <li data-cat="robotics"><a class="card" href="#"><div class="art a7"></div><div class="overlay"><h3>Unit 07</h3><span>robotics</span></div></a></li>
+      <li data-cat="lifestyle"><a class="card" href="#"><div class="art a8"></div><div class="overlay"><h3>Sol Diffuser</h3><span>lifestyle</span></div></a></li>
+      <li data-cat="furniture"><a class="card" href="#"><div class="art a9"></div><div class="overlay"><h3>Cloud Stool</h3><span>furniture</span></div></a></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="footer" id="contact">
+  <span>© 2026 ORVA Design Studio</span>
+  <nav><a href="#">instagram</a><a href="#">behance</a><a href="mailto:hello@orva.studio">hello@orva.studio</a></nav>
+</footer>
+
+<script>
+/* ---------- Mobile menu ---------- */
+const burger = document.querySelector('.burger');
+const toggleMenu = (open) => {
+  document.body.classList.toggle('menu-open', open);
+  burger.setAttribute('aria-expanded', open);
+  burger.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+};
+burger.addEventListener('click', () => toggleMenu(!document.body.classList.contains('menu-open')));
+document.querySelectorAll('.mobilenav a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+/* ---------- Hero slider: loop · 1500ms · autoplay 3000ms ---------- */
+(() => {
+  const SPEED = 1500, DELAY = 3000;
+  const hero = document.querySelector('.hero');
+  const track = hero.querySelector('.track');
+  const originals = [...track.children];
+  const n = originals.length;
+  // loop용 클론: 앞에 마지막, 뒤에 첫 번째
+  track.prepend(originals[n - 1].cloneNode(true));
+  track.append(originals[0].cloneNode(true));
+  const slides = [...track.children];
+  const dotsWrap = hero.querySelector('.dots');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let pos = 1, busy = false, timer;
+
+  originals.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', `${i + 1}번 슬라이드`);
+    b.addEventListener('click', () => go(i + 1));
+    dotsWrap.append(b);
+  });
+  const dots = [...dotsWrap.children];
+
+  function render(animate) {
+    track.style.transition = animate && !reduce ? `transform ${SPEED}ms var(--ease-slide)` : 'none';
+    track.style.transform = `translate3d(${-pos * 100}%,0,0)`;
+    const real = (pos - 1 + n) % n;
+    slides.forEach((s, i) => s.classList.toggle('is-current', i === pos));
+    dots.forEach((d, i) => d.setAttribute('aria-current', i === real));
+  }
+  function go(target) {
+    if (busy || target === pos) return;
+    busy = true; pos = target; render(true);
+    restart();
+  }
+  track.addEventListener('transitionend', e => {
+    if (e.target !== track) return;
+    if (pos === 0) { pos = n; render(false); }
+    if (pos === n + 1) { pos = 1; render(false); }
+    // 클론→원본 점프 후 캡션이 바로 보이도록
+    slides[pos].classList.add('is-current');
+    busy = false;
+  });
+  const restart = () => { clearInterval(timer); timer = setInterval(() => go(pos + 1), DELAY + SPEED); };
+  hero.querySelector('.next').addEventListener('click', () => go(pos + 1));
+  hero.querySelector('.prev').addEventListener('click', () => go(pos - 1));
+  hero.addEventListener('mouseenter', () => clearInterval(timer));
+  hero.addEventListener('mouseleave', restart);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') go(pos + 1);
+    if (e.key === 'ArrowLeft') go(pos - 1);
+  });
+  // 스와이프
+  let x0 = null;
+  hero.addEventListener('pointerdown', e => { x0 = e.clientX; });
+  hero.addEventListener('pointerup', e => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) go(pos + (dx < 0 ? 1 : -1));
+  });
+  render(false);
+  restart();
+})();
+
+/* ---------- Work filter (isotope 느낌의 페이드 인) ---------- */
+(() => {
+  const btns = document.querySelectorAll('.filters button');
+  const items = document.querySelectorAll('.grid li');
+  btns.forEach(btn => btn.addEventListener('click', () => {
+    const f = btn.dataset.filter;
+    btns.forEach(b => b.setAttribute('aria-pressed', b === btn));
+    let k = 0;
+    items.forEach(li => {
+      const show = f === 'all' || li.dataset.cat === f;
+      li.classList.toggle('is-hidden', !show);
+      if (show) {
+        li.classList.add('is-entering');
+        const d = k++ * 60;
+        requestAnimationFrame(() => setTimeout(() => li.classList.remove('is-entering'), d));
+      }
+    });
+  }));
+})();
+</script>
+</body>
+</html>
