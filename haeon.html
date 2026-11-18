@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>H A E O N — Landscape &amp; Spatial Design</title>
+<link rel="preconnect" href="https://picsum.photos" />
+<link rel="preconnect" href="https://fastly.picsum.photos" />
+<style>
+  /* ==================================================================
+     HAEON — bkid.co 실측값을 반영한 새 사이트 (2026-11-19, Edge에서 분석)
+
+     TYPE    Helvetica Neue / Helvetica / Arial 단일 패밀리
+             본문 14/22 #444 · 메뉴 14px lowercase, letter-spacing 1px, #000→#999 .2s
+             슬라이드 제목 700 35/36 · 부제 100 20/1.3 #bbb
+             모바일 메뉴 lighter 28/39 #999 · 링크 #444→#aaa .5s
+    SLIDER   Swiper(loop, speed 1500, effect slide), 로드 시 슬라이드 순서 셔플, 3.5s 페이드 인
+             캡션은 슬라이드 밖 단일 요소: 전환 시작 시 opacity 0 → 전환 끝 +100ms 후 교체·페이드 인(.6s)
+             좌우 20% 폭 · 전체 높이 히트 존, opacity .2→1 (.3s ease-in),
+             셰브론(50×105)이 바깥쪽으로 20px 이동 (.6s cubic-bezier(.39,.58,.57,1))
+             불릿 5px + 3px #ccc 링, 활성 #aaa, bottom 35px
+    HOVER    그리드 오버레이: 카테고리 컬러(purple/green/red/gold/blue/#939AA7) opacity .75,
+             페이드 .3s, 제목 translate(-50%,-80%)→(-50%,-50%) (opacity .25s, transform .35s)
+             카테고리 이름에 hoverIntent(sensitivity 8, 100ms) → 해당 카테고리 타일 전부 하이라이트
+             필터 클릭 → isotope fitRows 식 재배치(.4s), 사라지는 타일 scale(.001)+fade
+    GRID     3열, 2:1 타일, 좌우 거터 6px, 행 간격 10px. 767px 이하: 1열 + 이미지 아래 캡션
+    MENU     햄버거 27×3 #ccc → #333, 45° / -225°, 1.2s cubic-bezier(.75,0,.29,1.01)
+             오버레이 rgba(255,255,255,.92) 1.2s cubic-bezier(.785,.135,.15,.86)
+    PAGE     animsition 페이지 페이드 인 1.5s
+     이미지 : picsum.photos 임의 사진 (아래 SLIDES / PROJECTS / POSTS 의 id 만 바꾸면 교체)
+     ================================================================== */
+  :root {
+    --ink: #444;
+    --black: #000;
+    --mute: #999;
+    --faint: #bbb;
+    --line: #eee;
+    --ph: #f2f2f2;
+    --font: "Helvetica Neue", Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    --thin: helvetica, "Helvetica Neue", Arial, sans-serif;
+    --pad: 20px;
+    --head: 96px;
+    --ease-menu: cubic-bezier(.75, 0, .29, 1.01);
+    --ease-overlay: cubic-bezier(.785, .135, .15, .86);
+    --ease-arrow: cubic-bezier(.39, .58, .57, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--head) + 44px); }
+  body {
+    font: 400 14px/22px var(--font);
+    color: var(--ink);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+    animation: pageIn 1.5s ease both;            /* animsition fade-in */
+  }
+  @keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+  a { color: var(--ink); text-decoration: none; transition: color .5s ease; }
+  a:hover { color: #aaa; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  ul { list-style: none; }
+  img { display: block; max-width: 100%; -webkit-user-drag: none; }
+  :focus-visible { outline: 1px solid #000; outline-offset: 3px; }
+  .fade { opacity: 0; transition: opacity .6s ease; }
+  .fade.is-loaded { opacity: 1; }
+
+  /* ===== HEADER ===== */
+  .header {
+    position: fixed; inset: 0 0 auto; z-index: 60;
+    height: var(--head); padding: 0 var(--pad);
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background-color .6s ease;
+  }
+  .header.is-solid { background: rgba(255, 255, 255, .92); }
+  .menu { display: flex; gap: 0 28px; }
+  .menu a {
+    font-family: Helvetica, Arial, sans-serif; font-size: 14px;
+    text-transform: lowercase; letter-spacing: 1px; color: var(--black);
+    transition: color .2s ease;
+  }
+  .menu a:hover, .menu a[aria-current="true"] { color: var(--mute); }
+  .logo {
+    font: 400 22px/1 var(--font); letter-spacing: .42em; margin-right: -.42em;
+    color: #111; transition: color .6s ease;
+  }
+  .logo:hover { color: #111; }
+  .header.on-dark .menu a { color: #fff; }
+  .header.on-dark .menu a:hover,
+  .header.on-dark .menu a[aria-current="true"] { color: rgba(255, 255, 255, .6); }
+  .header.on-dark .logo { color: #fff; }
+  .header.on-dark .burger i { background: rgba(255, 255, 255, .8); }
+
+  .burger { display: none; position: relative; width: 44px; height: 44px; margin-left: -8px; }
+  .burger i {
+    position: absolute; left: 8px; top: 11px; width: 27px; height: 3px; background: #999;  /* bkid #ccc → 사진 위 가독성 위해 #999 */
+    transition: all 1.2s var(--ease-menu);
+  }
+  .burger i:nth-child(2) { top: 20px; }
+  .burger i:nth-child(3) { top: 29px; }
+  .menu-open .burger i { background: #333 !important; }
+  .menu-open .burger i:nth-child(1) { top: 20px; transform: rotate(45deg); }
+  .menu-open .burger i:nth-child(2) { opacity: 0; }
+  .menu-open .burger i:nth-child(3) { top: 20px; transform: rotate(-225deg); }
+  .menu-open .header.on-dark .logo { color: #111; }
+
+  .mobilenav {
+    position: fixed; inset: 0; z-index: 55;
+    display: flex; flex-direction: column; padding: 112px 27px 40px;
+    background: rgba(255, 255, 255, .92);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 1.2s var(--ease-overlay), visibility 0s linear 1.2s;
+  }
+  .menu-open .mobilenav {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: opacity 1.2s var(--ease-overlay);
+  }
+  .mobilenav a {
+    display: block; font: lighter 28px/39px var(--thin); color: var(--mute);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mobilenav a:hover, .mobilenav a:active { background: #eee; color: var(--mute); }
+  .mobilenav .foot { margin-top: auto; font-size: 13px; line-height: 20px; color: var(--faint); }
+
+  /* ===== HERO SLIDER ===== */
+  .hero {
+    position: relative; height: 100vh; height: 100svh; min-height: 480px;
+    overflow: hidden; background: var(--ph); user-select: none; -webkit-user-select: none;
+    touch-action: pan-y;
+  }
+  .track {
+    display: flex; height: 100%; will-change: transform;
+    opacity: 0; animation: heroIn 3.5s cubic-bezier(.45, 0, .55, 1) .15s forwards;  /* jQuery fadeIn(3500) */
+  }
+  @keyframes heroIn { to { opacity: 1; } }
+  .slide { position: relative; flex: 0 0 100%; height: 100%; overflow: hidden; background: var(--ph); }
+  .slide img { width: 100%; height: 100%; object-fit: cover; }
+
+  .caption {
+    position: absolute; z-index: 20; left: 17%; top: 75%; min-height: 150px;
+    color: #000; pointer-events: none;
+    opacity: 0; transition: opacity .6s ease;
+  }
+  .caption.is-in { opacity: 1; }
+  .caption h2 { font: 700 35px/36px var(--thin); color: #000; transition: color .6s ease; }
+  .caption p  { padding-top: 10px; font: 100 20px/1.3 var(--thin); color: var(--faint); transition: color .6s ease; }
+  .hero.is-dark .caption h2 { color: #fff; }
+  .hero.is-dark .caption p  { color: rgba(255, 255, 255, .65); }
+
+  .zone {
+    position: absolute; top: 0; z-index: 10; width: 20%; height: 100%;
+    opacity: .2; transition: opacity .3s ease-in;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .zone:hover, .zone:focus-visible { opacity: 1; }
+  .zone:focus-visible { outline: none; }
+  .zone.prev { left: 0; }
+  .zone.next { right: 0; }
+  .zone svg {
+    position: absolute; top: 50%; width: 50px; height: 105px; margin-top: -42px;
+    fill: none; stroke: #8a8a8a; stroke-width: 1.4; transition: transform .6s var(--ease-arrow), stroke .6s ease;
+  }
+  .zone.prev svg { left: 50px; }
+  .zone.next svg { right: 50px; }
+  .zone.prev:hover svg, .zone.prev:focus-visible svg { transform: translate3d(-20px, 0, 0); }
+  .zone.next:hover svg, .zone.next:focus-visible svg { transform: translate3d(20px, 0, 0); }
+  .hero.is-dark .zone svg { stroke: #fff; }
+
+  .dots { position: absolute; left: 0; right: 0; bottom: 35px; z-index: 15; text-align: center; font-size: 0; }
+  .dots button {
+    position: relative; display: inline-block; vertical-align: middle;
+    width: 11px; height: 11px; margin: 5px 2px; border: 3px solid #ccc; border-radius: 15px;
+    background: rgba(0, 122, 255, .2); transition: border-color .3s ease, background-color .3s ease;
+  }
+  .dots button::after { content: ""; position: absolute; inset: -9px -4px; }   /* 터치 영역 확장 */
+  .dots button[aria-current="true"] { border-color: #aaa; background: #007aff; }
+
+  /* ===== WORK ===== */
+  .work { padding-top: 48px; }
+  .filters {
+    position: sticky; top: var(--head); z-index: 30;
+    display: flex; gap: 0 20px; padding: 4px var(--pad) 18px;
+    background: rgba(255, 255, 255, .92);
+  }
+  .filters button {
+    padding: 2px 0 0; border-bottom: 2px solid transparent;
+    font: 14px/22px Helvetica, Arial, sans-serif; letter-spacing: 1px; color: var(--mute);
+    text-transform: capitalize; transition: color .2s ease, border-color .2s ease;
+  }
+  .filters button:hover { color: var(--ink); }
+  .filters button[aria-pressed="true"] { color: #000; border-color: var(--line); }
+
+  .grid {
+    position: relative;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 6px;
+    padding: 0 6px;
+  }
+  .tile { position: relative; display: block; aspect-ratio: 2 / 1; overflow: hidden; color: #fff; }
+  .tile:hover { color: #fff; }
+  .ph { position: absolute; inset: 0; background: var(--ph); }
+  .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .ov { position: absolute; inset: 0; z-index: 10; opacity: 0; transition: opacity .3s; }
+  .ov::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: var(--c, #999); opacity: .75;
+  }
+  .ov h3 {
+    position: absolute; top: 50%; left: 50%; margin: 0;
+    font: 700 25px/120% var(--font); color: #fff; text-align: center;
+    opacity: 0; transform: translate3d(-50%, -80%, 0);
+    transition: opacity .25s, transform .35s;
+  }
+  .ov .cat { display: none; }
+  .tile:focus-visible .ov, .grid li.hl .ov { opacity: 1; }
+  .tile:focus-visible h3, .grid li.hl h3 { opacity: 1; transform: translate3d(-50%, -50%, 0); }
+  @media (hover: hover) {
+    .tile:hover .ov { opacity: 1; }
+    .tile:hover h3 { opacity: 1; transform: translate3d(-50%, -50%, 0); }
+  }
+
+  /* ===== THINK ===== */
+  .think { padding: 140px var(--pad) 40px; }
+  .sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-bottom: 28px; }
+  .sec-head h2 { font: 700 16px/22px var(--font); color: #000; }
+  .sec-head p { color: var(--mute); }
+  .posts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 44px 20px; }
+  .post { display: block; }
+  .post:hover { color: var(--ink); }
+  .post .thumb { display: block; aspect-ratio: 3 / 2; overflow: hidden; margin-bottom: 14px; background: var(--ph); }
+  .post img { width: 100%; height: 100%; object-fit: cover; }
+  .post .fade { transition: opacity .3s; }
+  .post:hover .fade.is-loaded { opacity: .7; }
+  .post time { display: block; color: var(--faint); font-weight: 100; }
+  .post strong { display: block; margin: 2px 0 6px; font: 700 16px/22px var(--font); color: #000; }
+  .post span.ex { display: block; color: #888; line-height: 24px; }
+
+  /* ===== ABOUT ===== */
+  .about {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 40px 60px;
+    margin-top: 100px; padding: 100px var(--pad) 120px; border-top: 1px solid var(--line);
+  }
+  .statement { max-width: 24em; font: 100 28px/39px var(--thin); color: var(--ink); }
+  .statement b { font-weight: 700; color: #000; }
+  .facts > div { padding: 11px 0; border-top: 1px solid var(--line); }
+  .facts > div:last-child { border-bottom: 1px solid var(--line); }
+  .facts dt { color: var(--mute); text-transform: lowercase; letter-spacing: 1px; }
+  .facts dd { color: #000; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    padding: 40px var(--pad) 36px; border-top: 1px solid var(--line); color: var(--mute);
+  }
+  .footer h5 { margin-bottom: 6px; font: inherit; color: #000; text-transform: lowercase; letter-spacing: 1px; }
+  .footer small { align-self: end; justify-self: end; font-size: inherit; color: var(--faint); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .posts { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 767px) {
+    :root { --head: 72px; }
+    .menu { display: none; }
+    .burger { display: block; }
+    .logo { font-size: 19px; }
+    .caption { left: 9%; top: auto; bottom: 7%; min-height: 0; }
+    .caption h2 { font-size: 28px; line-height: 32px; }
+    .caption p { font-size: 17px; }
+    .dots { bottom: 18px; }
+    .zone { opacity: 1; width: 16%; }
+    .zone svg { width: 26px; height: 56px; margin-top: -28px; }
+    .zone.prev svg { left: 22px; transform: translate3d(-12px, 0, 0); }
+    .zone.next svg { right: 22px; transform: translate3d(12px, 0, 0); }
+
+    .filters { overflow-x: auto; scrollbar-width: none; padding-bottom: 14px; }
+    .filters::-webkit-scrollbar { display: none; }
+    .filters button { flex: none; }
+    /* bkid 모바일: 오버레이 → 이미지 아래 캡션 */
+    .grid { grid-template-columns: 1fr; gap: 22px; padding: 0; }
+    .tile { aspect-ratio: auto; overflow: visible; color: #000; }
+    .tile:hover { color: #000; }
+    .ph { position: relative; aspect-ratio: 2 / 1; margin-bottom: 6px; }
+    .ov, .tile:hover .ov, .grid li.hl .ov {
+      position: relative; opacity: 1; display: flex; justify-content: space-between; gap: 12px;
+      padding: 0 20px;
+    }
+    .ov::after { display: none; }
+    .ov h3, .tile:hover h3, .grid li.hl h3 {
+      position: static; opacity: 1; transform: none;
+      font-size: 15px; line-height: 22px; color: #000; text-align: left;
+    }
+    .ov .cat { display: block; color: var(--mute); text-transform: capitalize; }
+
+    .think { padding-top: 96px; }
+    .about { grid-template-columns: 1fr; margin-top: 60px; padding: 64px var(--pad) 80px; }
+    .statement { font-size: 23px; line-height: 33px; }
+    .footer { grid-template-columns: 1fr 1fr; }
+    .footer small { grid-column: 1 / -1; justify-self: start; }
+  }
+  @media (max-width: 520px) {
+    .posts { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    body, .track { animation: none; opacity: 1; }
+    *, *::before, *::after { transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobilenav"><i></i><i></i><i></i></button>
+  <nav class="menu" aria-label="Main">
+    <a href="#work">work</a>
+    <a href="#think">think</a>
+    <a href="#about">about</a>
+    <a href="#contact">contact</a>
+  </nav>
+  <a class="logo" href="#top" aria-label="HAEON, back to top">HAEON</a>
+</header>
+
+<nav class="mobilenav" id="mobilenav" aria-label="Mobile">
+  <a href="#work">work</a>
+  <a href="#think">think</a>
+  <a href="#about">about</a>
+  <a href="#contact">contact</a>
+  <p class="foot">HAEON landscape &amp; spatial design<br>Seoul, Korea</p>
+</nav>
+
+<main>
+  <section class="hero" id="top" aria-roledescription="carousel" aria-label="Featured projects">
+    <div class="track"></div>
+    <div class="caption" aria-hidden="true"><h2></h2><p></p></div>
+    <button class="zone prev" aria-label="Previous project">
+      <svg viewBox="0 0 50 105" aria-hidden="true"><path d="M44 2 L6 52.5 L44 103" /></svg>
+    </button>
+    <button class="zone next" aria-label="Next project">
+      <svg viewBox="0 0 50 105" aria-hidden="true"><path d="M6 2 L44 52.5 L6 103" /></svg>
+    </button>
+    <div class="dots" role="group" aria-label="Choose a project"></div>
+  </section>
+
+  <section class="work" id="work" aria-label="Work">
+    <div class="filters" role="group" aria-label="Filter by category"></div>
+    <ul class="grid"></ul>
+  </section>
+
+  <section class="think" id="think">
+    <header class="sec-head">
+      <h2>Think</h2>
+      <p>Notes on paths, edges and rooms</p>
+    </header>
+    <ul class="posts"></ul>
+  </section>
+
+  <section class="about" id="about">
+    <p class="statement">
+      <b>HAEON</b> is a landscape and spatial design studio in Seoul.
+      We work on the parts of a city that sit between buildings — paths, edges,
+      waterfronts and quiet rooms — and on the objects people touch along the way.
+    </p>
+    <dl class="facts">
+      <div><dt>founded</dt><dd>2014, Seoul</dd></div>
+      <div><dt>disciplines</dt><dd>Landscape · Architecture · Interior · Object</dd></div>
+      <div><dt>team</dt><dd>14 designers, 2 model makers</dd></div>
+      <div><dt>recognition</dt><dd>Public Space Prize 2024 · Coastal Design Award 2025</dd></div>
+    </dl>
+  </section>
+</main>
+
+<footer class="footer" id="contact">
+  <div><h5>studio</h5><p>HAEON<br>Seoul, Korea</p></div>
+  <div><h5>contact</h5><p>hello@haeon.studio<br>+82 2 000 0000</p></div>
+  <div><h5>follow</h5><p><a href="#contact">instagram</a><br><a href="#contact">behance</a></p></div>
+  <small>© 2026 HAEON. Images: picsum.photos (placeholder)</small>
+</footer>
+
+<script>
+/* ------------------------------------------------------------------
+   DATA — 이미지 교체는 id(picsum) 만 바꾸면 됩니다.
+------------------------------------------------------------------ */
+const pic = (id, w, h) => `https://picsum.photos/id/${id}/${w}/${h}`;
+
+const CATS = {
+  landscape:    'green',
+  waterfront:   'blue',
+  architecture: 'purple',
+  interior:     'red',
+  object:       'gold',
+  urban:        '#939AA7',
+};
+
+const SLIDES = [
+  /* 16:9 크롭 기준 캡션 영역(좌하단)이 비어 있는 사진만 골랐습니다 — bkid 히어로처럼 여백 위에 캡션 */
+  { id: 196, title: 'Dune Walk',      lines: ['A footpath that', 'moves with the sand'] },
+  { id: 287, title: 'Ridge Trail',    lines: ['A mountain route', 'left deliberately unpaved'] },
+  { id: 300, title: 'Field Pavilion', lines: ['Temporary shelter', 'for the harvest season'] },
+  { id: 302, title: 'Tidal Marker',   lines: ['Wayfinding at', 'the edge of water'] },
+  { id: 131, title: 'Pier End',       lines: ['A viewing deck', 'that ends in the haze'] },
+  { id: 280, title: 'Breakwater',     lines: ['Rock armour re-laid', 'as a public edge'] },
+  { id: 331, title: 'Hangar Hall',    lines: ['An industrial shed', 're-used as a gallery'], tone: 'dark' },
+  { id: 378, title: 'Glass Atrium',   lines: ['Observation lobby', 'above the harbour'], tone: 'dark' },
+];
+
+const PROJECTS = [
+  { id: 77,  title: 'Jetty House',     cat: 'waterfront' },
+  { id: 42,  title: 'Long Table Café', cat: 'interior' },
+  { id: 255, title: 'Two Trees Path',  cat: 'landscape' },
+  { id: 134, title: 'Arcade Canopy',   cat: 'architecture' },
+  { id: 36,  title: 'Kit of Parts',    cat: 'object' },
+  { id: 396, title: 'Underpass',       cat: 'urban' },
+  { id: 192, title: 'Window Hall',     cat: 'interior' },
+  { id: 317, title: 'Long Pier',       cat: 'waterfront' },
+  { id: 290, title: 'Facade Study',    cat: 'architecture' },
+  { id: 287, title: 'Ridge Trail',     cat: 'landscape' },
+  { id: 354, title: 'Bridge Walk',     cat: 'urban' },
+  { id: 39,  title: 'Listening Desk',  cat: 'object' },
+  { id: 240, title: 'Stair Wall',      cat: 'architecture' },
+  { id: 230, title: 'Lake Deck',       cat: 'waterfront' },
+  { id: 311, title: 'Quiet Room',      cat: 'interior' },
+  { id: 225, title: 'Tea Service',     cat: 'object' },
+  { id: 17,  title: 'Forest Approach', cat: 'landscape' },
+  { id: 363, title: 'Rail Yard',       cat: 'urban' },
+];
+
+const POSTS = [
+  { id: 26,  date: '2026.11.04', title: 'A grammar for handrails', text: 'Every rail, post and bracket we have built since 2014, drawn on a single sheet.' },
+  { id: 228, date: '2026.10.21', title: 'Designing for fog',      text: 'What a waterfront path needs when the far shore disappears for half the year.' },
+  { id: 305, date: '2026.09.30', title: 'A chair for waiting',     text: 'Prototyping a public seat that is comfortable for exactly twenty minutes.' },
+  { id: 327, date: '2026.09.12', title: 'Notes from the ridge',    text: 'Survey photographs from a mountain trail that will stay unpaved.' },
+];
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+function makeImg(src, srcset, sizes, eager) {
+  const img = new Image();
+  img.className = 'fade';
+  img.alt = '';
+  img.draggable = false;
+  img.decoding = 'async';
+  if (!eager) img.loading = 'lazy';
+  if (srcset) { img.srcset = srcset; img.sizes = sizes; }
+  img.src = src;
+  const done = () => img.classList.add('is-loaded');
+  img.complete && img.naturalWidth ? done() : img.addEventListener('load', done, { once: true });
+  return img;
+}
+
+/* ------------------------------------------------------------------
+   HEADER — 히어로 위에서는 투명(+어두운 슬라이드면 흰 글자), 지나면 흰 배경
+------------------------------------------------------------------ */
+const header = document.getElementById('header');
+const hero = document.querySelector('.hero');
+let overHero = true;
+function syncHeader() {
+  header.classList.toggle('is-solid', !overHero);
+  header.classList.toggle('on-dark', overHero && hero.classList.contains('is-dark'));
+}
+new IntersectionObserver(([e]) => { overHero = e.isIntersecting; syncHeader(); },
+  { rootMargin: '-72px 0px 0px 0px' }).observe(hero);
+
+/* 현재 섹션 표시 (bkid: current-menu-item → #999) */
+const menuLinks = [...document.querySelectorAll('.menu a, .mobilenav a')];
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const id = e.target.id === 'top' ? '' : '#' + e.target.id;
+    menuLinks.forEach(a => a.setAttribute('aria-current', a.hash === id));
+  });
+}, { rootMargin: '-45% 0px -54% 0px' });
+['top', 'work', 'think', 'about', 'contact'].forEach(id => sectionObserver.observe(document.getElementById(id)));
+
+/* ------------------------------------------------------------------
+   MOBILE MENU
+------------------------------------------------------------------ */
+const burger = document.querySelector('.burger');
+function toggleMenu(open) {
+  document.body.classList.toggle('menu-open', open);
+  burger.setAttribute('aria-expanded', open);
+  burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+}
+burger.addEventListener('click', () => toggleMenu(!document.body.classList.contains('menu-open')));
+document.querySelectorAll('.mobilenav a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
+
+/* ------------------------------------------------------------------
+   HERO SLIDER — loop · speed 1500 · shuffle · 단일 캡션 페이드
+------------------------------------------------------------------ */
+(() => {
+  const SPEED = 1500, AUTOPLAY = 5000;
+  const track = hero.querySelector('.track');
+  const caption = hero.querySelector('.caption');
+  const dotsWrap = hero.querySelector('.dots');
+
+  // bkid: $("#slides .swiper-slide").shuffle()
+  const order = SLIDES.slice();
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  const n = order.length;
+  const build = (s, i, eager) => {
+    const slide = el('div', 'slide');
+    slide.setAttribute('role', 'group');
+    slide.setAttribute('aria-roledescription', 'slide');
+    slide.setAttribute('aria-label', `${i + 1} of ${n}: ${s.title}`);
+    const sizes = '100vw';
+    const srcset = [1280, 1920, 2560].map(w => `${pic(s.id, w, Math.round(w * 9 / 16))} ${w}w`).join(', ');
+    slide.append(makeImg(pic(s.id, 1920, 1080), srcset, sizes, eager));
+    return slide;
+  };
+  const real = order.map((s, i) => build(s, i, i === 0 || i === 1 || i === n - 1));
+  const headClone = build(order[n - 1], n - 1, true);
+  const tailClone = build(order[0], 0, true);
+  [headClone, tailClone].forEach(c => c.setAttribute('aria-hidden', 'true'));
+  track.append(headClone, ...real, tailClone);
+
+  const dots = order.map((s, i) => {
+    const b = el('button');
+    b.setAttribute('aria-label', `${s.title} (${i + 1} of ${n})`);
+    b.addEventListener('click', () => { stopAuto(); go(i + 1); });
+    dotsWrap.append(b);
+    return b;
+  });
+
+  let pos = 1, moving = false, settleTimer, toneTimer, autoTimer, auto = !reduce, shown = -1;
+  const idx = () => (pos - 1 + n) % n;
+
+  function place(animate, dx = 0) {
+    track.style.transition = animate && !reduce ? `transform ${SPEED}ms ease` : 'none';
+    track.style.transform = dx
+      ? `translate3d(calc(${-pos * 100}% + ${dx}px), 0, 0)`
+      : `translate3d(${-pos * 100}%, 0, 0)`;
+  }
+  function setTone() {
+    hero.classList.toggle('is-dark', order[idx()].tone === 'dark');
+    syncHeader();
+  }
+  function captionOut() { caption.classList.remove('is-in'); }
+  function captionIn() {
+    const i = idx();
+    if (i === shown) { caption.classList.add('is-in'); return; }
+    caption.classList.remove('is-in');
+    setTimeout(() => {                       // bkid setCaption: 100ms 후 교체 → 페이드 인
+      const s = order[i];
+      caption.querySelector('h2').textContent = s.title;
+      const p = caption.querySelector('p');
+      p.replaceChildren();
+      s.lines.forEach((line, k) => { if (k) p.append(document.createElement('br')); p.append(line); });
+      shown = i;
+      caption.classList.add('is-in');
+    }, 100);
+  }
+  function syncDots() { dots.forEach((d, i) => d.setAttribute('aria-current', i === idx())); }
+
+  function go(to) {
+    if (moving) return;
+    const changed = to !== pos;
+    if (changed) {
+      moving = true;
+      captionOut();                          // slideChangeTransitionStart
+      pos = to;
+      syncDots();
+      clearTimeout(toneTimer);
+      toneTimer = setTimeout(setTone, reduce ? 0 : SPEED * .45);
+    }
+    place(true);
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(settle, reduce ? 0 : SPEED + 80);   // transitionend 안전망
+  }
+  function settle() {
+    clearTimeout(settleTimer);
+    if (pos === 0) { pos = n; place(false); }
+    else if (pos === n + 1) { pos = 1; place(false); }
+    moving = false;
+    captionIn();                             // slideChangeTransitionEnd
+    schedule();
+  }
+  track.addEventListener('transitionend', e => {
+    if (e.target === track && e.propertyName === 'transform') settle();
+  });
+
+  /* autoplay — bkid 원본엔 없음. 첫 방문용으로 5s, 사용자가 조작하면 영구 정지 */
+  let heroInView = true;
+  function schedule() {
+    clearTimeout(autoTimer);
+    if (auto && heroInView && !document.hidden) autoTimer = setTimeout(() => go(pos + 1), AUTOPLAY);
+  }
+  function stopAuto() { auto = false; clearTimeout(autoTimer); }
+  new IntersectionObserver(([e]) => { heroInView = e.isIntersecting; heroInView ? schedule() : clearTimeout(autoTimer); }).observe(hero);
+  document.addEventListener('visibilitychange', schedule);
+
+  hero.querySelector('.zone.prev').addEventListener('click', () => { stopAuto(); go(pos - 1); });
+  hero.querySelector('.zone.next').addEventListener('click', () => { stopAuto(); go(pos + 1); });
+  document.addEventListener('keydown', e => {
+    if (!heroInView || e.target.closest('input, textarea, select')) return;
+    if (e.key === 'ArrowRight') { stopAuto(); go(pos + 1); }
+    if (e.key === 'ArrowLeft')  { stopAuto(); go(pos - 1); }
+  });
+
+  /* drag / swipe — Swiper처럼 손가락을 따라오다 15% 또는 빠른 플릭이면 넘김 */
+  let drag = null, suppressClick = false;
+  hero.addEventListener('pointerdown', e => {
+    if (moving || e.button !== 0) return;
+    drag = { x: e.clientX, y: e.clientY, t: performance.now(), dx: 0, id: e.pointerId, locked: false };
+  });
+  hero.addEventListener('pointermove', e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!drag.locked) {
+      if (Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy)) {
+        drag.locked = true; stopAuto();
+        hero.setPointerCapture(drag.id);
+      } else if (Math.abs(dy) > 8) { drag = null; return; }
+    }
+    if (drag.locked) { drag.dx = dx; place(false, dx); }
+  });
+  const endDrag = e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const { dx, t, locked } = drag;
+    drag = null;
+    if (!locked) return;
+    suppressClick = true;
+    const fast = Math.abs(dx) / (performance.now() - t) > .5;
+    if (Math.abs(dx) > hero.clientWidth * .15 || (fast && Math.abs(dx) > 30)) go(pos + (dx < 0 ? 1 : -1));
+    else go(pos);
+  };
+  hero.addEventListener('pointerup', endDrag);
+  hero.addEventListener('pointercancel', endDrag);
+  hero.addEventListener('click', e => {
+    if (suppressClick) { e.stopPropagation(); e.preventDefault(); suppressClick = false; }
+  }, true);
+
+  place(false);
+  syncDots();
+  setTone();
+  setTimeout(captionIn, reduce ? 0 : 900);   // 첫 캡션은 슬라이더 페이드와 함께
+  schedule();
+})();
+
+/* ------------------------------------------------------------------
+   WORK GRID — 카테고리 컬러 오버레이 · hoverIntent 하이라이트 · isotope 식 필터
+------------------------------------------------------------------ */
+(() => {
+  const grid = document.querySelector('.grid');
+  const bar = document.querySelector('.filters');
+
+  const items = PROJECTS.map(p => {
+    const li = el('li');
+    li.dataset.cat = p.cat;
+    li.style.setProperty('--c', CATS[p.cat]);
+    const a = el('a', 'tile');
+    a.href = `#p-${slug(p.title)}`;
+    const ph = el('div', 'ph');
+    ph.append(makeImg(pic(p.id, 960, 480),
+      `${pic(p.id, 640, 320)} 640w, ${pic(p.id, 960, 480)} 960w, ${pic(p.id, 1400, 700)} 1400w`,
+      '(max-width: 767px) 100vw, 33vw'));
+    const ov = el('div', 'ov');
+    const h3 = el('h3'); h3.textContent = p.title;
+    const cat = el('span', 'cat'); cat.textContent = p.cat;
+    ov.append(h3, cat);
+    a.append(ph, ov);
+    li.append(a);
+    grid.append(li);
+    return li;
+  });
+
+  let current = 'all';
+  const buttons = ['all', ...Object.keys(CATS)].map(c => {
+    const b = el('button');
+    b.textContent = c;
+    b.dataset.filter = c;
+    b.setAttribute('aria-pressed', c === 'all');
+    b.addEventListener('click', () => applyFilter(c));
+    bar.append(b);
+    return b;
+  });
+
+  /* hoverIntent (sensitivity 8px, interval 100ms) — bkid work_grid.js 의 showCate / hideCate */
+  const highlight = c => items.forEach(li => li.classList.toggle('hl', !li.hidden && li.dataset.cat === c));
+  const clear = () => items.forEach(li => li.classList.remove('hl'));
+  function hoverIntent(node, over, out, sensitivity = 8, interval = 100) {
+    let x, y, px, py, timer, active = false;
+    const track = e => { x = e.clientX; y = e.clientY; };
+    const compare = () => {
+      if (Math.abs(px - x) + Math.abs(py - y) < sensitivity) {
+        node.removeEventListener('mousemove', track);
+        active = true; over();
+      } else { px = x; py = y; timer = setTimeout(compare, interval); }
+    };
+    node.addEventListener('mouseenter', e => {
+      x = px = e.clientX; y = py = e.clientY;
+      node.addEventListener('mousemove', track);
+      timer = setTimeout(compare, interval);
+    });
+    node.addEventListener('mouseleave', () => {
+      clearTimeout(timer);
+      node.removeEventListener('mousemove', track);
+      if (active) { active = false; out(); }
+    });
+  }
+  buttons.forEach(b => {
+    const c = b.dataset.filter;
+    if (c === 'all') return;
+    const over = () => { if (c !== current) highlight(c); };   // .not('.selected')
+    hoverIntent(b, over, clear);
+    b.addEventListener('focus', over);
+    b.addEventListener('blur', clear);
+  });
+
+  /* isotope fitRows 식 재배치 (FLIP, .4s) */
+  const DUR = reduce ? 0 : 400;
+  function finishLeaving(li) {
+    li.classList.remove('is-leaving');
+    li.hidden = true;
+    li.style.position = li.style.left = li.style.top = li.style.width = '';
+  }
+  function applyFilter(c) {
+    if (c === current) return;
+    current = c;
+    buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.filter === c));
+    clear();
+
+    items.forEach(li => {
+      li.getAnimations().forEach(a => a.cancel());
+      if (li.classList.contains('is-leaving')) finishLeaving(li);
+    });
+    grid.getAnimations().forEach(a => a.cancel());
+
+    const g0 = grid.getBoundingClientRect();
+    const before = new Map(items.filter(li => !li.hidden).map(li => [li, li.getBoundingClientRect()]));
+    const show = li => c === 'all' || li.dataset.cat === c;
+    const leaving  = items.filter(li => !li.hidden && !show(li));
+    const entering = items.filter(li => li.hidden && show(li));
+    const staying  = items.filter(li => !li.hidden && show(li));
+
+    leaving.forEach(li => {                   // 흐름에서 빼고 제자리에서 축소·페이드
+      const r = before.get(li);
+      li.classList.add('is-leaving');
+      Object.assign(li.style, {
+        position: 'absolute', left: `${r.left - g0.left}px`, top: `${r.top - g0.top}px`, width: `${r.width}px`,
+      });
+    });
+    entering.forEach(li => { li.hidden = false; });
+
+    const g1 = grid.getBoundingClientRect();
+    const opts = { duration: DUR, easing: 'ease' };
+    if (DUR) grid.animate([{ height: `${g0.height}px` }, { height: `${g1.height}px` }], opts);
+    staying.forEach(li => {
+      const a = before.get(li), b = li.getBoundingClientRect();
+      const dx = a.left - b.left, dy = a.top - b.top;
+      if (DUR && (dx || dy)) li.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], opts);
+    });
+    entering.forEach(li => {
+      if (DUR) li.animate([{ opacity: 0, transform: 'scale(.001)' }, { opacity: 1, transform: 'none' }], opts);
+    });
+    leaving.forEach(li => {
+      if (!DUR) return finishLeaving(li);
+      const an = li.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.001)' }], opts);
+      an.onfinish = () => finishLeaving(li);
+    });
+  }
+})();
+
+/* ------------------------------------------------------------------
+   THINK
+------------------------------------------------------------------ */
+(() => {
+  const list = document.querySelector('.posts');
+  POSTS.forEach(p => {
+    const li = el('li');
+    const a = el('a', 'post');
+    a.href = `#t-${slug(p.title)}`;
+    const thumb = el('span', 'thumb');
+    thumb.append(makeImg(pic(p.id, 900, 600), `${pic(p.id, 600, 400)} 600w, ${pic(p.id, 900, 600)} 900w`,
+      '(max-width: 520px) 100vw, (max-width: 1024px) 50vw, 25vw'));
+    const time = el('time'); time.textContent = p.date; time.dateTime = p.date.replaceAll('.', '-');
+    const strong = el('strong'); strong.textContent = p.title;
+    const ex = el('span', 'ex'); ex.textContent = p.text;
+    a.append(thumb, time, strong, ex);
+    li.append(a);
+    list.append(li);
+  });
+})();
+</script>
+</body>
+</html>
